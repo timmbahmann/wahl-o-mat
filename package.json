@@ -1,0 +1,23 @@
+{
+  "name": "wahl-o-mat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timmbahmann/wahl-o-mat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timmbahmann/wahl-o-mat/issues"
+  },
+  "homepage": "https://github.com/timmbahmann/wahl-o-mat#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
