@@ -2,9 +2,9 @@ let express = require('express')
 
 let router = express.Router()
 
-router.get('/', (req, res) => {
-  if (req.is('application/json')) {
-    res.json({ Hello: 'World' })
+router.get('/json', (req, res) => {
+  if (req.get('content-type') === 'application/json') {
+    res.json(require('../static/test.json'))
   } else {
     res.sendStatus(415)
   }
