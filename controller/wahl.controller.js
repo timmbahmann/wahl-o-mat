@@ -20,7 +20,7 @@ async function createWahl (data) {
  */
 
 async function readWahl (wahlname) {
-  // TODO
+  // TODO Damian
 }
 
 /**
@@ -31,7 +31,7 @@ async function readWahl (wahlname) {
  */
 
 async function updateWahl (data) {
-  // TODO
+  // TODO Jonas
 }
 
 /**
@@ -42,7 +42,7 @@ async function updateWahl (data) {
  */
 
 async function deleteWahl (wahlname) {
-  // TODO
+  // TODO Simon
 }
 
 module.exports.createWahl = createWahl
