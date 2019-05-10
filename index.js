@@ -1,11 +1,15 @@
 let express = require('express')
 let path = require('path')
 let mongoose = require('mongoose')
+let bodyParser = require('body-parser')
 
 mongoose.connect('mongodb+srv://website:hack-paging8-related-bema9-6talisman-cymbal-madrid8-warn@wahl-o-mat-u1xgc.mongodb.net/test?retryWrites=true', {useNewUrlParser: true})
 
 const app = express()
 const PORT = process.env.PORT || 3001
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.use(require('./routes'))
 
