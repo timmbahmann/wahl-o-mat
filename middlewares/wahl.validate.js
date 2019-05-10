@@ -1,3 +1,9 @@
+/**
+ *
+ * @param {*} req The request as an Object
+ * @param {*} res Not used
+ * @param {*} next If called go to the next middleware (or to the error handler)
+ */
 
 let wahlmiddleware = (req, res, next) => {
   if (req.get('content-type') !== 'application/json') {
