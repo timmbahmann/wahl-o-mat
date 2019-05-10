@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/timmbahmann/wahl-o-mat#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "mongoose": "^5.5.7"
   },
   "devDependencies": {
     "nodemon": "^1.19.0"
