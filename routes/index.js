@@ -23,7 +23,7 @@ router.get('/json', langmiddleware, (req, res, next) => {
  * saves the data in the DB
  */
 
-router.post('/wahl', wahlmiddleware, langmiddleware, async (req, res, next) => {
+router.post('/wahl', langmiddleware, wahlmiddleware, async (req, res, next) => {
   wahlcontroller.createWahl(req.wahl)
   .then(ergebnis => {
     res.json(ergebnis)

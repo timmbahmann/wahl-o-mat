@@ -9,7 +9,7 @@ let Wahl = require('../models/wahl.model')
 
 let wahlmiddleware = async (req, res, next) => {
   if (req.get('content-type') !== 'application/json') {
-    let err = `Erwarte JSON-Header! Gesendet: ${req.get('content-type')}`
+    let err = req.lang['JSON-Anfrage X erwartet, aber Y bekommen']('application/json', req.get('content-type'))
     res.status(415)
     return next(err)
   }
