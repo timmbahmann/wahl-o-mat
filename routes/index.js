@@ -1,6 +1,7 @@
 let express = require('express')
 let wahlcontroller = require('../controller/wahl.controller')
 let wahlmiddleware = require('../middlewares/wahl.validate')
+let langmiddleware = require('../middlewares/getlang.middleware')
 
 let router = express.Router()
 
@@ -8,12 +9,12 @@ let router = express.Router()
  * Just for test purposes. Renders a static JSON file on JSON request
  */
 
-router.get('/json', (req, res, next) => {
+router.get('/json', langmiddleware, (req, res, next) => {
   if (req.get('content-type') === 'application/json') {
     res.json(require('../static/test.json'))
   } else {
     res.status(415)
-    return next(`JSON-Anfrage erwartet, aber ${req.get('content-type')} bekommen!`)
+    return next(req.lang['JSON-Anfrage X erwartet, aber Y bekommen']('application/json', req.get('content-type')))
   }
 })
 
@@ -22,7 +23,7 @@ router.get('/json', (req, res, next) => {
  * saves the data in the DB
  */
 
-router.post('/wahl', wahlmiddleware, async (req, res, next) => {
+router.post('/wahl', wahlmiddleware, langmiddleware, async (req, res, next) => {
   wahlcontroller.createWahl(req.wahl)
   .then(ergebnis => {
     res.json(ergebnis)
@@ -30,7 +31,7 @@ router.post('/wahl', wahlmiddleware, async (req, res, next) => {
   })
   .catch(reason => {
     res.status(400)
-    next(reason)
+    next(req.lang[reason])
   })
 })
 
