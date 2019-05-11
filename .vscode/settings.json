@@ -6,5 +6,5 @@
     "**/.factorypath": true,
     "node_modules": true
   },
-  "mochaExplorer.files": "tests/**/*.test.js"
+  "mochaExplorer.files": "test/**/*.test.js"
 }
