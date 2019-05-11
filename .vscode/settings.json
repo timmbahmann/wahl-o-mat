@@ -1,0 +1,10 @@
+{
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true,
+    "node_modules": true
+  },
+  "mochaExplorer.files": "tests/**/*.test.js"
+}
