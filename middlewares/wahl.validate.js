@@ -1,3 +1,5 @@
+let Wahl = require('../models/wahl.model')
+
 /**
  *
  * @param {*} req The request as an Object
@@ -5,45 +7,22 @@
  * @param {*} next If called go to the next middleware (or to the error handler)
  */
 
-let wahlmiddleware = (req, res, next) => {
+let wahlmiddleware = async (req, res, next) => {
   if (req.get('content-type') !== 'application/json') {
-    let err = new Error(`Erwarte JSON-Format! Gesendet: ${req.get('content-type')}`)
-    err.statusCode = 415
+    let err = `Erwarte JSON-Header! Gesendet: ${req.get('content-type')}`
+    res.status(415)
     return next(err)
   }
-  if (typeof req.body.gremium !== 'string') {
-    let err = new Error('Es wurde kein Gremium spezifiziert!')
-    err.statusCode = 400
-    return next(err)
-  }
-  if (!(req.body.thesen instanceof Array) || req.body.thesen.length === 0) {
-    let err = new Error('Es wurde keine Thesen übermittelt!')
-    err.statusCode = 400
-    return next(err)
-  }
-  req.body.thesen.forEach(these => {
-    if (Object.prototype.toString.call(these) !== '[object Object]' ||
-    typeof these.these !== 'string' ||
-    !(these.antworten instanceof Array) ||
-    these.antworten.length === 0) {
-      let err = new Error('Die Thesen sind beschädigt!')
-      err.statusCode = 400
-      return next(err)
-    }
-    these.antworten.forEach(antwort => {
-      if (Object.prototype.toString.call(antwort) !== '[object Object]' ||
-      typeof antwort.name !== 'string' ||
-      typeof antwort.antwort !== 'string' ||
-      (antwort.antwort !== 'ja' &&
-      antwort.antwort !== 'nein' &&
-      antwort.antwort !== 'neutral')) {
-        let err = new Error('Die Antworten sind beschädigt!')
-        err.statusCode = 400
-        return next(err)
-      }
-    })
+
+  req.wahl = new Wahl({
+    name: req.body.name,
+    gremium: req.body.gremium,
+    thesen: req.body.thesen
   })
-  return next()
+  req.wahl.validate()
+  .then(next)
+  .catch(reason =>
+    next(Object.values(reason.errors).reduce((prev, curr) => curr + '\n' + prev, '')))
 }
 
 module.exports = wahlmiddleware

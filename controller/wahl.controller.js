@@ -8,8 +8,19 @@ let Wahl = require('../models/wahl.model')
  */
 
 async function createWahl (data) {
-  let newWahl = new Wahl(data)
-  return newWahl.save()
+  return new Promise((resolve, reject) => {
+    let newWahl = new Wahl(data)
+    newWahl.save()
+    .then(value =>
+      resolve(value))
+    .catch(reason => {
+      if (reason.message.indexOf('duplicate key error') !== -1) {
+        reject('Dieser Wahlname existiert bereits!')
+      } else {
+        reject(reason)
+      }
+    })
+  })
 }
 
 /**

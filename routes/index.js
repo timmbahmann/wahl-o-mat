@@ -21,16 +21,16 @@ router.get('/json', (req, res, next) => {
  * saves the data in the DB
  */
 
-router.post('/:wahlname', wahlmiddleware, async (req, res) => {
-  let wahldata = {
-    name: req.params.wahlname,
-    gremium: req.body.gremium,
-    thesen: req.body.thesen
-  }
-
-  let ergebnis = await wahlcontroller.createWahl(wahldata)
-  res.json(ergebnis)
-  wahlcontroller.readWahl()
+router.post('/wahl', wahlmiddleware, async (req, res, next) => {
+  wahlcontroller.createWahl(req.wahl)
+  .then(ergebnis => {
+    res.json(ergebnis)
+    next()
+  })
+  .catch(reason => {
+    res.status(400)
+    next(reason)
+  })
 })
 
 module.exports = router
