@@ -12,7 +12,8 @@ router.get('/json', (req, res, next) => {
   if (req.get('content-type') === 'application/json') {
     res.json(require('../static/test.json'))
   } else {
-    return next(415)
+    res.status(415)
+    return next(`JSON-Anfrage erwartet, aber ${req.get('content-type')} bekommen!`)
   }
 })
 
