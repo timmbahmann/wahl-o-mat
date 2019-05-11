@@ -51,7 +51,7 @@ function searchPort () {
     console.error(chalk.red('error'), error.code)
     if (error.code === 'EADDRINUSE') {
       PORT++
-      console.error(`try port ${PORT}`)
+      console.log(chalk.blue(`try port ${PORT}`))
       searchPort()
     }
   })
@@ -71,7 +71,6 @@ mongoose.connection.on('disconnected', function () {
 
 mongoose.connection.on('close', function () {
   console.log(chalk.blue('Mongoose closed'))
-  mongoose.disconnect()
   server.close()
   process.exit(0)
 })

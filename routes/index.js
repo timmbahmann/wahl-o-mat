@@ -14,7 +14,9 @@ router.get('/json', langmiddleware, (req, res, next) => {
     res.json(require('../static/test.json'))
   } else {
     res.status(415)
-    return next(req.lang['JSON-Anfrage X erwartet, aber Y bekommen']('application/json', req.get('content-type')))
+    return next(req.lang['JSON-Anfrage X erwartet, aber Y bekommen'](
+      'application/json',
+      req.get('content-type')))
   }
 })
 

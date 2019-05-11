@@ -1,7 +1,7 @@
 let Wahl = require('../models/wahl.model')
 
 /**
- * Create a new wahl
+ * Creates a new wahl
  *
  * @param data the **validated** wahl object
  * @returns a promise for the result of the database. This is the *raw* DB result
