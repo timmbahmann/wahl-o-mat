@@ -15,6 +15,7 @@ describe('test /json', async () => {
       expect(err).to.equal(null)
       expect(res.text).to.have.string('JSON-Anfrage erwartet')
       expect(res.status).to.equal(415)
+      server.stop()
       done()
     })
   })

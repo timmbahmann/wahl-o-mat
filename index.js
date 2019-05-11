@@ -57,8 +57,27 @@ function searchPort () {
   })
 }
 
-function stop () {
+process.on('SIGINT', function () {
+  mongoose.connection.close(function () {
+    console.log(chalk.blue('Mongoose default connection is disconnected due to application termination'))
+    server.close()
+    process.exit(0)
+  })
+})
+
+mongoose.connection.on('disconnected', function () {
+  console.log(chalk.blue('Mongoose disconnected'))
+})
+
+mongoose.connection.on('close', function () {
+  console.log(chalk.blue('Mongoose closed'))
+  mongoose.disconnect()
   server.close()
+  process.exit(0)
+})
+
+function stop () {
+  mongoose.connection.close()
 }
 
 searchPort()
