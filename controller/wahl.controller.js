@@ -1,5 +1,3 @@
-let Wahl = require('../models/wahl.model')
-
 /**
  * Creates a new wahl
  *
@@ -7,8 +5,8 @@ let Wahl = require('../models/wahl.model')
  * @returns a promise for the result of the database. This is the *raw* DB result
  */
 
-async function createWahl (data) {
-  return new Promise((resolve, reject) => {
+let createWahl = (Wahl) => async (data) =>
+  new Promise((resolve, reject) => {
     let newWahl = new Wahl(data)
     newWahl.save()
     .then(value =>
@@ -21,7 +19,6 @@ async function createWahl (data) {
       }
     })
   })
-}
 
 /**
  * Get a wahl from Database from its name
@@ -30,8 +27,9 @@ async function createWahl (data) {
  * @returns a promise for the full **updated** wahl document
  */
 
-async function readWahl (wahlname) {
+let readWahl = (Wahl) => async (wahlname) => {
   // TODO
+  // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
 }
 
 /**
@@ -41,8 +39,9 @@ async function readWahl (wahlname) {
  * @returns a promise for the **updated** full wahl document
  */
 
-async function updateWahl (data) {
+let updateWahl = (Wahl) => async (data) => {
   // TODO
+  // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
 }
 
 /**
@@ -52,8 +51,9 @@ async function updateWahl (data) {
  * @returns a promise for `true` on success or a error message
  */
 
-async function deleteWahl (wahlname) {
+let deleteWahl = (Wahl) => async (wahlname) => {
   // TODO
+  // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
 }
 
 module.exports.createWahl = createWahl

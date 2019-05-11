@@ -2,81 +2,120 @@
 
 let chai = require('chai')
 let expect = chai.expect
-let chaiHttp = require('chai-http')
 let controller = require('../controller/wahl.controller')
-let Wahl = require('../models/wahl.model')
-let chaiAsPromised = require('chai-as-promised')
-let mongoose = require('mongoose')
-const chalk = require('chalk')
 
-chai.use(chaiHttp)
-chai.should()
-chai.use(chaiAsPromised)
+let newWahl = (save, del, update) => function (wahl) {
+  this.name = wahl.name
+  this.gremium = wahl.gremium
+  this.thesen = wahl.thesen
+  this.save = save
+  this.deleteOne = del
+  this.findOneAndUpdate = update
+}
 
 describe('Check wahlcontroller\'s functions', () => {
-  mongoose.connect('mongodb+srv://website:hack-paging8-related-bema9-6talisman-cymbal-madrid8-warn@wahl-o-mat-u1xgc.mongodb.net/testWahlcontroller?retryWrites=true', {useNewUrlParser: true})
-  .then(() => console.log(chalk.green('database connected')))
-  .catch(error => {
-    console.log(chalk.red('database error'), error)
-    process.exit(1)
-  })
-  it('should create a wahl', (done) => {
-    let wahl = new Wahl({
-      name: 'testname' + Math.random(),
-      gremium: 'testgremium',
-      thesen: [{
-        these: 'Alles ist doof',
-        antworten: [{
-          name: 'Testliste',
-          antwort: 'ja'
+  describe('check createWahl', () => {
+    it('should successful create a wahl', (done) => {
+      let wahl = {
+        name: 'testname' + Math.random(),
+        gremium: 'testgremium',
+        thesen: [{
+          these: 'Alles ist doof',
+          antworten: [{
+            name: 'Testliste',
+            antwort: 'ja'
+          }]
         }]
-      }]
+      }
+      let resolvedWahl = {
+        _id: 123456,
+        name: wahl.name,
+        gremium: wahl.gremium,
+        thesen: wahl.thesen
+      }
+      let saveSuccess = () =>
+        new Promise((resolve, reject) =>
+          resolve(resolvedWahl))
+      controller.createWahl(newWahl(saveSuccess))(wahl)
+      .then(val => {
+        expect(val).to.deep.equal(resolvedWahl)
+        done()
+      })
+      .catch(done)
     })
-    controller.createWahl(wahl).then(val => {
-      console.log(val)
-      expect(val.name).to.equal(wahl.name)
-      expect(val.gremium).to.equal(wahl.gremium)
-      expect(val.thesen[0].these).to.equal(wahl.thesen[0].these)
+
+    it('should give error on double index', (done) => {
+      let wahl = {
+        name: 'testname' + Math.random(),
+        gremium: 'testgremium',
+        thesen: [{
+          these: 'Alles ist doof',
+          antworten: [{
+            name: 'Testliste',
+            antwort: 'ja'
+          }]
+        }]
+      }
+      let message = {
+        message: ['duplicate key error']
+      }
+      let saveFailure = () =>
+        new Promise((resolve, reject) =>
+        reject(message))
+      controller.createWahl(newWahl(saveFailure))(wahl)
+      .then(done)
+      .catch(error => {
+        expect(error).to.equal('Dieser Wahlname existiert bereits!')
+        done()
+      })
+    })
+  })
+
+  it('should successful delete a wahl', (done) => {
+    let name = 'testwahlname'
+    let deleteSuccess = (queryObj) =>
+    new Promise((resolve, reject) => {
+      if (queryObj.name === name) {
+        resolve({ ok: 1, deletedCount: 1, n: 1 })
+      } else {
+        reject({ok: 0, deletedCount: 0, n: 0})
+      }
+    })
+    controller.deleteWahl(newWahl(null, deleteSuccess))(name)
+    .then(val => {
+      expect(val).to.equal(true)
       done()
     })
     .catch(done)
   })
 
-  it('should delete a wahl', (done) => {
-    let wahl = new Wahl({
+  it('should successful update a wahl', (done) => {
+    let wahl = {
       name: 'testname' + Math.random(),
-      gremium: 'testgremium',
-      thesen: [{
-        these: 'Alles ist doof',
-        antworten: [{
-          name: 'Testliste',
-          antwort: 'ja'
-        }]
-      }]
-    })
-    controller.createWahl(wahl).then(val => {
+      gremium: 'testgremium'
+    }
+    let resolvedWahl = {
+      _id: 123456,
+      thesen: wahl.thesen,
+      gremium: 'bla',
+      name: 'blub'
+    }
+    let updateSuccess = (queryObj, updateObj) =>
+      new Promise((resolve, reject) => {
+        if (queryObj.name !== wahl.name) {
+          reject({errors: { name: 'Validator "Invalid name" failed for path name' }})
+        } else {
+          resolvedWahl.name = updateObj.name
+          resolvedWahl.gremium = updateObj.gremium
+          resolve(resolvedWahl)
+        }
+      })
+    controller.updateWahl(newWahl(null, null, updateSuccess))(wahl)
+    .then(val => {
+      expect(val).to.deep.equal(resolvedWahl)
       expect(val.name).to.equal(wahl.name)
       expect(val.gremium).to.equal(wahl.gremium)
-      expect(val.thesen[0].these).to.equal(wahl.thesen[0].these)
-      controller.deleteWahl(wahl.name).then(val => {
-        expect(val).to.equal(true)
-      }).catch(done)
-    })
-    .catch(done)
-  })
-
-  it('should update a wahl', (done) => {
-    done()
-  })
-
-  afterEach(() => {
-    Wahl.remove({})
-    .then(() => console.log(chalk.green('db is empty')))
-    .catch(error => console.error(chalk.red('error on emptying db'), error))
-  })
-
-  after(function () {
-    mongoose.connection.close()
-    console.log(chalk.green('connection closed'))
+      done()
+    }).catch(done)
   })
 })

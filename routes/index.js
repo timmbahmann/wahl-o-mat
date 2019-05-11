@@ -1,7 +1,8 @@
 let express = require('express')
-let wahlcontroller = require('../controller/wahl.controller')
+let Wahl = require('../models/wahl.model')
 let wahlmiddleware = require('../middlewares/wahl.validate')
 let langmiddleware = require('../middlewares/getlang.middleware')
+let wahlcontroller = require('../controller/wahl.controller')
 
 let router = express.Router()
 
@@ -26,7 +27,7 @@ router.get('/json', langmiddleware, (req, res, next) => {
  */
 
 router.post('/wahl', langmiddleware, wahlmiddleware, async (req, res, next) => {
-  wahlcontroller.createWahl(req.wahl)
+  wahlcontroller.createWahl(Wahl)(req.wahl)
   .then(ergebnis => {
     res.json(ergebnis)
     next()
