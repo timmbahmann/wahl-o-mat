@@ -7,9 +7,9 @@ const chalk = require('chalk')
 /**
  *  connect to the database
  */
-mongoose.connect('mongodb+srv://website:hack-paging8-related-bema9-6talisman-cymbal-madrid8-warn@wahl-o-mat-u1xgc.mongodb.net/test?retryWrites=true', {useNewUrlParser: true})
-.then(() => console.log(chalk.green('database connected')))
-.catch(reason => console.error(chalk.red('error connecting database'), reason))
+mongoose.connect('mongodb+srv://website:hack-paging8-related-bema9-6talisman-cymbal-madrid8-warn@wahl-o-mat-u1xgc.mongodb.net/test?retryWrites=true', { useNewUrlParser: true })
+  .then(() => console.log(chalk.green('database connected')))
+  .catch(reason => console.error(chalk.red('error connecting database'), reason))
 
 /**
  *  use express, use port 3001 if not specified
@@ -31,7 +31,7 @@ app.use(require('./routes'))
 /**
  *  all files not handled by the router as static files inside the views folder
  */
-app.use(express.static(path.join(__dirname, 'views')))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 /**
  *  start the server
@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'views')))
 
 let server
 
-function searchPort () {
+function searchPort() {
   if (PORT >= 30000) {
     console.error('no free port')
     return
@@ -75,7 +75,7 @@ mongoose.connection.on('close', function () {
   process.exit(0)
 })
 
-function stop () {
+function stop() {
   mongoose.connection.close()
 }
 
