@@ -37,13 +37,19 @@ let readWahl = (Wahl) => async (wahlname) =>
 /**
  * Update only the fileds specified in data
  *
+ * @param wahlname wahlname the wahl name
  * @param data some **validated** fileds of a wahl object
  * @returns a promise for the **updated** full wahl document
  */
 
-let updateWahl = (Wahl) => async (data) => {
+let updateWahl = (Wahl) => async (wahlname,data) => {
   // TODO
   // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
+  return new Promise((resolve, reject) =>
+  Wahl.updateOne({ name:wahlname } , data , {new: true})
+  .then(resolve)
+  .catch(reject('Die Wahl konnte nicht geupdatet werden!'))
+  )
 }
 
 /**
