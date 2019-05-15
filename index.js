@@ -9,7 +9,7 @@ const chalk = require('chalk')
  */
 mongoose.connect('mongodb+srv://website:hack-paging8-related-bema9-6talisman-cymbal-' +
   'madrid8-warn@wahl-o-mat-u1xgc.mongodb.net/test?retryWrites=true',
-  {useNewUrlParser: true})
+  { useNewUrlParser: true })
 .then(() => console.log(chalk.green('database connected')))
 .catch(reason => console.error(chalk.red('error connecting database'), reason))
 

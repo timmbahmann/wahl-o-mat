@@ -27,10 +27,12 @@ let createWahl = (Wahl) => async (data) =>
  * @returns a promise for the full **updated** wahl document
  */
 
-let readWahl = (Wahl) => async (wahlname) => {
-  // TODO
-  // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
-}
+let readWahl = (Wahl) => async (wahlname) =>
+  new Promise((resolve, reject) =>
+    Wahl.find({ name: wahlname })
+    .then(resolve)
+    .catch(reject)
+  )
 
 /**
  * Update only the fileds specified in data
