@@ -12,6 +12,7 @@ let mix = require('laravel-mix');
  */
 
 mix.js('./views/js/app.js', 'dist/')
+    .sass("./views/css/app.scss", "dist/")
     .webpackConfig({
         devServer: { contentBase: [path.resolve(__dirname, 'dist')], },
     })
