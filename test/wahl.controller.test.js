@@ -62,7 +62,8 @@ describe('Check wahlcontroller\'s functions', () => {
       let saveFailure = () =>
         new Promise((resolve, reject) =>
         reject(message))
-      controller.createWahl(newWahl(saveFailure))(wahl)
+      let neueWahl = newWahl(saveFailure)
+      controller.createWahl(neueWahl)(wahl)
       .then(done)
       .catch(error => {
         expect(error).to.equal('Dieser Wahlname existiert bereits!')
@@ -81,7 +82,9 @@ describe('Check wahlcontroller\'s functions', () => {
         reject({ok: 0, deletedCount: 0, n: 0})
       }
     })
-    controller.deleteWahl(newWahl(null, deleteSuccess))(name)
+    let NeueWahl = newWahl(null, deleteSuccess)
+    let nW = new NeueWahl({name: null, gremium: null, thesen: null})
+    controller.deleteWahl(nW)(name)
     .then(val => {
       expect(val).to.equal(true)
       done()
