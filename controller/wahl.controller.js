@@ -56,6 +56,11 @@ let updateWahl = (Wahl) => async (data) => {
 let deleteWahl = (Wahl) => async (wahlname) => {
   // TODO
   // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
+  new Promise((resolve, reject) =>
+  Wahl.deleteOne({ name: wahlname })
+  .then(resolve(true))
+  .catch(reject('Die Wahl konnte nicht gelöscht werden!'))
+  )
 }
 
 module.exports.createWahl = createWahl
