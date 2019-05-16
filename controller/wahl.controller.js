@@ -27,21 +27,29 @@ let createWahl = (Wahl) => async (data) =>
  * @returns a promise for the full **updated** wahl document
  */
 
-let readWahl = (Wahl) => async (wahlname) => {
-  // TODO
-  // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
-}
+let readWahl = (Wahl) => async (wahlname) =>
+  new Promise((resolve, reject) =>
+    Wahl.find({ name: wahlname })
+    .then(resolve)
+    .catch(reject)
+  )
 
 /**
  * Update only the fileds specified in data
  *
+ * @param wahlname wahlname the wahl name
  * @param data some **validated** fileds of a wahl object
  * @returns a promise for the **updated** full wahl document
  */
 
-let updateWahl = (Wahl) => async (data) => {
+let updateWahl = (Wahl) => async (wahlname,data) => {
   // TODO
   // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
+  return new Promise((resolve, reject) =>
+  Wahl.updateOne({ name:wahlname } , data , {new: true})
+  .then(resolve)
+  .catch(reject('Die Wahl konnte nicht geupdatet werden!'))
+  )
 }
 
 /**
@@ -54,6 +62,11 @@ let updateWahl = (Wahl) => async (data) => {
 let deleteWahl = (Wahl) => async (wahlname) => {
   // TODO
   // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
+  return new Promise((resolve, reject) =>
+  Wahl.deleteOne({ name: wahlname })
+  .then(resolve(true))
+  .catch(reject('Die Wahl konnte nicht gelöscht werden!'))
+  )
 }
 
 module.exports.createWahl = createWahl

@@ -7,7 +7,9 @@ const chalk = require('chalk')
 /**
  *  connect to the database
  */
-mongoose.connect('mongodb+srv://website:hack-paging8-related-bema9-6talisman-cymbal-madrid8-warn@wahl-o-mat-u1xgc.mongodb.net/test?retryWrites=true', { useNewUrlParser: true })
+mongoose.connect('mongodb+srv://website:hack-paging8-related-bema9-6talisman-cymbal-' +
+  'madrid8-warn@wahl-o-mat-u1xgc.mongodb.net/test?retryWrites=true',
+  { useNewUrlParser: true })
   .then(() => console.log(chalk.green('database connected')))
   .catch(reason => console.error(chalk.red('error connecting database'), reason))
 
@@ -59,7 +61,8 @@ function searchPort() {
 
 process.on('SIGINT', function () {
   mongoose.connection.close(function () {
-    console.log(chalk.blue('Mongoose default connection is disconnected due to application termination'))
+    console.log(chalk.blue('Mongoose default connection is disconnected' +
+    'due to application termination'))
     server.close()
     process.exit(0)
   })

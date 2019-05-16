@@ -6,7 +6,6 @@ let langmiddleware = (req, res, next) => {
     let i = 0
     for (; i < langs.length && !fs.existsSync('./lang/' + langs[i] + '.js'); i++) {
     }
-    console.log(i, langs, langs[i])
     if (i === langs.length && !fs.existsSync('./lang/' + langs[i - 1] + '.js')) {
       req.lang = require('../lang/de-DE.js')
     } else {
