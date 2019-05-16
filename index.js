@@ -29,7 +29,7 @@ app.use(bodyParser.json())
 app.use(require('./routes'))
 
 /**
- *  all files not handled by the router as static files inside the views folder
+ *  all files not handled by the router as static files inside the dist folder
  */
 app.use(express.static(path.join(__dirname, 'dist')))
 

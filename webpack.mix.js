@@ -14,7 +14,17 @@ let mix = require('laravel-mix');
 mix.js('./views/js/app.js', 'dist/')
     .sass("./views/css/app.scss", "dist/")
     .webpackConfig({
-        devServer: { contentBase: [path.resolve(__dirname, 'dist')], },
+        devServer: {
+            contentBase: [path.resolve(__dirname, 'dist')],
+
+            // Forward all calls to /api to the node.js backend server that serves the data 
+            proxy: {
+                "/api": {
+                    target: "http://localhost:3000",
+                    changeOrigin: true
+                }
+            }
+        },
     })
     .setPublicPath("dist");
 

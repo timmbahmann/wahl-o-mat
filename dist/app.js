@@ -127,10 +127,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   created: function created() {
     var _this = this;
 
-    fetch("/json", {
+    fetch("api/json", {
       headers: {
         "content-type": "application/json"
-      }
+      },
+      mode: "cors"
     }).then(function (response) {
       return response.json();
     }).then(function (wahl) {
@@ -656,7 +657,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h1", [_vm._v("Wahl-o-Mat")]),
+      _c("h1", [_vm._v("Wahl-o-Mathedfgdfg")]),
       _vm._v(" "),
       _c("h2", [_vm._v(_vm._s(_vm.wahlname))]),
       _vm._v(" "),
@@ -13029,8 +13030,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\leons\Development\uni\wahl-o-mat\views\js\app.js */"./views/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\leons\Development\uni\wahl-o-mat\views\css\app.scss */"./views/css/app.scss");
+__webpack_require__(/*! F:\uni\wahl-o-mat\views\js\app.js */"./views/js/app.js");
+module.exports = __webpack_require__(/*! F:\uni\wahl-o-mat\views\css\app.scss */"./views/css/app.scss");
 
 
 /***/ })

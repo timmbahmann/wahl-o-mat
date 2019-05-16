@@ -20,7 +20,7 @@ export default {
     }
   },
   created() {
-    fetch("/json", { headers: { "content-type": "application/json" } })
+    fetch("api/json", { headers: { "content-type": "application/json" } })
       .then(response => response.json())
       .then(wahl => {
         this.thesen.push(...wahl.thesen);
@@ -37,7 +37,7 @@ export default {
 </script>
 <template>
   <div>
-    <h1>Wahl-o-Mat</h1>
+    <h1>Wahl-o-Mathe</h1>
     <h2>{{ wahlname }}</h2>
     <h3>{{ gremium }}</h3>
     <p>{{ currThese }}</p>
