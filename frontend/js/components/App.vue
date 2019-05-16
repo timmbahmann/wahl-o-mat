@@ -37,7 +37,7 @@ export default {
 </script>
 <template>
   <div>
-    <h1>Wahl-o-Mathe</h1>
+    <h1>Wahl-o-sdsdf</h1>
     <h2>{{ wahlname }}</h2>
     <h3>{{ gremium }}</h3>
     <p>{{ currThese }}</p>

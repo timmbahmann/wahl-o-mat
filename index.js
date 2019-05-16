@@ -31,9 +31,9 @@ app.use(bodyParser.json())
 app.use(require('./routes'))
 
 /**
- *  all files not handled by the router as static files inside the dist folder
+ *  all files not handled by the router as static files inside the public folder
  */
-app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 /**
  *  start the server

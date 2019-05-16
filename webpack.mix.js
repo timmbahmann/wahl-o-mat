@@ -11,11 +11,10 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('./views/js/app.js', 'dist/')
-    .sass("./views/css/app.scss", "dist/")
+mix.js('./frontend/js/app.js', 'public/')
     .webpackConfig({
         devServer: {
-            contentBase: [path.resolve(__dirname, 'dist')],
+            contentBase: [path.resolve(__dirname, 'public')],
 
             // Forward all calls to /api to the node.js backend server that serves the data 
             proxy: {
@@ -26,7 +25,7 @@ mix.js('./views/js/app.js', 'dist/')
             }
         },
     })
-    .setPublicPath("dist");
+    .setPublicPath("public");
 
 // Full API
 // mix.js(src, output);
