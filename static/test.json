@@ -1,34 +1,40 @@
 {
   "name": "Fakultätsratswahl WS 2019",
   "gremium": "Fakultätsrat",
-  "thesen": [{
-    "these": "Alle Menschen sind Doof",
-    "antworten": [{
-      "name": "Freitagsrunde",
-      "antwort": "nein"
-      },
-      {
-        "name": "EB301",
-        "antwort": "ja"
-      },
-      {
-        "name": "AStA",
-        "antwort": "neutral"
-    }]
-  },
-  {
-    "these": "Der Dekan muss weg",
-    "antworten": [{
-      "name": "Freitagsrunde",
-      "antwort": "ja"
-      },
-      {
-        "name": "EB301",
-        "antwort": "ja"
-      },
-      {
-        "name": "AStA",
-        "antwort": "neutral"
-    }]
-  }]
+  "thesen": [
+    {
+      "these": "Alle Menschen sind Doof",
+      "antworten": [
+        {
+          "name": "Freitagsrunde",
+          "antwort": "nein"
+        },
+        {
+          "name": "EB301",
+          "antwort": "ja"
+        },
+        {
+          "name": "AStA",
+          "antwort": "neutral"
+        }
+      ]
+    },
+    {
+      "these": "Der Dekan muss weg",
+      "antworten": [
+        {
+          "name": "Freitagsrunde",
+          "antwort": "ja"
+        },
+        {
+          "name": "EB301",
+          "antwort": "ja"
+        },
+        {
+          "name": "AStA",
+          "antwort": "neutral"
+        }
+      ]
+    }
+  ]
 }
