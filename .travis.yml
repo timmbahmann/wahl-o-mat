@@ -10,20 +10,19 @@ jobs:
       - stage: compile-frontend
         env:
           - NODE_ENV=development
-        script: echo 1 #npm run frontend:build
+        script: npm run frontend:build
       - stage: unit-tests
-        script: echo 2 # npm run test
+        script: npm run test
 
 
 notifications:
   slack:
-
-    template_success:
+    template:
       - "Wahl-O-Mat build *%{result}* for build (<%{build_url}|#%{build_number}>) and commit (<%{compare_url}|%{commit}>) by %{author}."
       - "branch: `%{branch}`."
       - "Execution time: *%{duration}*"
       - "Message: %{message}"
     rooms: 
-      - wahl-o-mat:PvbcfYWht3cfBXXdkuSDdTxN#@{author}
-    on_success: always
+      - wahl-o-mat:PvbcfYWht3cfBXXdkuSDdTxN#dev
+    on_success: change
     on_failure: always
