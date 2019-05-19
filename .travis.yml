@@ -18,9 +18,10 @@ jobs:
 notifications:
   slack:
     template:
-      - "Wahl-O-Mat build *%{result}* for build (<%{build_url}|#%{build_number}>) and commit (<%{compare_url}|%{commit}>)."
+      - "Wahl-O-Mat build *%{result}* for build (<%{build_url}|#%{build_number}>) and commit (<%{compare_url}|%{commit}>) by %{author}."
       - "branch: `%{branch}`."
       - "Execution time: *%{duration}*"
       - "Message: %{message}"
     rooms: wahl-o-mat:PvbcfYWht3cfBXXdkuSDdTxN
     on_success: change
+    on_failure: always

@@ -25,7 +25,8 @@ export default {
       .then(wahl => {
         this.thesen.push(...wahl.thesen);
         this.wahlname = wahl.name;
-        
+        this.gremium = wahl.gremium;
+      });
   },
   methods: {
     fetchAge() {
