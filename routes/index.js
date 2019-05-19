@@ -15,9 +15,12 @@ router.get('/api/json', langmiddleware, (req, res, next) => {
     res.json(require('../static/test.json'))
   } else {
     res.status(415)
-    return next(req.lang['JSON-Anfrage X erwartet, aber Y bekommen'](
-      'application/json',
-      req.get('content-type')))
+    return next(
+      req.lang['JSON-Anfrage X erwartet, aber Y bekommen'](
+        'application/json',
+        req.get('content-type')
+      )
+    )
   }
 })
 
@@ -27,15 +30,16 @@ router.get('/api/json', langmiddleware, (req, res, next) => {
  */
 
 router.post('/api/wahl', langmiddleware, wahlmiddleware, async (req, res, next) => {
-  wahlcontroller.createWahl(Wahl)(req.wahl)
-  .then(ergebnis => {
-    res.json(ergebnis)
-    next()
-  })
-  .catch(reason => {
-    res.status(400)
-    next(req.lang[reason])
-  })
+  wahlcontroller
+    .createWahl(Wahl)(req.wahl)
+    .then(ergebnis => {
+      res.json(ergebnis)
+      next()
+    })
+    .catch(reason => {
+      res.status(400)
+      next(req.lang[reason])
+    })
 })
 
 module.exports = router
