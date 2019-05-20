@@ -40,7 +40,7 @@ app.use(bodyParser.json())
 /**
  *  use the router inside the routes folder for… routing
  */
-app.use(require('./routes'))
+app.use(require('./routes/index.route'))
 
 /**
  *  all files not handled by the router as static files inside the views folder
@@ -52,6 +52,10 @@ app.use(express.static(path.join(__dirname, 'views')))
  */
 
 let server
+
+/**
+ * check all ports from 3000 to 30000 and listen to the first free one
+ */
 
 function searchPort () {
   if (PORT >= 30000) {
@@ -95,6 +99,10 @@ mongoose.connection.on('close', function () {
   server.close()
   process.exit(0)
 })
+
+/**
+ * Stop the server and disconnect the database
+ */
 
 function stop () {
   mongoose.connection.close()

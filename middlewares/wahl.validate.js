@@ -1,10 +1,14 @@
+/**
+ * @module wahlValidate
+ */
+
 let Wahl = require('../models/wahl.model')
 
 /**
- *
- * @param {*} req The request as an Object
- * @param {*} res Not used
- * @param {*} next If called go to the next middleware (or to the error handler)
+ * @param {Request} req The request as an Object
+ * @param {Response} res Not used
+ * @param {function(Error): void} next If called go to the next middleware (or to the error handler)
+ * @returns {void}
  */
 
 let wahlmiddleware = async (req, res, next) => {
