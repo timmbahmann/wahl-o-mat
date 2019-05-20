@@ -31,4 +31,9 @@ router.post('/wahl', langmiddleware, wahlmiddleware, createwahlroute)
 
 router.get('/wahl/:wahlname', langmiddleware, getwahlroute)
 
+/**
+ * Update a wahl
+ */
+router.put('wahl/:wahlname', langmiddleware, updatewahlroute)
+
 module.exports = router
