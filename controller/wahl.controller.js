@@ -87,8 +87,28 @@ async function createWahl (data) {
   })
 }
 
+/**
+ * @returns {Promise<String[]>} get all Wahl names
+ */
+
+async function readAllWahl () {
+  return new Promise((resolve, reject) => {
+    Wahl.find({})
+      .select('name')
+      .then(
+        names => {
+          resolve(names)
+        },
+        error => {
+          reject(error)
+        }
+      )
+  })
+}
+
 module.exports.createWahl = createWahl
 module.exports.readWahl = readWahl
+module.exports.readAllWahl = readAllWahl
 module.exports.updateWahl = updateWahl
 module.exports.deleteWahl = deleteWahl
 
