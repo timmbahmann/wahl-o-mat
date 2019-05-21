@@ -9,6 +9,7 @@ let createwahlroute = require('./createwahl.route')
 let getjsonroute = require('./getjson.route')
 let getwahlroute = require('./getwahl.route')
 let deletewahlroute = require('./deletewahl.route')
+let updatewahlroute = require('./update.route')
 
 let router = express.Router()
 
@@ -32,11 +33,16 @@ router.post('/wahl', langmiddleware, wahlmiddleware, createwahlroute)
 
 router.get('/wahl/:wahlname', langmiddleware, getwahlroute)
 
-
 /**
  *  deletes a wahl object
- * 
- * */ 
+ *
+ * */
+
 router.delete('/wahl/:wahlname', langmiddleware, deletewahlroute)
+/**
+ * Update a wahl
+ */
+
+router.put('wahl/:wahlname', langmiddleware, updatewahlroute)
 
 module.exports = router
