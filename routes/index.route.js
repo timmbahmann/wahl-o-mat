@@ -8,6 +8,7 @@ let langmiddleware = require('../middlewares/getlang.middleware')
 let createwahlroute = require('./createwahl.route')
 let getjsonroute = require('./getjson.route')
 let getwahlroute = require('./getwahl.route')
+let updatewahlroute = require('./update.route')
 
 let router = express.Router()
 
