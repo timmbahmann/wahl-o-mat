@@ -1,6 +1,6 @@
 /**
- @module wahlcontroller
-*/
+ * @module wahlcontroller
+ */
 
 let Wahl = require('../models/wahl.model')
 
@@ -28,7 +28,10 @@ async function updateWahl (wahlname, data) {
   // TODO
   // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
   return new Promise((resolve, reject) =>
-    Wahl.updateOne({ name: wahlname }, data, { new: true }).then(
+    Wahl.updateOne({ name: wahlname }, data, {
+      new: true,
+      runValidators: true
+    }).then(
       val => {
         resolve(val)
       },
@@ -94,7 +97,7 @@ async function createWahl (data) {
 async function readAllWahl () {
   return new Promise((resolve, reject) => {
     Wahl.find({})
-      .select('name')
+      .select('name -_id')
       .then(
         names => {
           resolve(names)

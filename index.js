@@ -6,6 +6,11 @@ let bodyParser = require('body-parser')
 const chalk = require('chalk')
 
 /**
+ * use validator on update
+ */
+mongoose.set('runValidators', true)
+
+/**
  *  connect to the database
  */
 mongoose
