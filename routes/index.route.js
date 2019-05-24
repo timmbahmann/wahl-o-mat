@@ -52,7 +52,7 @@ router.get('/wahl', langmiddleware, getEveryWahlroute)
 router.put('/wahl/:wahlname', langmiddleware, updatewahlroute)
 
 /**
- * Update a wahl
+ * Delete a wahl
  */
 
 router.delete('/wahl/:wahlname', langmiddleware, deletewahlroute)
@@ -61,25 +61,25 @@ router.delete('/wahl/:wahlname', langmiddleware, deletewahlroute)
  * create a user
  */
 
-router.delete('/user/:username', langmiddleware, createuserroute)
+router.post('/user/:username', langmiddleware, createuserroute)
 
 /**
  * get a user
  */
 
-router.delete('/user/:username', langmiddleware, getuserroute)
+router.get('/user/:username', langmiddleware, getuserroute)
 
 /**
  * get all users
  */
 
-router.delete('/user', langmiddleware, getEveryUserroute)
+router.get('/user', langmiddleware, getEveryUserroute)
 
 /**
  * Update a user
  */
 
-router.delete('/user/:username', langmiddleware, updateuserroute)
+router.put('/user/:username', langmiddleware, updateuserroute)
 
 /**
  * delete a user
