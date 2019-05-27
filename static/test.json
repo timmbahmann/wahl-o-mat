@@ -1,11 +1,10 @@
 {
   "name": "Fakultätsratswahl WS 2019",
   "gremium": "Fakultätsrat",
-  "thesen": [
-    {
+  "thesen": [{
+      "key": 1,
       "these": "Alle Menschen sind Doof",
-      "antworten": [
-        {
+      "antworten": [{
           "name": "Freitagsrunde",
           "antwort": "nein"
         },
@@ -20,11 +19,92 @@
       ]
     },
     {
+      "key": 2,
       "these": "Der Dekan muss weg",
-      "antworten": [
-        {
+      "antworten": [{
           "name": "Freitagsrunde",
           "antwort": "ja"
+        },
+        {
+          "name": "EB301",
+          "antwort": "ja"
+        },
+        {
+          "name": "AStA",
+          "antwort": "neutral"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "these": "Leon for presidente",
+      "antworten": [{
+          "name": "Freitagsrunde",
+          "antwort": "nein"
+        },
+        {
+          "name": "EB301",
+          "antwort": "ja"
+        },
+        {
+          "name": "AStA",
+          "antwort": "neutral"
+        }
+      ]
+    }, {
+      "key": 4,
+      "these": "Mehr für Weniger",
+      "antworten": [{
+          "name": "Freitagsrunde",
+          "antwort": "nein"
+        },
+        {
+          "name": "EB301",
+          "antwort": "ja"
+        },
+        {
+          "name": "AStA",
+          "antwort": "neutral"
+        }
+      ]
+    }, {
+      "key": 5,
+      "these": "1337 Test Foo Bar",
+      "antworten": [{
+          "name": "Freitagsrunde",
+          "antwort": "nein"
+        },
+        {
+          "name": "EB301",
+          "antwort": "ja"
+        },
+        {
+          "name": "AStA",
+          "antwort": "neutral"
+        }
+      ]
+    }, {
+      "key": 6,
+      "these": "Das ist eine ziemlich lange These zum Testen, sie ist deshalb ein bisschen länger",
+      "antworten": [{
+          "name": "Freitagsrunde",
+          "antwort": "nein"
+        },
+        {
+          "name": "EB301",
+          "antwort": "ja"
+        },
+        {
+          "name": "AStA",
+          "antwort": "neutral"
+        }
+      ]
+    }, {
+      "key": 7,
+      "these": "Diese hier ist dafür wieder ein bisschen kürzer :)",
+      "antworten": [{
+          "name": "Freitagsrunde",
+          "antwort": "nein"
         },
         {
           "name": "EB301",
