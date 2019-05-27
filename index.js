@@ -53,7 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 let server
 
-function searchPort() {
+function searchPort () {
   if (PORT >= 30000) {
     console.error('no free port')
     return
@@ -96,7 +96,7 @@ mongoose.connection.on('close', function () {
   process.exit(0)
 })
 
-function stop() {
+function stop () {
   mongoose.connection.close()
 }
 

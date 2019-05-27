@@ -1,0 +1,8 @@
+{
+    "indent_size": 2,
+    "indent_char": " ",
+    "preserve_newlines": true,
+    "css": {
+      "indent_size": 2
+    }
+  }

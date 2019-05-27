@@ -1,7 +1,7 @@
 <script>
 export default {
   name: "Steckbrief",
-  props: ["firstName", "lastName", "age"],
+  props:[("firstName", "lastName", "age")],
   data() {
     return {};
   }

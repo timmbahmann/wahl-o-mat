@@ -1,11 +1,18 @@
 <script>
+import LandingPage from "./LandingPage";
+import Wahlomat from "./Wahlomat";
+import ResultPage from "./ResultPage";
 import Steckbrief from "./Steckbrief";
 import VueSwing from "vue-swing";
 
-// Vue.component('vue-swing', VueSwing)
-
 export default {
-  components: { Steckbrief, VueSwing },
+  components: {
+    LandingPage,
+    Wahlomat,
+    ResultPage,
+     Steckbrief, 
+     VueSwing 
+  },
   data() {
     return {
       pagenum: 0,
@@ -15,8 +22,8 @@ export default {
       firstName: "",
       age: 0,
       config: {
-        // throwOutConfidence: 0.5
-      }
+      },
+      displayedComponent: "landingPage"
     };
   },
   computed: {
@@ -43,6 +50,9 @@ export default {
     },
     throwin() {
       console.log("Just threw one in!");
+    },
+    switchPage(page) {
+      this.displayedComponent = page;
     }
   }
 };
@@ -70,6 +80,15 @@ export default {
         </div>
       </div>
     </vue-swing>
+  <div>
+    <div>
+      <button @click="switchPage('landingPage')">Startseite</button>
+      <button @click="switchPage('wahlomat')">Thesenansicht</button>
+      <button @click="switchPage('resultPage')">Ergebnisseite</button>
+    </div>
+    <LandingPage v-if="displayedComponent === 'landingPage'"></LandingPage>
+    <Wahlomat v-else-if="displayedComponent === 'wahlomat'"></Wahlomat>
+    <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
   </div>
 </template>
 <style scoped>
