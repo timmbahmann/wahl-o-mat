@@ -7,5 +7,10 @@ export default {
 };
 </script>
 <template>
-  <div></div>
+  <div>
+    this is the result page
+  </div>
 </template>
+<style scoped>
+
+</style>

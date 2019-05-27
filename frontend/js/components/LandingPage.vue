@@ -7,5 +7,7 @@ export default {
 };
 </script>
 <template>
-  <div></div>
+  <div>This is the landing page</div>
 </template>
+<style scoped>
+</style>

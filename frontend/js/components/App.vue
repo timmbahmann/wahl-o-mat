@@ -1,16 +1,21 @@
 <script>
-import Steckbrief from "./Steckbrief";
+import LandingPage from "./LandingPage";
+import Wahlomat from "./Wahlomat";
+import ResultPage from "./ResultPage";
 
 export default {
-  components: { Steckbrief },
+  components: {
+    LandingPage,
+    Wahlomat,
+    ResultPage
+  },
   data() {
     return {
       pagenum: 0,
       thesen: [],
       wahlname: "",
       gremium: "",
-      firstName: "",
-      age: 0
+      displayedComponent: "landingPage"
     };
   },
   computed: {
@@ -29,22 +34,27 @@ export default {
       });
   },
   methods: {
-    fetchAge() {
-      this.age = Math.random() * 100;
+    showLandingPage() {
+      this.displayedComponent = "landingPage";
+    },
+    showWahlomat() {
+      this.displayedComponent = "wahlomat";
+    },
+    showResultPage() {
+      this.displayedComponent = "resultPage";
     }
   }
 };
 </script>
 <template>
   <div>
-    <h1>Wahl-o-Mat</h1>
-    <h2>{{ wahlname }}</h2>
-    <h3>{{ gremium }}</h3>
-    <p>{{ currThese }}</p>
-    <button v-if="pagenum < thesen.length - 1" @click="pagenum += 1">next</button>
-    <div>This is a small test</div>
-    <input type="text" v-model="firstName">
-    <button @click="fetchAge">fetch</button>
-    <Steckbrief :firstName="firstName" lastName="Obermeier" :age="age"/>
+    <div>
+      <button @click="showLandingPage">Startseite</button>
+      <button @click="showWahlomat">Thesenansicht</button>
+      <button @click="showResultPage">Ergebnisseite</button>
+    </div>
+    <LandingPage v-if="displayedComponent === 'landingPage'"></LandingPage>
+    <Wahlomat v-else-if="displayedComponent === 'wahlomat'"></Wahlomat>
+    <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
   </div>
 </template>
