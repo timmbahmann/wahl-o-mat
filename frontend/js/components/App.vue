@@ -2,7 +2,6 @@
 import LandingPage from "./LandingPage";
 import Wahlomat from "./Wahlomat";
 import ResultPage from "./ResultPage";
-import Steckbrief from "./Steckbrief";
 import VueSwing from "vue-swing";
 
 export default {
@@ -10,7 +9,6 @@ export default {
     LandingPage,
     Wahlomat,
     ResultPage,
-    Steckbrief,
     VueSwing
   },
   data() {

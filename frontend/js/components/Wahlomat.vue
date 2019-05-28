@@ -7,7 +7,8 @@ export default {
   data() {
     return {
       config: {
-        allowedDirections: [VueSwing.Direction.LEFT, VueSwing.Direction.RIGHT]
+        allowedDirections: [VueSwing.Direction.LEFT, VueSwing.Direction.RIGHT],
+        throwoutConfidence: 0.1
       },
       swiped: [],
       activeThesis: this.thesen[this.thesen.length - 1].key
@@ -38,7 +39,7 @@ export default {
       });
 
       this.activeThesis =
-        this.thesen.length > 1
+        this.swiped.length < this.thesen.length
           ? this.thesen[this.thesen.length - 1 - this.swiped.length].key
           : null;
     },
