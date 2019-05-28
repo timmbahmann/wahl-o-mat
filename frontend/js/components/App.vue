@@ -47,4 +47,16 @@ export default {
 body {
   background-color: #262626;
 }
+
+.yes {
+  background: linear-gradient(135deg, #768c54 0, #4e5c37);
+}
+
+.neutral {
+  background: linear-gradient(135deg, #c1c1c1 0, #9b9b9b);
+}
+
+.no {
+  background: linear-gradient(135deg, #a63232 0, #6b2020);
+}
 </style>
