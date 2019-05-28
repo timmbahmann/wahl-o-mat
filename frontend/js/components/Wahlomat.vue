@@ -3,11 +3,15 @@ import VueSwing from "vue-swing";
 
 export default {
   components: { VueSwing },
-  props: ["thesen"],
+  props: ["election"],
   data() {
     return {
       config: {
-        allowedDirections: [VueSwing.Direction.LEFT, VueSwing.Direction.RIGHT],
+        allowedDirections: [
+          VueSwing.Direction.LEFT,
+          VueSwing.Direction.RIGHT,
+          VueSwing.Direction.UP
+        ],
         throwOutConfidence: (xOffset, yOffset, element) => {
           let xConfidence = Math.min(
             Math.abs(xOffset) / element.offsetWidth,
@@ -21,48 +25,79 @@ export default {
           return Math.min(Math.max(xConfidence, yConfidence) * 2, 1);
         }
       },
+      minThrowOutDistance: 250,
+      maxThrowOutDistance: 300,
       swiped: [],
-      activeThesis: this.thesen[this.thesen.length - 1].key
+      activeThesis: this.election.theses[this.election.theses.length - 1]
     };
   },
   methods: {
-    throwout(data) {
-      let answer =
-        String(data.throwDirection)
-          .replace("Symbol", "")
-          .replace("(", "")
-          .replace(")", "")
-          .toLowerCase() === "left"
-          ? 0
-          : 2;
-
-      let thesis = this.thesen.filter(
-        x => x.key.toString() === data.target.id.toString()
+    answerYes(payload) {
+      this.answer(payload.target.id, 2);
+    },
+    answerNo(payload) {
+      this.answer(payload.target.id, 0);
+    },
+    answerNeutral(payload) {
+      this.answer(payload.target.id, 1);
+    },
+    skip() {},
+    goBack() {},
+    answer(thesisId, answer) {
+      let thesis = this.election.theses.filter(
+        x => x.key.toString() === thesisId.toString()
       )[0];
 
-      this.cardSwiped(thesis, answer);
-    },
-
-    cardSwiped(thesis, answer) {
       this.swiped.push({
         thesis: thesis,
         result: answer
       });
 
       this.activeThesis =
-        this.swiped.length < this.thesen.length
-          ? this.thesen[this.thesen.length - 1 - this.swiped.length].key
+        this.swiped.length < this.election.theses.length
+          ? this.election.theses[
+              this.election.theses.length - 1 - this.swiped.length
+            ]
           : null;
-
-      if (this.swiped.length === this.thesen.length) console.log(this.swiped);
     },
 
     buttonClicked(answer) {
       let target = this.$refs.viewswing.cards[
-        this.thesen.length - 1 - this.swiped.length
+        this.election.theses.length - 1 - this.swiped.length
       ];
 
-      target.throwOut(Math.random() * 100 - 50, Math.random() * 100 - 50);
+      switch (answer) {
+        case 0:
+          target.throwOut(
+            Math.random() * 100 - 50,
+            Math.random() * 100 - 50,
+            VueSwing.Direction.LEFT
+          );
+          setTimeout(() => {
+            [1].pop();
+          }, 100);
+          break;
+        case 1:
+          target.throwOut(
+            Math.random() * 100 - 50,
+            Math.random() * 100 - 50,
+            VueSwing.Direction.UP
+          );
+          setTimeout(() => {
+            [1].pop();
+          }, 100);
+          break;
+        case 2:
+          target.throwOut(
+            Math.random() * 100 - 50,
+            Math.random() * 100 - 50,
+            VueSwing.Direction.RIGHT
+          );
+          setTimeout(() => {
+            [1].pop();
+          }, 100);
+          break;
+      }
     }
   }
 };
@@ -70,21 +105,27 @@ export default {
 <template>
   <div class="site-container">
     <div>
-      <vue-swing @throwout="throwout" :config="config" ref="viewswing">
+      <vue-swing
+        @throwoutleft="answerNo"
+        @throwoutright="answerYes"
+        @throwoutup="answerNeutral"
+        :config="config"
+        ref="viewswing"
+      >
         <div
-          v-for="these in thesen"
-          :key="these.key"
+          v-for="thesis in election.theses"
+          :key="thesis.key"
           class="card"
-          :id="these.key"
-          v-show="!swiped.some((x) => x.thesis.key.toString() === these.key.toString())"
-          :ref="'card' + these.key"
+          :id="thesis.key"
+          v-show="!swiped.some((x) => x.thesis.key.toString() === thesis.key.toString())"
+          :ref="'card' + thesis.key"
         >
-          <div>These:</div>
-          <div>{{ these.these }}</div>
+          <div>thesis:</div>
+          <div>{{ thesis.thesis }}</div>
           <div style="display:flex;">
-            <div v-for="antwort in these.antworten" :key="antwort.key">
-              <div style="font-weight:bold;margin:10px;">{{ antwort.name }}</div>
-              <div>{{ antwort.antwort }}</div>
+            <div v-for="answer in thesis.answers" :key="answer.key">
+              <div style="font-weight:bold;margin:10px;">{{ answer.name }}</div>
+              <div>{{ answer.answer }}</div>
             </div>
           </div>
         </div>
