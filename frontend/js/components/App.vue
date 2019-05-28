@@ -59,3 +59,8 @@ export default {
     </div>
   </div>
 </template>
+<style>
+body {
+  background-color:#262626;
+}
+</style>

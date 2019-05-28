@@ -8,7 +8,18 @@ export default {
     return {
       config: {
         allowedDirections: [VueSwing.Direction.LEFT, VueSwing.Direction.RIGHT],
-        throwoutConfidence: 0.1
+        throwOutConfidence: (xOffset, yOffset, element) => {
+          let xConfidence = Math.min(
+            Math.abs(xOffset) / element.offsetWidth,
+            1
+          );
+          let yConfidence = Math.min(
+            Math.abs(yOffset) / element.offsetHeight,
+            1
+          );
+
+          return Math.min(Math.max(xConfidence, yConfidence) * 2, 1);
+        }
       },
       swiped: [],
       activeThesis: this.thesen[this.thesen.length - 1].key
@@ -34,7 +45,7 @@ export default {
 
     cardSwiped(thesis, answer) {
       this.swiped.push({
-        key: thesis.key,
+        thesis: thesis,
         result: answer
       });
 
@@ -42,6 +53,8 @@ export default {
         this.swiped.length < this.thesen.length
           ? this.thesen[this.thesen.length - 1 - this.swiped.length].key
           : null;
+
+      if (this.swiped.length === this.thesen.length) console.log(this.swiped);
     },
 
     buttonClicked(answer) {
@@ -63,7 +76,7 @@ export default {
           :key="these.key"
           class="card"
           :id="these.key"
-          v-show="!swiped.some((x) => x.key.toString() === these.key.toString())"
+          v-show="!swiped.some((x) => x.thesis.key.toString() === these.key.toString())"
           :ref="'card' + these.key"
         >
           <div>These:</div>
