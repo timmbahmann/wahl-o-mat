@@ -84,6 +84,7 @@ export default {
 <template>
   <div class="site-container">
     <div>
+      <div style="text-align:center;margin:2rem;font-size:25px;color:#fff;">{{election.name}}</div>
       <vue-swing
         @throwoutleft="answerNo"
         @throwoutright="answerYes"
@@ -98,14 +99,13 @@ export default {
           :id="thesis.key"
           v-show="!swiped.some((x) => x.thesis.key.toString() === thesis.key.toString())"
           :ref="'card' + thesis.key"
+          :style="'filter' + thesis.key === activeThesis.key ? 'none' : 'blur(2px)'"
         >
-          <div>thesis:</div>
-          <div>{{ thesis.thesis }}</div>
-          <div style="display:flex;">
-            <div v-for="answer in thesis.answers" :key="answer.key">
-              <div style="font-weight:bold;margin:10px;">{{ answer.name }}</div>
-              <div>{{ answer.answer }}</div>
-            </div>
+          <div class="card-content">
+            <div style="font-weight:bold;">{{ thesis.thesis }}</div>
+            <div
+              style="margin:10px;color:#666;"
+            >Frage {{swiped.length+1}} von {{election.theses.length}}</div>
           </div>
         </div>
       </vue-swing>
@@ -149,9 +149,14 @@ export default {
   justify-content: center;
   left: calc(50% - 40%);
   position: absolute;
-  top: calc(50% - 40%);
+  top: calc(50% - 40% + 50px);
   width: 80%;
   flex-direction: column;
+  text-align: center;
+}
+
+.card-content {
+  margin: 2rem;
 }
 
 .button-container {
@@ -160,7 +165,7 @@ export default {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: calc(50%);
+  top: calc(55% + 50px);
   width: 100%;
 }
 
@@ -186,8 +191,5 @@ export default {
 
 .site-container {
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
 }
 </style>

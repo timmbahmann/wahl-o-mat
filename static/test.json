@@ -69,7 +69,7 @@
       ]
     }, {
       "key": 5,
-      "thesis": "1337 Test Foo Bar",
+      "thesis": "Mehr Arbeitsräume für Mathematiker",
       "answers": [{
           "name": "Freitagsrunde",
           "answer": "nein"
@@ -85,7 +85,7 @@
       ]
     }, {
       "key": 6,
-      "thesis": "Das ist eine ziemlich lange These zum Testen, sie ist deshalb ein bisschen länger",
+      "thesis": "Schmeißt die Mathematiker raus",
       "answers": [{
           "name": "Freitagsrunde",
           "answer": "nein"
@@ -101,7 +101,7 @@
       ]
     }, {
       "key": 7,
-      "thesis": "Diese hier ist dafür wieder ein bisschen kürzer :)",
+      "thesis": "Soll Mathe grundsätzlich abgeschafft werden?",
       "answers": [{
           "name": "Freitagsrunde",
           "answer": "nein"

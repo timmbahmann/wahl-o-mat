@@ -32,20 +32,22 @@ export default {
 <template>
   <div>
     <div>
-      <div>
-        <button @click="switchPage('landingPage')">Startseite</button>
-        <button @click="switchPage('wahlomat')">Thesenansicht</button>
-        <button @click="switchPage('resultPage')">Ergebnisseite</button>
-      </div>
       <LandingPage v-if="displayedComponent === 'landingPage'"></LandingPage>
       <Wahlomat v-else-if="displayedComponent === 'wahlomat'" :election="election"></Wahlomat>
       <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
     </div>
+     <div>
+        <button @click="switchPage('landingPage')">Startseite</button>
+        <button @click="switchPage('wahlomat')">Thesenansicht</button>
+        <button @click="switchPage('resultPage')">Ergebnisseite</button>
+      </div>
   </div>
 </template>
 <style>
 body {
   background-color: #262626;
+  margin: 0;
+  font-family: Helvetica, sans-serif;
 }
 
 .yes {
