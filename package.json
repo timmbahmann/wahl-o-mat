@@ -6,17 +6,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
-    
     "dev": "NODE_ENV=development nodemon ./index.js",
     "dev:win": "SET NODE_ENV=development & nodemon ./index.js",
-
     "frontend:win": "SET NODE_ENV=development & node node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "frontend:win:hot": "SET NODE_ENV=development & node node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "frontend:win:watch": "SET NODE_ENV=development & node node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --watch",
-
     "frontend": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "frontend:hot": "NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-
     "frontend:build": "node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "test": "mocha"
   },
@@ -37,7 +33,9 @@
     "fs": "0.0.1-security",
     "laravel-mix": "^4.0.15",
     "mongoose": "^5.5.7",
-    "vue": "^2.6.10"
+    "swing": "^3.1.4",
+    "vue": "^2.6.10",
+    "vue-swing": "0.0.10"
   },
   "devDependencies": {
     "browser-sync": "^2.26.5",

@@ -2,12 +2,14 @@
 import LandingPage from "./LandingPage";
 import Wahlomat from "./Wahlomat";
 import ResultPage from "./ResultPage";
+import VueSwing from "vue-swing";
 
 export default {
   components: {
     LandingPage,
     Wahlomat,
-    ResultPage
+    ResultPage,
+    VueSwing
   },
   data() {
     return {
@@ -15,6 +17,9 @@ export default {
       thesen: [],
       wahlname: "",
       gremium: "",
+      firstName: "",
+      age: 0,
+      config: {},
       displayedComponent: "landingPage"
     };
   },
@@ -34,14 +39,8 @@ export default {
       });
   },
   methods: {
-    showLandingPage() {
-      this.displayedComponent = "landingPage";
-    },
-    showWahlomat() {
-      this.displayedComponent = "wahlomat";
-    },
-    showResultPage() {
-      this.displayedComponent = "resultPage";
+    switchPage(page) {
+      this.displayedComponent = page;
     }
   }
 };
@@ -49,12 +48,19 @@ export default {
 <template>
   <div>
     <div>
-      <button @click="showLandingPage">Startseite</button>
-      <button @click="showWahlomat">Thesenansicht</button>
-      <button @click="showResultPage">Ergebnisseite</button>
+      <div>
+        <button @click="switchPage('landingPage')">Startseite</button>
+        <button @click="switchPage('wahlomat')">Thesenansicht</button>
+        <button @click="switchPage('resultPage')">Ergebnisseite</button>
+      </div>
+      <LandingPage v-if="displayedComponent === 'landingPage'"></LandingPage>
+      <Wahlomat v-else-if="displayedComponent === 'wahlomat'" :thesen="thesen"></Wahlomat>
+      <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
     </div>
-    <LandingPage v-if="displayedComponent === 'landingPage'"></LandingPage>
-    <Wahlomat v-else-if="displayedComponent === 'wahlomat'"></Wahlomat>
-    <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
   </div>
 </template>
+<style>
+body {
+  background-color:#262626;
+}
+</style>
