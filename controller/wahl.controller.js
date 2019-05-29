@@ -1,28 +1,13 @@
+/**
+ @module wahlcontroller
+*/
+
 let Wahl = require('../models/wahl.model')
-
-/**
- * @typedef {Object} Antwort one answer to one these
- * @property {String} name the name of the Liste
- * @property {'ja' | 'nein' | 'neutral'} antwort the answer to the these from the Liste
- */
-
-/**
- * @typedef {Object} These one these as described in wahl.model.js
- * @property {String} these the value of the these
- * @property {[Antwort]} antworten
- */
-
-/**
- * @typedef {Object} Wahl a Wahl object as described in wahl.model.js
- * @property {String} name the name of the wahl
- * @property {String} gremium the name of the wahl
- * @property {[These]} thesen an array of thesen
- */
 
 /**
  * Get a wahl from Database from its name
  * @param {String} wahlname the unique name of the wahl
- * @returns {Promise} a promise for the full **updated** wahl document
+ * @returns {Promise<WahlObject>} a promise for the full **updated** wahl document
  */
 
 async function readWahl (wahlname) {
@@ -34,9 +19,9 @@ async function readWahl (wahlname) {
 /**
  * Update only the fields specified in data
  *
- * @param wahlname wahlname the wahl name
- * @param data some **validated** fileds of a wahl object
- * @returns a promise for the **updated** full wahl document
+ * @param {String} wahlname wahlname the wahl name
+ * @param {WahlObject} data some **validated** fileds of a wahl object
+ * @returns {Promise<WahlObject>} a promise for the **updated** full wahl document
  */
 
 async function updateWahl (wahlname, data) {
@@ -57,8 +42,8 @@ async function updateWahl (wahlname, data) {
 /**
  * Update only the fileds specified in data
  *
- * @param wahlname the name of the wahl that shoud be deleted
- * @returns {Promise} a promise for `true` on success or a error message
+ * @param {String} wahlname the name of the wahl that shoud be deleted
+ * @returns {Promise<true>} a promise for `true` on success or a error message
  */
 
 async function deleteWahl (wahlname) {
@@ -82,8 +67,8 @@ async function deleteWahl (wahlname) {
 /**
  * Creates a new wahl
  *
- * @param {Wahl} data the **validated** wahl object
- * @returns {Promise<Wahl | Error>} a promise for the result of the database. This is the *raw* DB result
+ * @param {WahlObject} data the **validated** wahl object
+ * @returns {Promise<WahlObject>} a promise for the result of the database. This is the *raw* DB result
  */
 
 async function createWahl (data) {
@@ -106,3 +91,22 @@ module.exports.createWahl = createWahl
 module.exports.readWahl = readWahl
 module.exports.updateWahl = updateWahl
 module.exports.deleteWahl = deleteWahl
+
+/**
+ * @typedef {Object} Antwort one answer to one these
+ * @property {String} name the name of the Liste
+ * @property {'ja' | 'nein' | 'neutral'} antwort the answer to the these from the Liste
+ */
+
+/**
+ * @typedef {Object} These one these as described in wahl.model.js
+ * @property {String} these the value of the these
+ * @property {Antwort[]} antworten
+ */
+
+/**
+ * @typedef {Object} WahlObject a Wahl object as described in wahl.model.js
+ * @property {String} name the name of the wahl
+ * @property {String} gremium the name of the wahl
+ * @property {These[]} thesen an array of thesen
+ */
