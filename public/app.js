@@ -817,7 +817,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h1", [_vm._v("Wahl-o-Elle")]),
+      _c("h1", [_vm._v("Wahl-o-Mat")]),
       _vm._v(" "),
       _c("h2", [_vm._v(_vm._s(_vm.wahlname))]),
       _vm._v(" "),
@@ -13018,7 +13018,7 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! F:\uni\wahl-o-mat\frontend\js\app.js */"./frontend/js/app.js");
+module.exports = __webpack_require__(/*! /Users/paul1/Documents/Uni/Medieninformatik_SS19/Medienprojekt/wahl-o-mat/frontend/js/app.js */"./frontend/js/app.js");
 
 
 /***/ })

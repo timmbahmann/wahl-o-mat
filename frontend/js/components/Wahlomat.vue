@@ -1,8 +1,5 @@
 <script>
-import Steckbrief from "./Steckbrief";
-
 export default {
-  components: { Steckbrief },
   data() {
     return {};
   }
