@@ -16,19 +16,19 @@ let router = express.Router()
  * @returns {String}
  */
 
-router.get('/json', langmiddleware, getjsonroute)
+router.get('api/json', langmiddleware, getjsonroute)
 
 /**
  * Gets a wahl request, validates it inside the middleware and
  * saves the data in the DB
  */
 
-router.post('/wahl', langmiddleware, wahlmiddleware, createwahlroute)
+router.post('api/wahl', langmiddleware, wahlmiddleware, createwahlroute)
 
 /**
  * Get a wahl request and returns the corresponding wahl object from the database
  */
 
-router.get('/wahl/:wahlname', langmiddleware, getwahlroute)
+router.get('api/wahl/:wahlname', langmiddleware, getwahlroute)
 
 module.exports = router
