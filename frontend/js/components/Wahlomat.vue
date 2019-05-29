@@ -31,7 +31,8 @@ export default {
       },
       swiped: [],
       hidden: [],
-      activeThesis: this.election.theses[this.election.theses.length - 1]
+      activeThesis: this.election.theses[this.election.theses.length - 1],
+      currentSwipeDirection: null
     };
   },
   methods: {
@@ -84,12 +85,12 @@ export default {
                 "%)";
             }, 40 * 5 - i * 5);
           }
-        } else if (answer === "skip" || answer === "neutral") {
+        } else if (answer === "neutral" || answer === "skip") {
           for (let i = 40; i >= 0; i--) {
             setTimeout(() => {
               lastCardCache.style.top =
                 "calc(50% - 40%" +
-                (answer === "skip" ? " + " : " - ") +
+                (answer === "neutral" ? " + " : " - ") +
                 i * 1.5 +
                 "% + 50px)";
             }, 40 * 5 - i * 5);
@@ -144,12 +145,12 @@ export default {
               "%)";
           }, i * 5);
         }
-      } else if (answer === "skip" || answer === "neutral") {
+      } else if (answer === "neutral" || answer === "skip") {
         for (let i = 0; i < 40; i++) {
           setTimeout(() => {
             activeCardCache.style.top =
               "calc(50% - 40%" +
-              (answer === "skip" ? " + " : " - ") +
+              (answer === "neutral" ? " + " : " - ") +
               i * 1.5 +
               "% + 50px)";
           }, i * 5);
@@ -173,24 +174,39 @@ export default {
 
       let direction = this.getDirectionFromSymbol(payload.throwDirection);
 
-      if (direction === "right") {
-        draggedCard.style.background =
-          "hsl(83.6,25%," +
-          Math.min(43.9 + (1 - payload.throwOutConfidence) * 100, 70) +
-          "%)";
-      } else if (direction === "left") {
-        draggedCard.style.background =
-          "hsl(0,53.7%," +
-          Math.min(42.4 + (1 - payload.throwOutConfidence) * 100, 70) +
-          "%)";
-      } else {
-        draggedCard.style.background = "#fff";
+      if (payload.throwOutConfidence > 0.1) {
+        if (direction === "right") {
+          this.currentSwipeDirection = "YES";
+          draggedCard.style.background =
+            "hsl(83.6,25%," +
+            Math.min(43.9 + (1 - payload.throwOutConfidence) * 100, 70) +
+            "%)";
+        } else if (direction === "left") {
+          this.currentSwipeDirection = "NO";
+          draggedCard.style.background =
+            "hsl(0,53.7%," +
+            Math.min(42.4 + (1 - payload.throwOutConfidence) * 100, 70) +
+            "%)";
+        } else if (direction === "down") {
+          this.currentSwipeDirection = "NEUTRAL";
+          draggedCard.style.background =
+            "hsl(0,0%," +
+            Math.min(75.7 + (1 - payload.throwOutConfidence) * 100, 70) +
+            "%)";
+        } else {
+          this.currentSwipeDirection = "SKIP";
+          draggedCard.style.background =
+            "hsl(0,0%," +
+            Math.min(75.7 + (1 - payload.throwOutConfidence) * 100, 70) +
+            "%)";
+        }
       }
     },
     finishedDragging(payload) {
       let draggedCard = payload.target;
       draggedCard.style.opacity = 1;
       draggedCard.style.background = "#fff";
+      this.currentSwipeDirection = null;
     },
     getCardStyle(thesis) {
       if (this.election.theses.length > this.swiped.length) {
@@ -224,8 +240,8 @@ export default {
       <vue-swing
         @throwoutleft="answerNo"
         @throwoutright="answerYes"
-        @throwoutup="answerNeutral"
-        @throwoutdown="skip"
+        @throwoutup="skip"
+        @throwoutdown="answerNeutral"
         @throwoutend="throwOutAnimationEnded"
         @dragmove="dragging"
         @dragend="finishedDragging"
@@ -242,9 +258,10 @@ export default {
           :style="getCardStyle(thesis)"
         >
           <div class="card-content">
+            <div style="font-size:30px;font-weight:bold;color:#fff">{{currentSwipeDirection}}</div>
             <div style="font-weight:bold;">{{ thesis.thesis }}</div>
             <div
-              style="margin:10px;color:#666;"
+              style="margin:10px;color:#999;position:absolute;bottom:10px;right:20px;"
             >{{election.theses.length - election.theses.indexOf(thesis)}} / {{election.theses.length}}</div>
           </div>
         </div>

@@ -2476,6 +2476,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! path */ "./node_modules/path-browserify/index.js");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
+/* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(timers__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -2496,7 +2499,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       swiped: [],
       hidden: [],
-      activeThesis: this.election.theses[this.election.theses.length - 1]
+      activeThesis: this.election.theses[this.election.theses.length - 1],
+      currentSwipeDirection: null
     };
   },
   methods: {
@@ -2516,13 +2520,44 @@ __webpack_require__.r(__webpack_exports__);
       this.answer(payload.target.id, "skip");
     },
     goBack: function goBack() {
-      if (this.hidden.length > 0) {
-        var lastCard = this.$refs.viewswing.cards[this.election.theses.length - this.swiped.length]; // Make the last card visible again
+      var _this = this;
 
-        this.hidden.pop();
-        if (this.swiped[this.swiped.length - 1].result === "yes") lastCard.throwIn(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.RIGHT);else if (this.swiped[this.swiped.length - 1].result === "no") lastCard.throwIn(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.LEFT);else if (this.swiped[this.swiped.length - 1].result === "neutral") lastCard.throwIn(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.UP);else if (this.swiped[this.swiped.length - 1].result === "skip") lastCard.throwIn(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.DOWN);
-        this.swiped.pop();
-        this.activeThesis = this.swiped.length < this.election.theses.length ? this.election.theses[this.election.theses.length - 1 - this.swiped.length] : null;
+      if (this.hidden.length > 0) {
+        (function () {
+          // Make the last card visible again
+          _this.hidden.pop();
+
+          var previouslySelectedResult = _this.swiped.pop();
+
+          var lastCard = _this.$refs.vueswing.cards[_this.election.theses.length - _this.swiped.length];
+          var newActiveThesis = _this.swiped.length < _this.election.theses.length ? _this.election.theses[_this.election.theses.length - 1 - _this.swiped.length] : null;
+          var lastCardCache = _this.$refs["card" + newActiveThesis.key][0];
+          var answer = previouslySelectedResult.result;
+
+          if (answer === "yes" || answer === "no") {
+            var _loop = function _loop(i) {
+              Object(timers__WEBPACK_IMPORTED_MODULE_3__["setTimeout"])(function () {
+                lastCardCache.style.left = "calc(50% - 40%" + (answer === "yes" ? " + " : " - ") + i * 1.5 + "%)";
+              }, 40 * 5 - i * 5);
+            };
+
+            for (var i = 40; i >= 0; i--) {
+              _loop(i);
+            }
+          } else if (answer === "neutral" || answer === "skip") {
+            var _loop2 = function _loop2(i) {
+              Object(timers__WEBPACK_IMPORTED_MODULE_3__["setTimeout"])(function () {
+                lastCardCache.style.top = "calc(50% - 40%" + (answer === "neutral" ? " + " : " - ") + i * 1.5 + "% + 50px)";
+              }, 40 * 5 - i * 5);
+            };
+
+            for (var i = 40; i >= 0; i--) {
+              _loop2(i);
+            }
+          }
+
+          _this.activeThesis = newActiveThesis;
+        })();
       }
     },
     answer: function answer(thesisId, _answer) {
@@ -2533,21 +2568,54 @@ __webpack_require__.r(__webpack_exports__);
         thesis: thesis,
         result: _answer
       });
-      this.activeThesis = this.swiped.length < this.election.theses.length ? this.election.theses[this.election.theses.length - 1 - this.swiped.length] : null;
-    },
-    throwOutAnimationEnded: function throwOutAnimationEnded(payload) {
-      var thesis = this.election.theses.filter(function (x) {
-        return x.key.toString() === payload.target.id.toString();
-      })[0];
-      this.hidden.push(thesis.key); // If all cards have been answered, emit an event with the results as payload so that App.vue can handle page switching
+      this.activeThesis = this.swiped.length < this.election.theses.length ? this.election.theses[this.election.theses.length - 1 - this.swiped.length] : null; // If all cards have been answered, emit an event with the results as payload so that App.vue can handle page switching
 
       if (this.swiped.length === this.election.theses.length) {
         this.$emit("finished", this.swiped);
       }
     },
+    throwOutAnimationEnded: function throwOutAnimationEnded(payload) {
+      var thesis = this.election.theses.filter(function (x) {
+        return x.key.toString() === payload.target.id.toString();
+      })[0];
+      this.hidden.push(thesis.key);
+    },
     buttonClicked: function buttonClicked(answer) {
-      var target = this.$refs.viewswing.cards[this.election.theses.length - 1 - this.swiped.length];
-      if (answer === "yes") target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.RIGHT);else if (answer === "no") target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.LEFT);else if (answer === "neutral") target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.UP);else if (answer === "skip") target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.DOWN);
+      var _this2 = this;
+
+      var activeThesisCache = this.activeThesis;
+      var activeCardCache = this.$refs["card" + activeThesisCache.key][0];
+      this.answer(activeThesisCache.key, answer);
+
+      if (answer === "yes" || answer === "no") {
+        var _loop3 = function _loop3(i) {
+          Object(timers__WEBPACK_IMPORTED_MODULE_3__["setTimeout"])(function () {
+            activeCardCache.style.left = "calc(50% - 40%" + (answer === "yes" ? " + " : " - ") + i * 1.5 + "%)";
+          }, i * 5);
+        };
+
+        for (var i = 0; i < 40; i++) {
+          _loop3(i);
+        }
+      } else if (answer === "neutral" || answer === "skip") {
+        var _loop4 = function _loop4(i) {
+          Object(timers__WEBPACK_IMPORTED_MODULE_3__["setTimeout"])(function () {
+            activeCardCache.style.top = "calc(50% - 40%" + (answer === "neutral" ? " + " : " - ") + i * 1.5 + "% + 50px)";
+          }, i * 5);
+        };
+
+        for (var i = 0; i < 40; i++) {
+          _loop4(i);
+        }
+      }
+
+      Object(timers__WEBPACK_IMPORTED_MODULE_3__["setTimeout"])(function () {
+        // Hide the card by adding the thesis to the list of hidden theses
+        _this2.hidden.push(activeThesisCache.key); // If all cards have been answered, emit an event with the results as payload so that App.vue can handle page switching
+
+
+        if (_this2.swiped.length === _this2.election.theses.length) _this2.$emit("finished", _this2.swiped);
+      }, 40 * 5);
     },
     dragging: function dragging(payload) {
       var draggedCard = payload.target; // Let opacity decrease when the card gains throwOutConfidence but don't let it fall lower than 0.3
@@ -2555,18 +2623,27 @@ __webpack_require__.r(__webpack_exports__);
       draggedCard.style.opacity = Math.max(1 - payload.throwOutConfidence, 0.7);
       var direction = this.getDirectionFromSymbol(payload.throwDirection);
 
-      if (direction === "right") {
-        draggedCard.style.background = "hsl(83.6,25%," + Math.min(43.9 + (1 - payload.throwOutConfidence) * 100, 70) + "%)";
-      } else if (direction === "left") {
-        draggedCard.style.background = "hsl(0,53.7%," + Math.min(42.4 + (1 - payload.throwOutConfidence) * 100, 70) + "%)";
-      } else {
-        draggedCard.style.background = "#fff";
+      if (payload.throwOutConfidence > 0.1) {
+        if (direction === "right") {
+          this.currentSwipeDirection = "YES";
+          draggedCard.style.background = "hsl(83.6,25%," + Math.min(43.9 + (1 - payload.throwOutConfidence) * 100, 70) + "%)";
+        } else if (direction === "left") {
+          this.currentSwipeDirection = "NO";
+          draggedCard.style.background = "hsl(0,53.7%," + Math.min(42.4 + (1 - payload.throwOutConfidence) * 100, 70) + "%)";
+        } else if (direction === "down") {
+          this.currentSwipeDirection = "NEUTRAL";
+          draggedCard.style.background = "hsl(0,0%," + Math.min(75.7 + (1 - payload.throwOutConfidence) * 100, 70) + "%)";
+        } else {
+          this.currentSwipeDirection = "SKIP";
+          draggedCard.style.background = "hsl(0,0%," + Math.min(75.7 + (1 - payload.throwOutConfidence) * 100, 70) + "%)";
+        }
       }
     },
     finishedDragging: function finishedDragging(payload) {
       var draggedCard = payload.target;
       draggedCard.style.opacity = 1;
       draggedCard.style.background = "#fff";
+      this.currentSwipeDirection = null;
     },
     getCardStyle: function getCardStyle(thesis) {
       if (this.election.theses.length > this.swiped.length) {
@@ -10501,7 +10578,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.card[data-v-33f003de] {\r\n  align-items: center;\r\n  background-color: #fff;\r\n  border-radius: 20px;\r\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\r\n  display: flex;\r\n  height: 40%;\r\n  justify-content: center;\r\n  left: calc(50% - 40%);\r\n  position: absolute;\r\n  top: calc(50% - 40% + 50px);\r\n  width: 80%;\r\n  flex-direction: column;\r\n  text-align: center;\n}\n.card-content[data-v-33f003de] {\r\n  margin: 2rem;\n}\n.button-container[data-v-33f003de] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-content: center;\r\n  align-items: center;\r\n  justify-content: center;\r\n  position: absolute;\r\n  top: calc(60% + 50px);\r\n  width: 100%;\n}\n.circleButton[data-v-33f003de] {\r\n  cursor: pointer;\r\n  border: 0;\r\n  height: 3rem;\r\n  width: 3rem;\r\n  border-radius: 3rem;\r\n  margin: 1em;\r\n  transition: all 0.1s ease;\r\n  box-shadow: 0 0.75rem 30px 0 rgba(0, 0, 0, 0.4);\n}\n.button-container > button[data-v-33f003de]:hover {\r\n  box-shadow: 0 0.75rem 30px 0 rgba(0, 0, 0, 0.7);\n}\n.link-button[data-v-33f003de] {\r\n  text-decoration: underline;\r\n  color: #aaa;\r\n  cursor: pointer;\n}\n.site-container[data-v-33f003de] {\r\n  height: 100vh;\n}\r\n", ""]);
+exports.push([module.i, "\n.card[data-v-33f003de] {\r\n  align-items: center;\r\n  background-color: #fff;\r\n  border-radius: 20px;\r\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\r\n  display: flex;\r\n  height: 40%;\r\n  justify-content: center;\r\n  left: calc(50% - 40%);\r\n  position: absolute;\r\n  top: calc(50% - 40% + 50px);\r\n  width: 80%;\r\n  flex-direction: column;\r\n  text-align: center;\n}\n.card-content[data-v-33f003de] {\r\n  margin: 2rem;\n}\n.button-container[data-v-33f003de] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-content: center;\r\n  align-items: center;\r\n  justify-content: center;\r\n  position: absolute;\r\n  top: calc(60% + 50px);\r\n  width: 100%;\n}\n.circleButton[data-v-33f003de] {\r\n  cursor: pointer;\r\n  border: 0;\r\n  height: 4rem;\r\n  width: 4rem;\r\n  border-radius: 3rem;\r\n  margin: 1em;\r\n  transition: all 0.1s ease;\r\n  box-shadow: 0 0.75rem 30px 0 rgba(0, 0, 0, 0.4);\n}\n.button-container > button[data-v-33f003de]:hover {\r\n  box-shadow: 0 0.75rem 30px 0 rgba(0, 0, 0, 0.7);\n}\n.link-button[data-v-33f003de] {\r\n  text-decoration: underline;\r\n  color: #aaa;\r\n  cursor: pointer;\n}\n.site-container[data-v-33f003de] {\r\n  height: 100vh;\n}\r\n", ""]);
 
 // exports
 
@@ -15699,10 +15776,10 @@ utils.intFromLE = intFromLE;
 /*!********************************************!*\
   !*** ./node_modules/elliptic/package.json ***!
   \********************************************/
-/*! exports provided: _args, _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _spec, _where, author, bugs, dependencies, description, devDependencies, files, homepage, keywords, license, main, name, repository, scripts, version, default */
+/*! exports provided: _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _shasum, _spec, _where, author, bugs, bundleDependencies, dependencies, deprecated, description, devDependencies, files, homepage, keywords, license, main, name, repository, scripts, version, default */
 /***/ (function(module) {
 
-module.exports = {"_args":[["elliptic@6.4.1","F:\\uni\\wahl-o-mat"]],"_from":"elliptic@6.4.1","_id":"elliptic@6.4.1","_inBundle":false,"_integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.1","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.1","saveSpec":null,"fetchSpec":"6.4.1"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_spec":"6.4.1","_where":"F:\\uni\\wahl-o-mat","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"};
+module.exports = {"_from":"elliptic@^6.0.0","_id":"elliptic@6.4.1","_inBundle":false,"_integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"elliptic@^6.0.0","name":"elliptic","escapedName":"elliptic","rawSpec":"^6.0.0","saveSpec":null,"fetchSpec":"^6.0.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_shasum":"c2d0b7776911b86722c632c3c06c60f2f819939a","_spec":"elliptic@^6.0.0","_where":"C:\\Users\\leons\\Development\\uni\\wahl-o-mat\\node_modules\\browserify-sign","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"bundleDependencies":false,"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"deprecated":false,"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"};
 
 /***/ }),
 
@@ -47368,7 +47445,7 @@ var render = function() {
       "div",
       [
         _c(
-          "div",
+          "h1",
           {
             staticStyle: {
               "text-align": "center",
@@ -47377,19 +47454,19 @@ var render = function() {
               color: "#fff"
             }
           },
-          [_vm._v(_vm._s(_vm.election.name))]
+          [_vm._v(_vm._s(_vm.election.name.toUpperCase()))]
         ),
         _vm._v(" "),
         _c(
           "vue-swing",
           {
-            ref: "viewswing",
+            ref: "vueswing",
             attrs: { config: _vm.config },
             on: {
               throwoutleft: _vm.answerNo,
               throwoutright: _vm.answerYes,
-              throwoutup: _vm.answerNeutral,
-              throwoutdown: _vm.skip,
+              throwoutup: _vm.skip,
+              throwoutdown: _vm.answerNeutral,
               throwoutend: _vm.throwOutAnimationEnded,
               dragmove: _vm.dragging,
               dragend: _vm.finishedDragging
@@ -47419,21 +47496,40 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "card-content" }, [
+                  _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        "font-size": "30px",
+                        "font-weight": "bold",
+                        color: "#fff"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.currentSwipeDirection))]
+                  ),
+                  _vm._v(" "),
                   _c("div", { staticStyle: { "font-weight": "bold" } }, [
                     _vm._v(_vm._s(thesis.thesis))
                   ]),
                   _vm._v(" "),
                   _c(
                     "div",
-                    { staticStyle: { margin: "10px", color: "#666" } },
+                    {
+                      staticStyle: {
+                        margin: "10px",
+                        color: "#999",
+                        position: "absolute",
+                        bottom: "10px",
+                        right: "20px"
+                      }
+                    },
                     [
                       _vm._v(
-                        "Frage " +
-                          _vm._s(
-                            _vm.election.theses.length -
-                              _vm.election.theses.indexOf(thesis)
-                          ) +
-                          " von " +
+                        _vm._s(
+                          _vm.election.theses.length -
+                            _vm.election.theses.indexOf(thesis)
+                        ) +
+                          " / " +
                           _vm._s(_vm.election.theses.length)
                       )
                     ]
@@ -47484,7 +47580,7 @@ var render = function() {
           "button",
           {
             staticClass: "neutral circleButton",
-            staticStyle: { width: "2.5rem", height: "2.5rem" },
+            staticStyle: { width: "3rem", height: "3rem" },
             on: {
               click: function($event) {
                 return _vm.buttonClicked("neutral")
@@ -59810,7 +59906,7 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /mnt/f/uni/wahl-o-mat/frontend/js/app.js */"./frontend/js/app.js");
+module.exports = __webpack_require__(/*! /mnt/c/Users/leons/Development/uni/wahl-o-mat/frontend/js/app.js */"./frontend/js/app.js");
 
 
 /***/ }),
