@@ -1,6 +1,7 @@
 <script>
 import VueSwing from "vue-swing";
 import { constants } from "crypto";
+import { dirname } from 'path';
 
 export default {
   components: { VueSwing },
@@ -27,14 +28,19 @@ export default {
           return Math.min(Math.max(xConfidence, yConfidence) * 2, 1);
         }
       },
-      // minThrowOutDistance: 10000,
-      // maxThrowOutDistance: 10000,
       swiped: [],
       hidden: [],
       activeThesis: this.election.theses[this.election.theses.length - 1]
     };
   },
   methods: {
+    getDirectionFromSymbol(symbol) {
+      return String(symbol)
+        .replace("Symbol", "")
+        .replace("(", "")
+        .replace(")", "")
+        .toLowerCase();
+    },
     answerYes(payload) {
       this.answer(payload.target.id, "yes");
     },
@@ -48,30 +54,32 @@ export default {
       this.answer(payload.target.id, "skip");
     },
     goBack() {
-      let lastCard = this.$refs.viewswing.cards[
-        this.election.theses.length - this.swiped.length
-      ];
+      if (this.hidden.length > 0) {
+        let lastCard = this.$refs.viewswing.cards[
+          this.election.theses.length - this.swiped.length
+        ];
 
-      // Make the last card visible again
-      this.hidden.pop();
+        // Make the last card visible again
+        this.hidden.pop();
 
-      if (this.swiped[this.swiped.length - 1].result === "yes")
-        lastCard.throwIn(0, 0, VueSwing.Direction.RIGHT);
-      else if (this.swiped[this.swiped.length - 1].result === "no")
-        lastCard.throwIn(0, 0, VueSwing.Direction.LEFT);
-      else if (this.swiped[this.swiped.length - 1].result === "neutral")
-        lastCard.throwIn(0, 0, VueSwing.Direction.UP);
-      else if (this.swiped[this.swiped.length - 1].result === "skip")
-        lastCard.throwIn(0, 0, VueSwing.Direction.DOWN);
+        if (this.swiped[this.swiped.length - 1].result === "yes")
+          lastCard.throwIn(0, 0, VueSwing.Direction.RIGHT);
+        else if (this.swiped[this.swiped.length - 1].result === "no")
+          lastCard.throwIn(0, 0, VueSwing.Direction.LEFT);
+        else if (this.swiped[this.swiped.length - 1].result === "neutral")
+          lastCard.throwIn(0, 0, VueSwing.Direction.UP);
+        else if (this.swiped[this.swiped.length - 1].result === "skip")
+          lastCard.throwIn(0, 0, VueSwing.Direction.DOWN);
 
-      this.swiped.pop();
+        this.swiped.pop();
 
-      this.activeThesis =
-        this.swiped.length < this.election.theses.length
-          ? this.election.theses[
-              this.election.theses.length - 1 - this.swiped.length
-            ]
-          : null;
+        this.activeThesis =
+          this.swiped.length < this.election.theses.length
+            ? this.election.theses[
+                this.election.theses.length - 1 - this.swiped.length
+              ]
+            : null;
+      }
     },
     answer(thesisId, answer) {
       let thesis = this.election.theses.filter(
@@ -115,10 +123,51 @@ export default {
         target.throwOut(0, 0, VueSwing.Direction.DOWN);
     },
     dragging(payload) {
-      payload.target.style.opacity = 1.4 - payload.throwOutConfidence;
+      let draggedCard = payload.target;
+
+      // Let opacity decrease when the card gains throwOutConfidence but don't let it fall lower than 0.3
+      draggedCard.style.opacity = Math.max(1 - payload.throwOutConfidence, 0.7);
+
+      let direction = this.getDirectionFromSymbol(payload.throwDirection);
+
+      if (direction === "right") {
+        draggedCard.style.background =
+          "hsl(83.6,25%," +
+          Math.min(43.9 + (1 - payload.throwOutConfidence) * 100, 70) +
+          "%)";
+      } else if (direction === "left") {
+        draggedCard.style.background =
+          "hsl(0,53.7%," +
+          Math.min(42.4 + (1 - payload.throwOutConfidence) * 100, 70) +
+          "%)";
+      } else {
+        draggedCard.style.background = "#fff";
+      }
     },
     finishedDragging(payload) {
-      payload.target.style.opacity = 1;
+      let draggedCard = payload.target;
+      draggedCard.style.opacity = 1;
+      draggedCard.style.background = "#fff";
+    },
+    getCardStyle(thesis) {
+      if (this.election.theses.length > this.swiped.length) {
+        let thesisId = thesis.key;
+        let test =
+          this.election.theses.length - this.election.theses.indexOf(thesis);
+        let distanceFromActiveThesis =
+          this.election.theses.indexOf(this.activeThesis) -
+          this.election.theses.indexOf(thesis);
+        let opacity = 1;
+
+        return {
+          filter: thesisId === this.activeThesis.key ? "none" : "blur(1px)",
+          height: 43 + distanceFromActiveThesis + "%",
+          opacity:
+            distanceFromActiveThesis <= 3
+              ? 1 - distanceFromActiveThesis * 0.3
+              : 0
+        };
+      }
     }
   }
 };
@@ -145,6 +194,7 @@ export default {
           :id="thesis.key"
           v-show="!hidden.some((x) => x.toString() === thesis.key.toString())"
           :ref="'card' + thesis.key"
+          :style="getCardStyle(thesis)"
         >
           <div class="card-content">
             <div style="font-weight:bold;">{{ thesis.thesis }}</div>
@@ -168,7 +218,7 @@ export default {
         <button
           @click="buttonClicked('neutral')"
           class="neutral circleButton"
-          style="width:2.5rem;height:2.5rem;"
+          style="width:3rem;height:3rem;"
         >
           <svg style="width:24px;height:24px" viewBox="0 0 24 24">
             <path
@@ -219,15 +269,15 @@ export default {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: calc(55% + 50px);
+  top: calc(60% + 50px);
   width: 100%;
 }
 
 .circleButton {
   cursor: pointer;
   border: 0;
-  height: 3rem;
-  width: 3rem;
+  height: 4rem;
+  width: 4rem;
   border-radius: 3rem;
   margin: 1em;
   transition: all 0.1s ease;
@@ -242,11 +292,6 @@ export default {
   text-decoration: underline;
   color: #aaa;
   cursor: pointer;
-}
-
-.card-stack-container {
-  height: 50%;
-  max-height: 500px;
 }
 
 .site-container {
