@@ -1,7 +1,8 @@
 <script>
 import VueSwing from "vue-swing";
 import { constants } from "crypto";
-import { dirname } from 'path';
+import { dirname } from "path";
+import { setTimeout } from "timers";
 
 export default {
   components: { VueSwing },
@@ -55,30 +56,47 @@ export default {
     },
     goBack() {
       if (this.hidden.length > 0) {
-        let lastCard = this.$refs.viewswing.cards[
+        // Make the last card visible again
+        this.hidden.pop();
+        let previouslySelectedResult = this.swiped.pop();
+
+        let lastCard = this.$refs.vueswing.cards[
           this.election.theses.length - this.swiped.length
         ];
 
-        // Make the last card visible again
-        this.hidden.pop();
-
-        if (this.swiped[this.swiped.length - 1].result === "yes")
-          lastCard.throwIn(0, 0, VueSwing.Direction.RIGHT);
-        else if (this.swiped[this.swiped.length - 1].result === "no")
-          lastCard.throwIn(0, 0, VueSwing.Direction.LEFT);
-        else if (this.swiped[this.swiped.length - 1].result === "neutral")
-          lastCard.throwIn(0, 0, VueSwing.Direction.UP);
-        else if (this.swiped[this.swiped.length - 1].result === "skip")
-          lastCard.throwIn(0, 0, VueSwing.Direction.DOWN);
-
-        this.swiped.pop();
-
-        this.activeThesis =
+        let newActiveThesis =
           this.swiped.length < this.election.theses.length
             ? this.election.theses[
                 this.election.theses.length - 1 - this.swiped.length
               ]
             : null;
+
+        let lastCardCache = this.$refs["card" + newActiveThesis.key][0];
+        let answer = previouslySelectedResult.result;
+
+        if (answer === "yes" || answer === "no") {
+          for (let i = 40; i >= 0; i--) {
+            setTimeout(() => {
+              lastCardCache.style.left =
+                "calc(50% - 40%" +
+                (answer === "yes" ? " + " : " - ") +
+                i * 1.5 +
+                "%)";
+            }, 40 * 5 - i * 5);
+          }
+        } else if (answer === "skip" || answer === "neutral") {
+          for (let i = 40; i >= 0; i--) {
+            setTimeout(() => {
+              lastCardCache.style.top =
+                "calc(50% - 40%" +
+                (answer === "skip" ? " + " : " - ") +
+                i * 1.5 +
+                "% + 50px)";
+            }, 40 * 5 - i * 5);
+          }
+        }
+
+        this.activeThesis = newActiveThesis;
       }
     },
     answer(thesisId, answer) {
@@ -97,6 +115,11 @@ export default {
               this.election.theses.length - 1 - this.swiped.length
             ]
           : null;
+
+      // If all cards have been answered, emit an event with the results as payload so that App.vue can handle page switching
+      if (this.swiped.length === this.election.theses.length) {
+        this.$emit("finished", this.swiped);
+      }
     },
     throwOutAnimationEnded(payload) {
       let thesis = this.election.theses.filter(
@@ -104,23 +127,43 @@ export default {
       )[0];
 
       this.hidden.push(thesis.key);
-
-      // If all cards have been answered, emit an event with the results as payload so that App.vue can handle page switching
-      if (this.swiped.length === this.election.theses.length) {
-        this.$emit("finished", this.swiped);
-      }
     },
     buttonClicked(answer) {
-      let target = this.$refs.viewswing.cards[
-        this.election.theses.length - 1 - this.swiped.length
-      ];
+      let activeThesisCache = this.activeThesis;
+      let activeCardCache = this.$refs["card" + activeThesisCache.key][0];
 
-      if (answer === "yes") target.throwOut(0, 0, VueSwing.Direction.RIGHT);
-      else if (answer === "no") target.throwOut(0, 0, VueSwing.Direction.LEFT);
-      else if (answer === "neutral")
-        target.throwOut(0, 0, VueSwing.Direction.UP);
-      else if (answer === "skip")
-        target.throwOut(0, 0, VueSwing.Direction.DOWN);
+      this.answer(activeThesisCache.key, answer);
+
+      if (answer === "yes" || answer === "no") {
+        for (let i = 0; i < 40; i++) {
+          setTimeout(() => {
+            activeCardCache.style.left =
+              "calc(50% - 40%" +
+              (answer === "yes" ? " + " : " - ") +
+              i * 1.5 +
+              "%)";
+          }, i * 5);
+        }
+      } else if (answer === "skip" || answer === "neutral") {
+        for (let i = 0; i < 40; i++) {
+          setTimeout(() => {
+            activeCardCache.style.top =
+              "calc(50% - 40%" +
+              (answer === "skip" ? " + " : " - ") +
+              i * 1.5 +
+              "% + 50px)";
+          }, i * 5);
+        }
+      }
+
+      setTimeout(() => {
+        // Hide the card by adding the thesis to the list of hidden theses
+        this.hidden.push(activeThesisCache.key);
+
+        // If all cards have been answered, emit an event with the results as payload so that App.vue can handle page switching
+        if (this.swiped.length === this.election.theses.length)
+          this.$emit("finished", this.swiped);
+      }, 40 * 5);
     },
     dragging(payload) {
       let draggedCard = payload.target;
@@ -175,7 +218,9 @@ export default {
 <template>
   <div class="site-container">
     <div>
-      <div style="text-align:center;margin:2rem;font-size:25px;color:#fff;">{{election.name}}</div>
+      <h1
+        style="text-align:center;margin:2rem;font-size:25px;color:#fff;"
+      >{{election.name.toUpperCase()}}</h1>
       <vue-swing
         @throwoutleft="answerNo"
         @throwoutright="answerYes"
@@ -185,7 +230,7 @@ export default {
         @dragmove="dragging"
         @dragend="finishedDragging"
         :config="config"
-        ref="viewswing"
+        ref="vueswing"
       >
         <div
           v-for="thesis in election.theses"
@@ -200,7 +245,7 @@ export default {
             <div style="font-weight:bold;">{{ thesis.thesis }}</div>
             <div
               style="margin:10px;color:#666;"
-            >Frage {{election.theses.length - election.theses.indexOf(thesis)}} von {{election.theses.length}}</div>
+            >{{election.theses.length - election.theses.indexOf(thesis)}} / {{election.theses.length}}</div>
           </div>
         </div>
       </vue-swing>
