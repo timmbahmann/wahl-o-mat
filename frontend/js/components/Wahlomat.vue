@@ -1,5 +1,6 @@
 <script>
 import VueSwing from "vue-swing";
+import { constants } from "crypto";
 
 export default {
   components: { VueSwing },
@@ -46,7 +47,32 @@ export default {
     skip(payload) {
       this.answer(payload.target.id, "skip");
     },
-    goBack() {},
+    goBack() {
+      let lastCard = this.$refs.viewswing.cards[
+        this.election.theses.length - this.swiped.length
+      ];
+
+      // Make the last card visible again
+      this.hidden.pop();
+
+      if (this.swiped[this.swiped.length - 1].result === "yes")
+        lastCard.throwIn(0, 0, VueSwing.Direction.RIGHT);
+      else if (this.swiped[this.swiped.length - 1].result === "no")
+        lastCard.throwIn(0, 0, VueSwing.Direction.LEFT);
+      else if (this.swiped[this.swiped.length - 1].result === "neutral")
+        lastCard.throwIn(0, 0, VueSwing.Direction.UP);
+      else if (this.swiped[this.swiped.length - 1].result === "skip")
+        lastCard.throwIn(0, 0, VueSwing.Direction.DOWN);
+
+      this.swiped.pop();
+
+      this.activeThesis =
+        this.swiped.length < this.election.theses.length
+          ? this.election.theses[
+              this.election.theses.length - 1 - this.swiped.length
+            ]
+          : null;
+    },
     answer(thesisId, answer) {
       let thesis = this.election.theses.filter(
         x => x.key.toString() === thesisId.toString()
@@ -76,45 +102,23 @@ export default {
         this.$emit("finished", this.swiped);
       }
     },
-    goBack() {
-      let lastCard = this.$refs.viewswing.cards[
-        this.election.theses.length - this.swiped.length
-      ];
-
-      // Make the last card visible again
-      this.hidden.pop();
-
-      if (this.swiped[this.swiped.length - 1].result === "yes")
-        lastCard.throwIn(0, 0, VueSwing.Direction.RIGHT);
-      else if (this.swiped[this.swiped.length - 1].result === "no")
-        lastCard.throwIn(0, 0, VueSwing.Direction.LEFT);
-      else if (this.swiped[this.swiped.length - 1].result === "neutral")
-        lastCard.throwIn(0, 0, VueSwing.Direction.UP);
-      else if (this.swiped[this.swiped.length - 1].result === "skip")
-        lastCard.throwIn(0, 0, VueSwing.Direction.DOWN);
-
-      this.swiped.pop();
-
-      this.activeThesis =
-        this.swiped.length < this.election.theses.length
-          ? this.election.theses[
-              this.election.theses.length - 1 - this.swiped.length
-            ]
-          : null;
-    },
     buttonClicked(answer) {
       let target = this.$refs.viewswing.cards[
         this.election.theses.length - 1 - this.swiped.length
       ];
 
-      if (answer === "yes") 
-      target.throwOut(0, 0, VueSwing.Direction.RIGHT);
-      else if (answer === "no") 
-      target.throwOut(0, 0, VueSwing.Direction.LEFT);
+      if (answer === "yes") target.throwOut(0, 0, VueSwing.Direction.RIGHT);
+      else if (answer === "no") target.throwOut(0, 0, VueSwing.Direction.LEFT);
       else if (answer === "neutral")
         target.throwOut(0, 0, VueSwing.Direction.UP);
       else if (answer === "skip")
         target.throwOut(0, 0, VueSwing.Direction.DOWN);
+    },
+    dragging(payload) {
+      payload.target.style.opacity = 1.4 - payload.throwOutConfidence;
+    },
+    finishedDragging(payload) {
+      payload.target.style.opacity = 1;
     }
   }
 };
@@ -129,6 +133,8 @@ export default {
         @throwoutup="answerNeutral"
         @throwoutdown="skip"
         @throwoutend="throwOutAnimationEnded"
+        @dragmove="dragging"
+        @dragend="finishedDragging"
         :config="config"
         ref="viewswing"
       >

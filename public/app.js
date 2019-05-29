@@ -451,11 +451,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    // fetch("api/json", { headers: { "content-type": "application/json" } })
-    //   .then(response => response.json())
-    //   .then(election => {
-    //     this.election = election;
-    //   });
     this.election = {
       name: "Fakultätsratswahl WS 2019",
       panel: "Fakultätsrat",
@@ -613,6 +608,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_swing__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-swing */ "./node_modules/vue-swing/VueSwing.vue");
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -636,7 +635,7 @@ __webpack_require__.r(__webpack_exports__);
       activeThesis: this.election.theses[this.election.theses.length - 1]
     };
   },
-  methods: {
+  methods: (_methods = {
     answerYes: function answerYes(payload) {
       this.answer(payload.target.id, "yes");
     },
@@ -669,29 +668,18 @@ __webpack_require__.r(__webpack_exports__);
       if (this.swiped.length === this.election.theses.length) {
         this.$emit("finished", this.swiped);
       }
-    },
-    buttonClicked: function buttonClicked(answer) {
-      var target = this.$refs.viewswing.cards[this.election.theses.length - 1 - this.swiped.length];
-
-      switch (answer) {
-        case "no":
-          target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.LEFT);
-          break;
-
-        case "neutral":
-          target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.UP);
-          break;
-
-        case "yes":
-          target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.RIGHT);
-          break;
-
-        case "skip":
-          target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.DOWN);
-          break;
-      }
     }
-  }
+  }, _defineProperty(_methods, "goBack", function goBack() {
+    var lastCard = this.$refs.viewswing.cards[this.election.theses.length - this.swiped.length]; // Make the last card visible again
+
+    this.hidden.pop();
+    if (this.swiped[this.swiped.length - 1].result === "yes") lastCard.throwIn(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.RIGHT);else if (this.swiped[this.swiped.length - 1].result === "no") lastCard.throwIn(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.LEFT);else if (this.swiped[this.swiped.length - 1].result === "neutral") lastCard.throwIn(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.UP);else if (this.swiped[this.swiped.length - 1].result === "skip") lastCard.throwIn(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.DOWN);
+    this.swiped.pop();
+    this.activeThesis = this.swiped.length < this.election.theses.length ? this.election.theses[this.election.theses.length - 1 - this.swiped.length] : null;
+  }), _defineProperty(_methods, "buttonClicked", function buttonClicked(answer) {
+    var target = this.$refs.viewswing.cards[this.election.theses.length - 1 - this.swiped.length];
+    if (answer === "yes") target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.RIGHT);else if (answer === "no") target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.LEFT);else if (answer === "neutral") target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.UP);else if (answer === "skip") target.throwOut(0, 0, vue_swing__WEBPACK_IMPORTED_MODULE_0__["default"].Direction.DOWN);
+  }), _methods)
 });
 
 /***/ }),
@@ -24315,6 +24303,15 @@ var render = function() {
         {
           staticClass: "link-button",
           staticStyle: { margin: "15px" },
+          on: { click: _vm.goBack }
+        },
+        [_vm._v("Frage zurück")]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "link-button",
           on: {
             click: function($event) {
               return _vm.buttonClicked("skip")
