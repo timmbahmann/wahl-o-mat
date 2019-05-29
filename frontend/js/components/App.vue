@@ -2,45 +2,167 @@
 import LandingPage from "./LandingPage";
 import Wahlomat from "./Wahlomat";
 import ResultPage from "./ResultPage";
-import VueSwing from "vue-swing";
 
 export default {
   components: {
     LandingPage,
     Wahlomat,
-    ResultPage,
-    VueSwing
+    ResultPage
   },
   data() {
     return {
-      pagenum: 0,
-      thesen: [],
-      wahlname: "",
-      gremium: "",
-      firstName: "",
-      age: 0,
-      config: {},
-      displayedComponent: "landingPage"
+      election: {},
+      displayedComponent: "landingPage",
+      lastElectionResult: {}
     };
   },
-  computed: {
-    currThese() {
-      if (this.thesen[this.pagenum]) return this.thesen[this.pagenum].these;
-      else return "";
-    }
-  },
   created() {
-    fetch("api/json", { headers: { "content-type": "application/json" } })
-      .then(response => response.json())
-      .then(wahl => {
-        this.thesen.push(...wahl.thesen);
-        this.wahlname = wahl.name;
-        this.gremium = wahl.gremium;
-      });
+    // fetch("api/json", { headers: { "content-type": "application/json" } })
+    //   .then(response => response.json())
+    //   .then(election => {
+    //     this.election = election;
+    //   });
+    this.election = {
+      name: "Fakultätsratswahl WS 2019",
+      panel: "Fakultätsrat",
+      theses: [
+        {
+          key: 1,
+          thesis: "Alle Menschen sind Doof",
+          answers: [
+            {
+              name: "Freitagsrunde",
+              answer: "nein"
+            },
+            {
+              name: "EB301",
+              answer: "ja"
+            },
+            {
+              name: "AStA",
+              answer: "neutral"
+            }
+          ]
+        },
+        {
+          key: 2,
+          thesis: "Der Dekan muss weg",
+          answers: [
+            {
+              name: "Freitagsrunde",
+              answer: "ja"
+            },
+            {
+              name: "EB301",
+              answer: "ja"
+            },
+            {
+              name: "AStA",
+              answer: "neutral"
+            }
+          ]
+        },
+        {
+          key: 3,
+          thesis: "Leon for presidente",
+          answers: [
+            {
+              name: "Freitagsrunde",
+              answer: "nein"
+            },
+            {
+              name: "EB301",
+              answer: "ja"
+            },
+            {
+              name: "AStA",
+              answer: "neutral"
+            }
+          ]
+        },
+        {
+          key: 4,
+          thesis: "Mehr für Weniger",
+          answers: [
+            {
+              name: "Freitagsrunde",
+              answer: "nein"
+            },
+            {
+              name: "EB301",
+              answer: "ja"
+            },
+            {
+              name: "AStA",
+              answer: "neutral"
+            }
+          ]
+        },
+        {
+          key: 5,
+          thesis: "Mehr Arbeitsräume für Mathematiker",
+          answers: [
+            {
+              name: "Freitagsrunde",
+              answer: "nein"
+            },
+            {
+              name: "EB301",
+              answer: "ja"
+            },
+            {
+              name: "AStA",
+              answer: "neutral"
+            }
+          ]
+        },
+        {
+          key: 6,
+          thesis: "Schmeißt die Mathematiker raus",
+          answers: [
+            {
+              name: "Freitagsrunde",
+              answer: "nein"
+            },
+            {
+              name: "EB301",
+              answer: "ja"
+            },
+            {
+              name: "AStA",
+              answer: "neutral"
+            }
+          ]
+        },
+        {
+          key: 7,
+          thesis: "Soll Mathe grundsätzlich abgeschafft werden?",
+          answers: [
+            {
+              name: "Freitagsrunde",
+              answer: "nein"
+            },
+            {
+              name: "EB301",
+              answer: "ja"
+            },
+            {
+              name: "AStA",
+              answer: "neutral"
+            }
+          ]
+        }
+      ]
+    };
   },
   methods: {
     switchPage(page) {
       this.displayedComponent = page;
+    },
+    showResults(results) {
+      this.lastElectionResult = results;
+      console.log(this.lastElectionResult);
+      this.switchPage("resultPage");
     }
   }
 };
@@ -48,19 +170,37 @@ export default {
 <template>
   <div>
     <div>
-      <div>
-        <button @click="switchPage('landingPage')">Startseite</button>
-        <button @click="switchPage('wahlomat')">Thesenansicht</button>
-        <button @click="switchPage('resultPage')">Ergebnisseite</button>
-      </div>
       <LandingPage v-if="displayedComponent === 'landingPage'"></LandingPage>
-      <Wahlomat v-else-if="displayedComponent === 'wahlomat'" :thesen="thesen"></Wahlomat>
+      <Wahlomat
+        v-else-if="displayedComponent === 'wahlomat'"
+        :election="election"
+        @finished="showResults"
+      ></Wahlomat>
       <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
+    </div>
+    <div>
+      <button @click="switchPage('landingPage')">Startseite</button>
+      <button @click="switchPage('wahlomat')">Thesenansicht</button>
+      <button @click="switchPage('resultPage')">Ergebnisseite</button>
     </div>
   </div>
 </template>
 <style>
 body {
-  background-color:#262626;
+  background-color: #262626;
+  margin: 0;
+  font-family: Helvetica, sans-serif;
+}
+
+.yes {
+  background: linear-gradient(135deg, #768c54 0, #4e5c37);
+}
+
+.neutral {
+  background: linear-gradient(135deg, #c1c1c1 0, #9b9b9b);
+}
+
+.no {
+  background: linear-gradient(135deg, #a63232 0, #6b2020);
 }
 </style>

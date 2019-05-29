@@ -1,118 +1,118 @@
 {
   "name": "Fakultätsratswahl WS 2019",
-  "gremium": "Fakultätsrat",
-  "thesen": [{
+  "panel": "Fakultätsrat",
+  "theses": [{
       "key": 1,
-      "these": "Alle Menschen sind Doof",
-      "antworten": [{
+      "thesis": "Alle Menschen sind Doof",
+      "answers": [{
           "name": "Freitagsrunde",
-          "antwort": "nein"
+          "answer": "nein"
         },
         {
           "name": "EB301",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "AStA",
-          "antwort": "neutral"
+          "answer": "neutral"
         }
       ]
     },
     {
       "key": 2,
-      "these": "Der Dekan muss weg",
-      "antworten": [{
+      "thesis": "Der Dekan muss weg",
+      "answers": [{
           "name": "Freitagsrunde",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "EB301",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "AStA",
-          "antwort": "neutral"
+          "answer": "neutral"
         }
       ]
     },
     {
       "key": 3,
-      "these": "Leon for presidente",
-      "antworten": [{
+      "thesis": "Leon for presidente",
+      "answers": [{
           "name": "Freitagsrunde",
-          "antwort": "nein"
+          "answer": "nein"
         },
         {
           "name": "EB301",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "AStA",
-          "antwort": "neutral"
+          "answer": "neutral"
         }
       ]
     }, {
       "key": 4,
-      "these": "Mehr für Weniger",
-      "antworten": [{
+      "thesis": "Mehr für Weniger",
+      "answers": [{
           "name": "Freitagsrunde",
-          "antwort": "nein"
+          "answer": "nein"
         },
         {
           "name": "EB301",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "AStA",
-          "antwort": "neutral"
+          "answer": "neutral"
         }
       ]
     }, {
       "key": 5,
-      "these": "1337 Test Foo Bar",
-      "antworten": [{
+      "thesis": "Mehr Arbeitsräume für Mathematiker",
+      "answers": [{
           "name": "Freitagsrunde",
-          "antwort": "nein"
+          "answer": "nein"
         },
         {
           "name": "EB301",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "AStA",
-          "antwort": "neutral"
+          "answer": "neutral"
         }
       ]
     }, {
       "key": 6,
-      "these": "Das ist eine ziemlich lange These zum Testen, sie ist deshalb ein bisschen länger",
-      "antworten": [{
+      "thesis": "Schmeißt die Mathematiker raus",
+      "answers": [{
           "name": "Freitagsrunde",
-          "antwort": "nein"
+          "answer": "nein"
         },
         {
           "name": "EB301",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "AStA",
-          "antwort": "neutral"
+          "answer": "neutral"
         }
       ]
     }, {
       "key": 7,
-      "these": "Diese hier ist dafür wieder ein bisschen kürzer :)",
-      "antworten": [{
+      "thesis": "Soll Mathe grundsätzlich abgeschafft werden?",
+      "answers": [{
           "name": "Freitagsrunde",
-          "antwort": "nein"
+          "answer": "nein"
         },
         {
           "name": "EB301",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "AStA",
-          "antwort": "neutral"
+          "answer": "neutral"
         }
       ]
     }
