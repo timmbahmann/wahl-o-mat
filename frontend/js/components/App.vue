@@ -12,7 +12,8 @@ export default {
   data() {
     return {
       election: {},
-      displayedComponent: "landingPage"
+      displayedComponent: "landingPage",
+      lastElectionResult: {}
     };
   },
   created() {
@@ -25,6 +26,11 @@ export default {
   methods: {
     switchPage(page) {
       this.displayedComponent = page;
+    },
+    showResults(results) {
+      this.lastElectionResult = results;
+      console.log(this.lastElectionResult)
+      this.switchPage("resultPage");
     }
   }
 };
@@ -33,14 +39,18 @@ export default {
   <div>
     <div>
       <LandingPage v-if="displayedComponent === 'landingPage'"></LandingPage>
-      <Wahlomat v-else-if="displayedComponent === 'wahlomat'" :election="election"></Wahlomat>
+      <Wahlomat
+        v-else-if="displayedComponent === 'wahlomat'"
+        :election="election"
+        @finished="showResults"
+      ></Wahlomat>
       <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
     </div>
-     <div>
-        <button @click="switchPage('landingPage')">Startseite</button>
-        <button @click="switchPage('wahlomat')">Thesenansicht</button>
-        <button @click="switchPage('resultPage')">Ergebnisseite</button>
-      </div>
+    <div>
+      <button @click="switchPage('landingPage')">Startseite</button>
+      <button @click="switchPage('wahlomat')">Thesenansicht</button>
+      <button @click="switchPage('resultPage')">Ergebnisseite</button>
+    </div>
   </div>
 </template>
 <style>
