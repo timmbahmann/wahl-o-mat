@@ -1,7 +1,7 @@
 <script>
-import resultComponent from "./resultComponent";
+import ResultComponent from "./ResultComponent";
 export default {
-  components: { resultComponent },
+  components: { ResultComponent },
   name: "ResultPage",
   props : [ "results" ],
   data() {
@@ -24,7 +24,7 @@ export default {
   <div class="bodytext">
     <h1> {{ heading }} </h1>
     <div>
-      <div v-for="(result, index) in sorted(results)" 
+      <ResultComponent v-for="(result, index) in sorted(results)" 
       :key="index" :percentage="result.percentage" :name="result.name" :info="result.info" :isOpened="index == openedComponent"
       @open="openedComponent = index"/>
     </div>
