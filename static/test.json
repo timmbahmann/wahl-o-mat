@@ -1,38 +1,118 @@
 {
   "name": "Fakultätsratswahl WS 2019",
-  "gremium": "Fakultätsrat",
-  "thesen": [
-    {
-      "these": "Alle Menschen sind Doof",
-      "antworten": [
-        {
+  "panel": "Fakultätsrat",
+  "theses": [{
+      "key": 1,
+      "thesis": "Alle Menschen sind Doof",
+      "answers": [{
           "name": "Freitagsrunde",
-          "antwort": "nein"
+          "answer": "nein"
         },
         {
           "name": "EB301",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "AStA",
-          "antwort": "neutral"
+          "answer": "neutral"
         }
       ]
     },
     {
-      "these": "Der Dekan muss weg",
-      "antworten": [
-        {
+      "key": 2,
+      "thesis": "Der Dekan muss weg",
+      "answers": [{
           "name": "Freitagsrunde",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "EB301",
-          "antwort": "ja"
+          "answer": "ja"
         },
         {
           "name": "AStA",
-          "antwort": "neutral"
+          "answer": "neutral"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "thesis": "Leon for presidente",
+      "answers": [{
+          "name": "Freitagsrunde",
+          "answer": "nein"
+        },
+        {
+          "name": "EB301",
+          "answer": "ja"
+        },
+        {
+          "name": "AStA",
+          "answer": "neutral"
+        }
+      ]
+    }, {
+      "key": 4,
+      "thesis": "Mehr für Weniger",
+      "answers": [{
+          "name": "Freitagsrunde",
+          "answer": "nein"
+        },
+        {
+          "name": "EB301",
+          "answer": "ja"
+        },
+        {
+          "name": "AStA",
+          "answer": "neutral"
+        }
+      ]
+    }, {
+      "key": 5,
+      "thesis": "Mehr Arbeitsräume für Mathematiker",
+      "answers": [{
+          "name": "Freitagsrunde",
+          "answer": "nein"
+        },
+        {
+          "name": "EB301",
+          "answer": "ja"
+        },
+        {
+          "name": "AStA",
+          "answer": "neutral"
+        }
+      ]
+    }, {
+      "key": 6,
+      "thesis": "Schmeißt die Mathematiker raus",
+      "answers": [{
+          "name": "Freitagsrunde",
+          "answer": "nein"
+        },
+        {
+          "name": "EB301",
+          "answer": "ja"
+        },
+        {
+          "name": "AStA",
+          "answer": "neutral"
+        }
+      ]
+    }, {
+      "key": 7,
+      "thesis": "Soll Mathe grundsätzlich abgeschafft werden?",
+      "answers": [{
+          "name": "Freitagsrunde",
+          "answer": "nein"
+        },
+        {
+          "name": "EB301",
+          "answer": "ja"
+        },
+        {
+          "name": "AStA",
+          "answer": "neutral"
         }
       ]
     }

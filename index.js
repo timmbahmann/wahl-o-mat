@@ -43,9 +43,9 @@ app.use(bodyParser.json())
 app.use(require('./routes/index.route'))
 
 /**
- *  all files not handled by the router as static files inside the views folder
+ *  all files not handled by the router as static files inside the public folder
  */
-app.use(express.static(path.join(__dirname, 'views')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 /**
  *  start the server
