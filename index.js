@@ -2,14 +2,22 @@ let express = require('express')
 let path = require('path')
 let mongoose = require('mongoose')
 let bodyParser = require('body-parser')
+let passport = require('passport')
+let LocalStrategy = require('passport-local').Strategy
 
 const chalk = require('chalk')
+
+/* passport config */
+var User = require('./models/user.model.js')
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 /**
  * use validator on update
  */
 mongoose.set('runValidators', true)
-
+mongoose.set('useFindAndModify', false)
 /**
  *  connect to the database
  */

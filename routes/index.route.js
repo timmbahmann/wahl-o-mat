@@ -12,9 +12,9 @@ let getEveryWahlroute = require('./getwahl.route').getEveryWahl
 let updatewahlroute = require('./updatewahl.route')
 let deletewahlroute = require('./deletewahl.route')
 let createuserroute = require('./createuser.route')
-let getuserroute = require('./getuser.route').getuser
-let getEveryUserroute = require('./getuser.route').getEveryUser
-let updateuserroute = require('./updateuser.route')
+let getEveryUserroute = require('./getuser.route')
+let updateuserpasswordroute = require('./updateuser.route').password
+let updateuserroleroute = require('./updateuser.route').role
 let deleteuserroute = require('./deleteuser.route')
 
 let router = express.Router()
@@ -61,13 +61,7 @@ router.delete('/wahl/:wahlname', langmiddleware, deletewahlroute)
  * create a user
  */
 
-router.post('/user/:username', langmiddleware, createuserroute)
-
-/**
- * get a user
- */
-
-router.get('/user/:username', langmiddleware, getuserroute)
+router.post('/user', langmiddleware, createuserroute)
 
 /**
  * get all users
@@ -76,15 +70,21 @@ router.get('/user/:username', langmiddleware, getuserroute)
 router.get('/user', langmiddleware, getEveryUserroute)
 
 /**
- * Update a user
+ * Update a user password
  */
 
-router.put('/user/:username', langmiddleware, updateuserroute)
+router.put('/user/password', langmiddleware, updateuserpasswordroute)
 
 /**
- * delete a user
+ * Update a user role
  */
 
-router.delete('/user/:username', langmiddleware, deleteuserroute)
+router.put('/user/role', langmiddleware, updateuserroleroute)
+
+// /**
+//  * delete a user
+//  */
+
+router.delete('/user', langmiddleware, deleteuserroute)
 
 module.exports = router
