@@ -21,6 +21,7 @@ async function createUser (username, password, role) {
 }
 
 async function deleteUser (username) {
+  console.log('delete?')
   return new Promise((resolve, reject) => {
     User.deleteOne({ username: username })
       .then(query => {

@@ -4,6 +4,9 @@ let mongoose = require('mongoose')
 let bodyParser = require('body-parser')
 let passport = require('passport')
 let LocalStrategy = require('passport-local').Strategy
+let uuid = require('uuid/v4')
+let session = require('express-session')
+let FileStore = require('session-file-store')(session)
 
 const chalk = require('chalk')
 
@@ -39,6 +42,23 @@ mongoose
  */
 const app = express()
 let PORT = process.env.PORT || 3000
+
+app.use(
+  session({
+    genid: req => {
+      console.log('Inside session middleware genid function')
+      console.log(`Request object sessionID from client: ${req.sessionID}`)
+      return uuid() // use UUIDs for session IDs
+    },
+    store: new FileStore(),
+    secret: '79c0e1d879dd4404af030c0ca59b3516',
+    resave: false,
+    saveUninitialized: true
+  })
+)
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 /**
  *  middlewares used to get the POST parameters inside `req.body`

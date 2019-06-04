@@ -5,6 +5,9 @@
 let express = require('express')
 let wahlmiddleware = require('../middlewares/wahl.validate')
 let langmiddleware = require('../middlewares/getlang.middleware')
+let authorization = require('../middlewares/authorization.middleware')
+let auth = require('../middlewares/authentication.middleware')
+
 let createwahlroute = require('./createwahl.route')
 let getjsonroute = require('./getjson.route')
 let getwahlroute = require('./getwahl.route').getwahl
@@ -67,24 +70,32 @@ router.post('/user', langmiddleware, createuserroute)
  * get all users
  */
 
-router.get('/user', langmiddleware, getEveryUserroute)
+router.get('/user', auth, langmiddleware, getEveryUserroute)
 
 /**
  * Update a user password
  */
 
-router.put('/user/password', langmiddleware, updateuserpasswordroute)
+router.put(
+  '/user/password',
+  auth,
+  authorization,
+  langmiddleware,
+  updateuserpasswordroute
+)
 
 /**
  * Update a user role
  */
 
-router.put('/user/role', langmiddleware, updateuserroleroute)
+router.put('/user/role', auth, langmiddleware, updateuserroleroute)
 
-// /**
-//  * delete a user
-//  */
+/**
+ * delete a user
+ */
 
 router.delete('/user', langmiddleware, deleteuserroute)
+
+router.post('/login', authorization, (req, res, next) => res.json(req.json))
 
 module.exports = router
