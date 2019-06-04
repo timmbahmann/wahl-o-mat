@@ -1,10 +1,15 @@
+function isAdmin (role, userrole) {
+  return role === 'Admin' ? userrole === 'Admin' : true
+}
+
 let auth = role =>
   function (req, res, next) {
     if (
-      req.isAuthenticated() && role === 'Admin'
-        ? req.user.role === 'Admin'
-        : true
+      req.user !== undefined &&
+      req.isAuthenticated() &&
+      isAdmin(role, req.user.role)
     ) {
+      console.log('user', req.isAuthenticated())
       next()
     } else {
       if (req.isAuthenticated()) {
