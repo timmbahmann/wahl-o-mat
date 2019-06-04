@@ -19,6 +19,9 @@ async function updateRole (req, res, next) {
 }
 
 async function updateOwnPassword (req, res, next) {
+  if (!req.user) {
+    return next(new Error('User not found'))
+  }
   usercontroller
     .updatePassword(req.user.username, req.body.oldpw, req.body.newpw)
     .then(user => {
