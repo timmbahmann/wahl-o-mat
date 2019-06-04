@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
-    "dev": "NODE_ENV=development nodemon --ignore sessions/* ./index.js",
+    "dev": "NODE_ENV=development nodemon -e js ./index.js",
     "devwin": "SET NODE_ENV=development & nodemon ./index.js",
     "test": "mocha"
   },
