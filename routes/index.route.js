@@ -34,7 +34,13 @@ router.get('/json', langmiddleware, getjsonroute)
  * saves the data in the DB
  */
 
-router.post('/wahl/:wahlname', langmiddleware, wahlmiddleware, createwahlroute)
+router.post(
+  '/wahl/:wahlname',
+  auth('Editor'),
+  langmiddleware,
+  wahlmiddleware,
+  createwahlroute
+)
 
 /**
  * Get a wahl request and returns the corresponding wahl object from the database
@@ -52,25 +58,30 @@ router.get('/wahl', langmiddleware, getEveryWahlroute)
  * Update a wahl
  */
 
-router.put('/wahl/:wahlname', langmiddleware, updatewahlroute)
+router.put('/wahl/:wahlname', auth('Editor'), langmiddleware, updatewahlroute)
 
 /**
  * Delete a wahl
  */
 
-router.delete('/wahl/:wahlname', langmiddleware, deletewahlroute)
+router.delete(
+  '/wahl/:wahlname',
+  auth('Editor'),
+  langmiddleware,
+  deletewahlroute
+)
 
 /**
  * create a user
  */
 
-router.post('/user', langmiddleware, createuserroute)
+router.post('/user', auth('Admin'), langmiddleware, createuserroute)
 
 /**
  * get all users
  */
 
-router.get('/user', auth, langmiddleware, getEveryUserroute)
+router.get('/user', auth('Admin'), langmiddleware, getEveryUserroute)
 
 /**
  * Update a user password
@@ -78,7 +89,7 @@ router.get('/user', auth, langmiddleware, getEveryUserroute)
 
 router.put(
   '/user/password',
-  auth,
+  auth('Admin'),
   authorization,
   langmiddleware,
   updateuserpasswordroute
@@ -88,13 +99,13 @@ router.put(
  * Update a user role
  */
 
-router.put('/user/role', auth, langmiddleware, updateuserroleroute)
+router.put('/user/role', auth('Admin'), langmiddleware, updateuserroleroute)
 
 /**
  * delete a user
  */
 
-router.delete('/user', langmiddleware, deleteuserroute)
+router.delete('/user', auth('Admin'), langmiddleware, deleteuserroute)
 
 router.post('/login', authorization, (req, res, next) => res.json(req.json))
 
