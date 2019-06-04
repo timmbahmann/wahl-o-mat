@@ -1,7 +1,7 @@
 <script>
-import LandingPage from "./LandingPage";
-import Wahlomat from "./Wahlomat";
-import ResultPage from "./ResultPage";
+import LandingPage from "./pages/LandingPage";
+import Wahlomat from "./pages/Wahlomat";
+import ResultPage from "./pages/ResultPage";
 
 export default {
   components: {
@@ -22,126 +22,148 @@ export default {
       panel: "Fakultätsrat",
       theses: [
         {
-          key: 1,
+          _id: 1,
           thesis: "Alle Menschen sind Doof",
           answers: [
             {
+              _id: 11,
               name: "Freitagsrunde",
               answer: "nein"
             },
             {
+              _id: 12,
               name: "EB301",
               answer: "ja"
             },
             {
+              _id: 13,
               name: "AStA",
               answer: "neutral"
             }
           ]
         },
         {
-          key: 2,
+          _id: 2,
           thesis: "Der Dekan muss weg",
           answers: [
             {
+              _id: 21,
               name: "Freitagsrunde",
               answer: "ja"
             },
             {
+              _id: 21,
               name: "EB301",
               answer: "ja"
             },
             {
+              _id: 21,
               name: "AStA",
               answer: "neutral"
             }
           ]
         },
         {
-          key: 3,
+          _id: 3,
           thesis: "Leon for presidente",
           answers: [
             {
+              _id: 31,
               name: "Freitagsrunde",
               answer: "nein"
             },
             {
+              _id: 31,
               name: "EB301",
               answer: "ja"
             },
             {
+              _id: 31,
+
               name: "AStA",
               answer: "neutral"
             }
           ]
         },
         {
-          key: 4,
+          _id: 4,
           thesis: "Mehr für Weniger",
           answers: [
             {
+              _id: 41,
               name: "Freitagsrunde",
               answer: "nein"
             },
             {
+              _id: 41,
               name: "EB301",
               answer: "ja"
             },
             {
+              _id: 41,
               name: "AStA",
               answer: "neutral"
             }
           ]
         },
         {
-          key: 5,
+          _id: 5,
           thesis: "Mehr Arbeitsräume für Mathematiker",
           answers: [
             {
+              _id: 51,
               name: "Freitagsrunde",
               answer: "nein"
             },
             {
+              _id: 51,
               name: "EB301",
               answer: "ja"
             },
             {
+              _id: 51,
               name: "AStA",
               answer: "neutral"
             }
           ]
         },
         {
-          key: 6,
+          _id: 6,
           thesis: "Schmeißt die Mathematiker raus",
           answers: [
             {
+              _id: 61,
               name: "Freitagsrunde",
               answer: "nein"
             },
             {
+              _id: 61,
               name: "EB301",
               answer: "ja"
             },
             {
+              _id: 61,
               name: "AStA",
               answer: "neutral"
             }
           ]
         },
         {
-          key: 7,
+          _id: 7,
           thesis: "Soll Mathe grundsätzlich abgeschafft werden?",
           answers: [
             {
+              _id: 71,
               name: "Freitagsrunde",
               answer: "nein"
             },
             {
+              _id: 71,
               name: "EB301",
               answer: "ja"
             },
             {
+              _id: 71,
               name: "AStA",
               answer: "neutral"
             }
@@ -197,5 +219,12 @@ body {
 
 .no {
   background: linear-gradient(135deg, #a63232 0, #6b2020);
+}
+
+.page-headline {
+  text-align: center;
+  margin: 2rem;
+  font-size: 25px;
+  color: #fff;
 }
 </style>
