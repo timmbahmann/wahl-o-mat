@@ -19,6 +19,7 @@ let getEveryUserroute = require('./getuser.route')
 let updateuserpasswordroute = require('./updateuser.route').password
 let updateuserroleroute = require('./updateuser.route').role
 let deleteuserroute = require('./deleteuser.route')
+let updateownpasswordroute = require('./updateuser.route').ownpassword
 
 let router = express.Router()
 
@@ -90,10 +91,15 @@ router.get('/user', auth('Admin'), langmiddleware, getEveryUserroute)
 router.put(
   '/user/password',
   auth('Admin'),
-  authorization,
   langmiddleware,
   updateuserpasswordroute
 )
+
+/**
+ * Update own password
+ */
+
+router.put('/password', auth('Editor'), langmiddleware, updateownpasswordroute)
 
 /**
  * Update a user role

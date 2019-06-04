@@ -18,5 +18,15 @@ async function updateRole (req, res, next) {
     .catch(next)
 }
 
+async function updateOwnPassword (req, res, next) {
+  usercontroller
+    .updatePassword(req.user.username, req.body.oldpw, req.body.newpw)
+    .then(user => {
+      res.json({ success: true })
+    })
+    .catch(next)
+}
+
 module.exports.password = updatePassword
 module.exports.role = updateRole
+module.exports.ownpassword = updateOwnPassword
