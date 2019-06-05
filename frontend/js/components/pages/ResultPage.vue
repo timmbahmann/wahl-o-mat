@@ -1,5 +1,6 @@
 <script>
 import ResultComponent from "../elements/ResultComponent";
+
 export default {
   components: { ResultComponent },
   name: "ResultPage",
@@ -7,17 +8,15 @@ export default {
   data() {
     return {
       heading: "DEIN ERGEBNIS",
-      engagedComponent: 0
+      sortedResults: [],
+      openedComponent: 0
     };
   },
-  methods: {
-    sorted: function(arr) {
-      return arr.slice().sort(function(a, b) {
-        return b.percentage - a.percentage;
-      });
-    }
+  created() {
+    this.sortedResults = this.results.sort((a, b) => b.percentage - a.percentage);
   }
 };
+
 </script>
 
 <template>
@@ -25,12 +24,12 @@ export default {
     <h1>{{ heading }}</h1>
     <div>
       <ResultComponent
-        v-for="(result, index) in sorted(results)"
+        v-for="(result, index) in sortedResults"
         :key="index"
         :percentage="result.percentage"
         :name="result.name"
         :info="result.info"
-        :isOpened="index == openedComponent"
+        :isOpened="openedComponent === index"
         @open="openedComponent = index"
       />
     </div>

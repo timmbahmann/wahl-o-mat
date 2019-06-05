@@ -14,13 +14,13 @@ export default {
         <div
           style="display: inline-block; float: right; padding: 4px; color: #3e573a; font-family: Helvetica"
         >{{percentage+'%'}}</div>
-        <div :class="isOpened?'result-opened':'result'" v-bind:style="{width:percentage+'%'}">
+        <div :class="isOpened ? 'result-opened' : 'result'" v-bind:style="{width:percentage+'%'}">
           <div style="display: inline-block; color: #d9ceb0; font-family: Helvetica">{{name}}</div>
         </div>
       </div>
     </button>
 
-    <div :class="isOpened?'accordion-content-opened':'accordion-content'">
+    <div :class="isOpened ? 'accordion-content-opened' : 'accordion-content'">
       <p class="content">{{info}}</p>
     </div>
   </div>

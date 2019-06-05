@@ -13,6 +13,7 @@ import ThesisCard from "../elements/ThesisCard";
 // Import helper classes
 import ThesisStack from "../../helpers/ThesisStack";
 import * as SwipeStackHelper from "../../helpers/SwipeStackHelper";
+import * as ResultCalculator from "../../helpers/ResultCalculator"
 
 export default {
   components: {
@@ -63,7 +64,7 @@ export default {
       // If all cards have been answered, emit an event with the results as payload
       // so that App.vue can handle page switching to the results page
       if (this.thesisStack.Finished) {
-        this.$emit("finished", this.thesisStack.AnsweredTheses);
+        this.$emit("finished", ResultCalculator.getResults(this.election.theses));
       }
     },
     goBack() {
@@ -120,11 +121,6 @@ export default {
         // Use swing's built-in method to "officially" swipe out the card so that swing realizes it
         // This will also trigger the regular swipeout event of the direction corresponding to the coordinates
         swingElement.throwOut(answer.xCoordinate, answer.yCoordinate);
-
-        // If all cards have been answered, emit an event with the results as payload so that App.vue can handle page switching
-        if (this.thesisStack.Finished) {
-          this.$emit("finished", this.thesisStack.AnsweredTheses);
-        }
 
         // Reset the 'left' and 'top' properties of the card style to undefined because they were only needed for
         // the swipeout animation and would otherwise interfere with the throwin animation when going back a card
