@@ -178,7 +178,6 @@ export default {
     },
     showResults(results) {
       this.lastElectionResult = results;
-      console.log(this.lastElectionResult);
       this.switchPage("resultPage");
     }
   }
@@ -193,7 +192,7 @@ export default {
         :election="election"
         @finished="showResults"
       ></Wahlomat>
-      <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
+      <ResultPage v-else-if="displayedComponent === 'resultPage'" :results="lastElectionResult"></ResultPage>
     </div>
     <div>
       <button @click="switchPage('landingPage')">Startseite</button>
