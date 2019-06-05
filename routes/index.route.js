@@ -3,7 +3,6 @@
  */
 
 let express = require('express')
-let wahlmiddleware = require('../middlewares/wahl.validate')
 let langmiddleware = require('../middlewares/getlang.middleware')
 
 let getjsonroute = require('./getjson.route')
