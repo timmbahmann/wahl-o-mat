@@ -92,9 +92,9 @@ export function finishedDragging(card) {
 
 export function bringCardBack(card, fromAnswer) {
   let direction = fromAnswer === "yes" ? "right" :
-    answer === "no" ? "left" :
-    answer === "neutral" ? "down" :
-    answer === "skip" ? "up" :
+    fromAnswer === "no" ? "left" :
+    fromAnswer === "neutral" ? "down" :
+    fromAnswer === "skip" ? "up" :
     null;
 
   swipeInCard(card, direction);
