@@ -23,6 +23,8 @@ function swipeOutCard(card, direction) {
 }
 
 function swipeInCard(card, direction) {
+  card.style.transform = "none";
+
   if (direction === "right" || direction === "left") {
     for (let i = 40; i >= 0; i--) {
       setTimeout(() => {

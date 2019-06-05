@@ -58,6 +58,7 @@ export default {
         .toLowerCase();
     },
     answer(thesisId, answer) {
+      console.log(answer);
       this.thesisStack.answer(parseInt(thesisId), answer);
 
       // If all cards have been answered, emit an event with the results as payload
@@ -83,15 +84,23 @@ export default {
       let activeCard = this.$refs["card" + this.thesisStack.ActiveThesis._id][0]
         .$el;
 
+      let swingElement = this.$refs.vueswing.cards[
+        this.thesisStack.theses.length -
+          1 -
+          this.thesisStack.answeredTheses.length
+      ];
+
       SwipeStackHelper.throwCardOut(activeCard, answer);
 
       setTimeout(() => {
-        this.thesisStack.answerActiveThesis(answer);
+        // this.thesisStack.answerActiveThesis(answer);
 
         // If all cards have been answered, emit an event with the results as payload so that App.vue can handle page switching
         if (this.thesisStack.Finished) {
           this.$emit("finished", this.thesisStack.AnsweredTheses);
         }
+
+        swingElement.throwOut(90, 0);
       }, 40 * 5);
     },
     dragging(card, throwDirection, throwOutConfidence) {
