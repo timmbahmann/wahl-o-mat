@@ -58,7 +58,6 @@ export default {
         .toLowerCase();
     },
     answer(thesisId, answer) {
-      console.log(answer);
       this.thesisStack.answer(parseInt(thesisId), answer);
 
       // If all cards have been answered, emit an event with the results as payload
@@ -72,35 +71,64 @@ export default {
         let previousThesis = this.thesisStack.AnsweredTheses[
           this.thesisStack.answeredTheses.length - 1
         ];
+
         let previousCard = this.$refs["card" + previousThesis.thesis._id][0]
           .$el;
 
-        SwipeStackHelper.bringCardBack(previousCard, previousThesis.result);
+        let poppedThesis = this.thesisStack.revert();
 
-        this.thesisStack.revert();
+        let swingElement = this.$refs.vueswing.cards[
+          this.thesisStack.theses.length -
+            1 -
+            this.thesisStack.answeredTheses.length
+        ];
+
+        let resultObject = SwipeStackHelper.getResultObjectFromString(
+          poppedThesis.result
+        );
+
+        SwipeStackHelper.swipeInCard(
+          previousCard,
+          SwipeStackHelper.getResultObjectFromString(previousThesis.result)
+        );
+
+        swingElement.throwIn(
+          resultObject.xCoordinate,
+          resultObject.yCoordinate
+        );
       }
     },
-    buttonClicked(answer) {
+    buttonClicked(answerString) {
+      let answer = SwipeStackHelper.getResultObjectFromString(answerString);
+
+      // Get the actual div that makes up the card to change its style during the animation...
       let activeCard = this.$refs["card" + this.thesisStack.ActiveThesis._id][0]
         .$el;
 
-      let swingElement = this.$refs.vueswing.cards[
-        this.thesisStack.theses.length -
-          1 -
-          this.thesisStack.answeredTheses.length
-      ];
+      // ...and animate a swipe-out in the direction that fits the provided answer
+      SwipeStackHelper.swipeOutCard(activeCard, answer);
 
-      SwipeStackHelper.throwCardOut(activeCard, answer);
-
+      // The throwout animation will take 40 * 5 milliseconds, so we execute this after that time has passed
       setTimeout(() => {
-        // this.thesisStack.answerActiveThesis(answer);
+        // Get the element that represents the swiped card internally for the swing stack
+        let swingElement = this.$refs.vueswing.cards[
+          this.thesisStack.theses.length -
+            1 -
+            this.thesisStack.answeredTheses.length
+        ];
+
+        // Use swing's built-in method to "officially" swipe out the card so that swing realizes it
+        // This will also trigger the regular swipeout event of the direction corresponding to the coordinates
+        swingElement.throwOut(answer.xCoordinate, answer.yCoordinate);
 
         // If all cards have been answered, emit an event with the results as payload so that App.vue can handle page switching
         if (this.thesisStack.Finished) {
           this.$emit("finished", this.thesisStack.AnsweredTheses);
         }
 
-        swingElement.throwOut(90, 0);
+        // Reset the 'left' and 'top' properties of the card style to undefined because they were only needed for
+        // the swipeout animation and would otherwise interfere with the throwin animation when going back a card
+        SwipeStackHelper.resetCardPosition(activeCard);
       }, 40 * 5);
     },
     dragging(card, throwDirection, throwOutConfidence) {
