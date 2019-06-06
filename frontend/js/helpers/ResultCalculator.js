@@ -9,6 +9,7 @@ export function getResults(answeredTheses) {
 
   return gremien.map(x => ({
     name: x,
-    percentage: Math.floor(Math.random() * 80 + 20)
+    percentage: Math.floor(Math.random() * 80 + 20),
+    info: 'Morbi eleifend tellus ac leo sodales, dictum sagittis nisi tincidunt. Curabitur ut laoreet enim. Proin porta condimentum nulla ac tempor. Suspendisse vel ante diam. Fusce posuere, justo nec rutrum ultricies, enim urna fringilla dolor, id varius tellus libero semper nunc. Cras non dui elementum, suscipit quam et, vehicula justo. Pellentesque rutrum vestibulum dolor in finibus. Integer tempor scelerisque mollis. Ut eget venenatis nisl. Proin tristique ipsum eget felis condimentum feugiat.'
   }))
 }
