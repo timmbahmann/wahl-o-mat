@@ -28,7 +28,7 @@ let router = express.Router()
  * @returns {String}
  */
 
-router.get('/json', langmiddleware, getjsonroute)
+router.get('/api/json', langmiddleware, getjsonroute)
 
 /**
  * Gets a wahl request, validates it inside the middleware and

@@ -2,7 +2,7 @@
   "name": "Fakultätsratswahl WS 2019",
   "panel": "Fakultätsrat",
   "theses": [{
-      "key": 1,
+      "_id": 1,
       "thesis": "Alle Menschen sind Doof",
       "answers": [{
           "name": "Freitagsrunde",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "key": 2,
+      "_id": 2,
       "thesis": "Der Dekan muss weg",
       "answers": [{
           "name": "Freitagsrunde",
@@ -36,7 +36,7 @@
       ]
     },
     {
-      "key": 3,
+      "_id": 3,
       "thesis": "Leon for presidente",
       "answers": [{
           "name": "Freitagsrunde",
@@ -52,7 +52,7 @@
         }
       ]
     }, {
-      "key": 4,
+      "_id": 4,
       "thesis": "Mehr für Weniger",
       "answers": [{
           "name": "Freitagsrunde",
@@ -68,7 +68,7 @@
         }
       ]
     }, {
-      "key": 5,
+      "_id": 5,
       "thesis": "Mehr Arbeitsräume für Mathematiker",
       "answers": [{
           "name": "Freitagsrunde",
@@ -84,7 +84,7 @@
         }
       ]
     }, {
-      "key": 6,
+      "_id": 6,
       "thesis": "Schmeißt die Mathematiker raus",
       "answers": [{
           "name": "Freitagsrunde",
@@ -100,8 +100,24 @@
         }
       ]
     }, {
-      "key": 7,
+      "_id": 7,
       "thesis": "Soll Mathe grundsätzlich abgeschafft werden?",
+      "answers": [{
+          "name": "Freitagsrunde",
+          "answer": "nein"
+        },
+        {
+          "name": "EB301",
+          "answer": "ja"
+        },
+        {
+          "name": "AStA",
+          "answer": "neutral"
+        }
+      ]
+    }, {
+      "_id": 8,
+      "thesis": "Wer wohnt in ner Ananas ganz tief im Meer?",
       "answers": [{
           "name": "Freitagsrunde",
           "answer": "nein"
