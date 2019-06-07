@@ -17,10 +17,13 @@ export default {
     };
   },
   created() {
-    fetch("api/json", { headers: { "content-type": "application/json" } })
+    fetch("/api/json", {
+      headers: { "content-type": "application/json" }
+    })
       .then(response => response.json())
       .then(wahl => {
-        this.election = wahl
+        console.log(wahl);
+        this.election = wahl;
       });
   },
   methods: {
@@ -30,6 +33,9 @@ export default {
     showResults(results) {
       this.lastElectionResult = results;
       this.switchPage("resultPage");
+    },
+    startWahlomat() {
+      this.switchPage("wahlomat");
     }
   }
 };
@@ -37,7 +43,7 @@ export default {
 <template>
   <div>
     <div>
-      <LandingPage v-if="displayedComponent === 'landingPage'"></LandingPage>
+      <LandingPage v-if="displayedComponent === 'landingPage'" @wahlomatRequested="startWahlomat"></LandingPage>
       <Wahlomat
         v-else-if="displayedComponent === 'wahlomat'"
         :election="election"
