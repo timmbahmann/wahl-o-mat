@@ -16,9 +16,9 @@ export default {
 };
 </script>
 <template>
-  <div class="bodytext content">
+  <div class="content">
     <h1>Startseite</h1>
-    <p>
+    <p class="bodytext">
       Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
       sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
       aliquyam erat, sed diam voluptua. At vero eos et accusam et justo
@@ -36,15 +36,18 @@ export default {
   </div>
 </template>
 <style scoped>
+
 .bodytext {
-  font-family: Helvetica;
-  color: white;
+  margin: 10px;
+  color: #d9ceb0;
 }
 
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: white;
+  font: Helvetica;
 }
 a:link {
   color: white;
