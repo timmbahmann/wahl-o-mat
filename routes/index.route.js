@@ -85,6 +85,15 @@ router.post('/user', auth('Admin'), langmiddleware, createuserroute)
 router.get('/user', auth('Admin'), langmiddleware, getEveryUserroute)
 
 /**
+ * get me
+ */
+
+router.get('/user/me', auth('Editor'), langmiddleware, (req, res, next) => {
+  console.log('get me')
+  res.json(req.user)
+})
+
+/**
  * Update a user password
  */
 
