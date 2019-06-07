@@ -27,19 +27,22 @@ export default {
     </p>
 
     <LandingPageComponent gremium="fakrat" name="wahl 2019" @start="startWahlomat"/>
-    <p>
+    <div>
       <a href="http://lmgtfy.com/?q=Wo+kann+ich+w%C3%A4hlen%3F">Wo kann ich wählen?</a>
-    </p>
-    <p>
+    </div>
+    <div>
       <a href="http://lmgtfy.com/?q=Wann+kann+ich+w%C3%A4hlen%3F">Wann kann ich wählen?</a>
-    </p>
+    </div>
   </div>
 </template>
 <style scoped>
 
 .bodytext {
-  margin: 10px;
+  margin: 10px 20px 20px 20px;
   color: #d9ceb0;
+  text-align: center;
+  align-content: center;
+
 }
 
 .content {
@@ -49,15 +52,19 @@ export default {
   color: white;
   font: Helvetica;
 }
+
 a:link {
   color: white;
   text-decoration: none;
 }
+
 a:hover {
   text-decoration: underline;
 }
+
 a:visited {
   color: white;
 }
+
 </style>
 
