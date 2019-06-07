@@ -7,6 +7,9 @@ let LocalStrategy = require('passport-local').Strategy
 let uuid = require('uuid/v4')
 let session = require('express-session')
 let FileStore = require('session-file-store')(session)
+let fs = require('fs')
+let usercontroller = require('./controller/user.controller')
+let cors = require('cors')
 
 const chalk = require('chalk')
 
@@ -41,7 +44,9 @@ mongoose
  *  use express, use port 3000 if not specified
  */
 const app = express()
-let PORT = process.env.PORT || 3000
+let PORT = process.env.PORT || 3001
+
+app.use(cors())
 
 app.use(
   session({
@@ -108,6 +113,28 @@ function searchPort () {
         searchPort()
       }
     })
+}
+
+/**
+ * create a new root user if this is the first start
+ */
+
+let firststart = true
+
+try {
+  firststart = !fs.lstatSync('firststart.lock')
+} catch (err) {
+  firststart = true
+}
+
+if (firststart) {
+  try {
+    fs.writeFileSync('firststart.lock', '')
+    usercontroller.createUser('root@localhost', 'root', 'Admin')
+  } catch (err) {
+    console.error('Fehler beim schreiben der Lockdatei')
+    process.exit(1)
+  }
 }
 
 process.on('SIGINT', function () {

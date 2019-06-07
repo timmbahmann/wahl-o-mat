@@ -2,7 +2,7 @@ let usercontroller = require('../controller/user.controller')
 
 async function updatePassword (req, res, next) {
   usercontroller
-    .updatePassword(req.body.username, req.body.oldpw, req.body.newpw)
+    .updatePassword(req.body.username)
     .then(user => {
       res.json({ success: true })
     })
@@ -10,6 +10,7 @@ async function updatePassword (req, res, next) {
 }
 
 async function updateRole (req, res, next) {
+  console.log('role', req.body)
   usercontroller
     .updateRole(req.body.username, req.body.role)
     .then(user => {
@@ -19,8 +20,11 @@ async function updateRole (req, res, next) {
 }
 
 async function updateOwnPassword (req, res, next) {
+  if (!req.user) {
+    return next(new Error('User not found'))
+  }
   usercontroller
-    .updatePassword(req.user.username, req.body.oldpw, req.body.newpw)
+    .updateOwnPassword(req.user.username, req.body.oldpw, req.body.newpw)
     .then(user => {
       res.json({ success: true })
     })

@@ -28,7 +28,7 @@ async function updateWahl (wahlname, data) {
   // TODO
   // Hier ist Wahl das Mongoose Model, das in wahl.model.js definiert wird
   return new Promise((resolve, reject) =>
-    Wahl.updateOne({ name: wahlname }, data, {
+    Wahl.replaceOne({ name: wahlname }, data, {
       new: true,
       runValidators: true
     }).then(
@@ -75,6 +75,7 @@ async function deleteWahl (wahlname) {
  */
 
 async function createWahl (data) {
+  console.log('createWahl', data)
   return new Promise((resolve, reject) => {
     let newWahl = new Wahl(data)
     newWahl.save().then(
