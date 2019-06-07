@@ -2,14 +2,27 @@ let express = require('express')
 let path = require('path')
 let mongoose = require('mongoose')
 let bodyParser = require('body-parser')
+let passport = require('passport')
+let LocalStrategy = require('passport-local').Strategy
+let uuid = require('uuid/v4')
+let session = require('express-session')
+let FileStore = require('session-file-store')(session)
+let fs = require('fs')
+let usercontroller = require('./controller/user.controller')
 
 const chalk = require('chalk')
+
+/* passport config */
+var User = require('./models/user.model.js')
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 /**
  * use validator on update
  */
 mongoose.set('runValidators', true)
-
+mongoose.set('useFindAndModify', false)
 /**
  *  connect to the database
  */
@@ -31,6 +44,23 @@ mongoose
  */
 const app = express()
 let PORT = process.env.PORT || 3000
+
+app.use(
+  session({
+    genid: req => {
+      console.log('Inside session middleware genid function')
+      console.log(`Request object sessionID from client: ${req.sessionID}`)
+      return uuid() // use UUIDs for session IDs
+    },
+    store: new FileStore(),
+    secret: '79c0e1d879dd4404af030c0ca59b3516',
+    resave: false,
+    saveUninitialized: true
+  })
+)
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 /**
  *  middlewares used to get the POST parameters inside `req.body`
@@ -80,6 +110,28 @@ function searchPort () {
         searchPort()
       }
     })
+}
+
+/**
+ * create a new root user if this is the first start
+ */
+
+let firststart = true
+
+try {
+  firststart = !fs.lstatSync('firststart.lock')
+} catch (err) {
+  firststart = true
+}
+
+if (firststart) {
+  try {
+    fs.writeFileSync('firststart.lock', '')
+    usercontroller.createUser('root@localhost', 'root', 'Admin')
+  } catch (err) {
+    console.error('Fehler beim schreiben der Lockdatei')
+    process.exit(1)
+  }
 }
 
 process.on('SIGINT', function () {

@@ -1,7 +1,7 @@
 <script>
-import LandingPage from "./LandingPage";
-import Wahlomat from "./Wahlomat";
-import ResultPage from "./ResultPage";
+import LandingPage from "./pages/LandingPage";
+import Wahlomat from "./pages/Wahlomat";
+import ResultPage from "./pages/ResultPage";
 
 export default {
   components: {
@@ -19,8 +19,8 @@ export default {
   created() {
     fetch("api/json", { headers: { "content-type": "application/json" } })
       .then(response => response.json())
-      .then(election => {
-        this.election = election;
+      .then(wahl => {
+        this.election = wahl
       });
   },
   methods: {
@@ -29,7 +29,6 @@ export default {
     },
     showResults(results) {
       this.lastElectionResult = results;
-      console.log(this.lastElectionResult);
       this.switchPage("resultPage");
     }
   }
@@ -44,7 +43,7 @@ export default {
         :election="election"
         @finished="showResults"
       ></Wahlomat>
-      <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
+      <ResultPage v-else-if="displayedComponent === 'resultPage'" :results="lastElectionResult"></ResultPage>
     </div>
     <div>
       <button @click="switchPage('landingPage')">Startseite</button>
@@ -70,5 +69,12 @@ body {
 
 .no {
   background: linear-gradient(135deg, #a63232 0, #6b2020);
+}
+
+.page-headline {
+  text-align: center;
+  margin: 2rem;
+  font-size: 25px;
+  color: #fff;
 }
 </style>
