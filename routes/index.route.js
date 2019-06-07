@@ -47,7 +47,7 @@ router.post(
  * Get a wahl request and returns the corresponding wahl object from the database
  */
 
-router.get('api/wahl/:wahlname', langmiddleware, getwahlroute)
+router.get('/wahl/:wahlname', langmiddleware, getwahlroute)
 
 /**
  * get every wahl
