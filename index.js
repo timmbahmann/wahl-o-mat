@@ -129,8 +129,12 @@ try {
 
 if (firststart) {
   try {
-    fs.writeFileSync('firststart.lock', '')
-    usercontroller.createUser('root@localhost', 'root', 'Admin')
+    usercontroller.createUser('root@local.host', 'Admin').then(data => {
+      fs.writeFileSync(
+        'firststart.lock',
+        'username: root@local.host\n' + 'password: ' + data.password
+      )
+    })
   } catch (err) {
     console.error('Fehler beim schreiben der Lockdatei')
     process.exit(1)

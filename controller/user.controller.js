@@ -41,7 +41,14 @@ async function createUser (username, role) {
         reject(new Error(err))
       } else {
         sendPassword(pw, username)
-        resolve(account)
+        if (username === 'root@local.host') {
+          resolve({
+            account: account,
+            password: pw
+          })
+        } else {
+          resolve(account)
+        }
       }
     })
   )
