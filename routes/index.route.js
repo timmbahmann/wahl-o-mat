@@ -111,7 +111,7 @@ router.put('/user/role', auth('Admin'), langmiddleware, updateuserroleroute)
  * delete a user
  */
 
-router.delete('/user', auth('Admin'), langmiddleware, deleteuserroute)
+router.delete('/user', auth('Editor'), langmiddleware, deleteuserroute)
 
 /**
  * login
