@@ -16,7 +16,7 @@ describe("Check wahlcontroller's functions", () => {
   })
 
   afterEach(function () {
-    Wahl.updateOne.restore()
+    Wahl.replaceOne.restore()
     Wahl.deleteOne.restore()
     Wahl.prototype.save.restore()
   })
