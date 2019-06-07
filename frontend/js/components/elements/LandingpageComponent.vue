@@ -26,6 +26,7 @@ props: ["gremium", "name"],
     /* max-width: 80%; */
     /* max-height: 80%; */
     border-radius: 10px;
+    margin: 30px;
 }
 
 .content{
