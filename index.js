@@ -9,6 +9,7 @@ let session = require('express-session')
 let FileStore = require('session-file-store')(session)
 let fs = require('fs')
 let usercontroller = require('./controller/user.controller')
+let cors = require('cors')
 
 const chalk = require('chalk')
 
@@ -43,7 +44,9 @@ mongoose
  *  use express, use port 3000 if not specified
  */
 const app = express()
-let PORT = process.env.PORT || 3000
+let PORT = process.env.PORT || 3001
+
+app.use(cors())
 
 app.use(
   session({

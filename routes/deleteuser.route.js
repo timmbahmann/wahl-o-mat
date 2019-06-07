@@ -7,9 +7,10 @@ let usercontroller = require('../controller/user.controller')
  */
 
 async function deleteUser (req, res, next) {
+  console.log('delete', req.body)
   usercontroller
     .deleteUser(req.body.username)
-    .then(() => res.json({ success: true }))
+    .then(username => res.json({ success: true, user: username }))
     .catch(next)
 }
 

@@ -117,13 +117,15 @@ router.delete('/user', auth('Admin'), langmiddleware, deleteuserroute)
  * login
  */
 
-router.post('/login', authorization, (req, res, next) => res.json(req.json))
+router.post('/login', authorization, (req, res, next) => {
+  res.json(req.json)
+})
 
 /**
  * logout
  */
 
-router.get('/logout', (req, res, next) => {
+router.post('/logout', (req, res, next) => {
   req.logout()
   res.json({ success: true })
 })

@@ -12,7 +12,7 @@ let Wahl = require('../models/wahl.model')
  */
 
 let wahlmiddleware = async (req, res, next) => {
-  if (req.get('content-type') !== 'application/json') {
+  if (!req.get('content-type').startsWith('application/json')) {
     let err = req.lang['JSON-Anfrage X erwartet, aber Y bekommen'](
       'application/json',
       req.get('content-type')
@@ -20,8 +20,9 @@ let wahlmiddleware = async (req, res, next) => {
     res.status(415)
     return next(err)
   }
+  console.log(req.body.name)
   req.wahl = new Wahl({
-    name: req.body.name,
+    name: decodeURIComponent(req.params.wahlname),
     gremium: req.body.gremium,
     thesen: req.body.thesen
   })

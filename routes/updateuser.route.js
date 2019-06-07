@@ -10,6 +10,7 @@ async function updatePassword (req, res, next) {
 }
 
 async function updateRole (req, res, next) {
+  console.log('role', req.body)
   usercontroller
     .updateRole(req.body.username, req.body.role)
     .then(user => {
