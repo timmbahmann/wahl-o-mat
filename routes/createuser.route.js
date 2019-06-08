@@ -1,14 +1,14 @@
 let usercontroller = require('../controller/user.controller')
 
 /**
- * @param {Request} req post the fields `email` and `password`
+ * @param {Request} req post the field `email`
  * @param {Response} res
  * @param {function (error?): void} next
  */
 
 async function createUser (req, res, next) {
   usercontroller
-    .createUser(req.body.username, req.body.password, req.body.role)
+    .createUser(req.body.username, req.body.role)
     .then(user => {
       res.json({
         success: true,

@@ -9,7 +9,6 @@ let auth = role =>
       req.isAuthenticated() &&
       isAdmin(role, req.user.role)
     ) {
-      console.log('user', req.isAuthenticated())
       next()
     } else {
       if (req.isAuthenticated()) {

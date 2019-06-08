@@ -85,6 +85,15 @@ router.post('/user', auth('Admin'), langmiddleware, createuserroute)
 router.get('/user', auth('Admin'), langmiddleware, getEveryUserroute)
 
 /**
+ * get me
+ */
+
+router.get('/user/me', auth('Editor'), langmiddleware, (req, res, next) => {
+  console.log('get me')
+  res.json(req.user)
+})
+
+/**
  * Update a user password
  */
 
@@ -111,19 +120,21 @@ router.put('/user/role', auth('Admin'), langmiddleware, updateuserroleroute)
  * delete a user
  */
 
-router.delete('/user', auth('Admin'), langmiddleware, deleteuserroute)
+router.delete('/user', auth('Editor'), langmiddleware, deleteuserroute)
 
 /**
  * login
  */
 
-router.post('/login', authorization, (req, res, next) => res.json(req.json))
+router.post('/login', authorization, (req, res, next) => {
+  res.json(req.json)
+})
 
 /**
  * logout
  */
 
-router.get('/logout', (req, res, next) => {
+router.post('/logout', (req, res, next) => {
   req.logout()
   res.json({ success: true })
 })
