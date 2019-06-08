@@ -10,13 +10,13 @@ let controller = require('../controller/wahl.controller')
 
 describe("Check wahlcontroller's functions", () => {
   beforeEach(function () {
-    sinon.stub(Wahl, 'updateOne')
+    sinon.stub(Wahl, 'replaceOne')
     sinon.stub(Wahl, 'deleteOne')
     sinon.stub(Wahl.prototype, 'save')
   })
 
   afterEach(function () {
-    Wahl.updateOne.restore()
+    Wahl.replaceOne.restore()
     Wahl.deleteOne.restore()
     Wahl.prototype.save.restore()
   })
@@ -78,7 +78,7 @@ describe("Check wahlcontroller's functions", () => {
     let wahlObj = factory.validWahl()
     let query = factory.dbQueryFromWahlObj(wahlObj)
     let wahlQuery = factory.validWahlQuery(false)
-    Wahl.updateOne.returns(wahlQuery)
+    Wahl.replaceOne.returns(wahlQuery)
     controller
       .updateWahl(wahlObj.name, wahlObj)
       .then(val => {

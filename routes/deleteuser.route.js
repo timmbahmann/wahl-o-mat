@@ -7,9 +7,20 @@ let usercontroller = require('../controller/user.controller')
  */
 
 async function deleteUser (req, res, next) {
+  console.log('delete', req.body)
+  let username
+  if (req.user.role === 'Editor') {
+    username = req.user.username
+  } else {
+    if (req.body.username !== undefined) {
+      username = req.body.username
+    } else {
+      username = req.user.username
+    }
+  }
   usercontroller
-    .deleteUser(req.body.username)
-    .then(() => res.json({ success: true }))
+    .deleteUser(username)
+    .then(username => res.json({ success: true, user: username }))
     .catch(next)
 }
 

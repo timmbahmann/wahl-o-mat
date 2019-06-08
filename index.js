@@ -9,6 +9,7 @@ let session = require('express-session')
 let FileStore = require('session-file-store')(session)
 let fs = require('fs')
 let usercontroller = require('./controller/user.controller')
+let cors = require('cors')
 
 const chalk = require('chalk')
 
@@ -43,7 +44,9 @@ mongoose
  *  use express, use port 3000 if not specified
  */
 const app = express()
-let PORT = process.env.PORT || 3000
+let PORT = process.env.PORT || 3001
+
+app.use(cors())
 
 app.use(
   session({
@@ -126,8 +129,12 @@ try {
 
 if (firststart) {
   try {
-    fs.writeFileSync('firststart.lock', '')
-    usercontroller.createUser('root@localhost', 'root', 'Admin')
+    usercontroller.createUser('root@local.host', 'Admin').then(data => {
+      fs.writeFileSync(
+        'firststart.lock',
+        'username: root@local.host\n' + 'password: ' + data.password
+      )
+    })
   } catch (err) {
     console.error('Fehler beim schreiben der Lockdatei')
     process.exit(1)

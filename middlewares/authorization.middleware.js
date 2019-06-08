@@ -12,7 +12,8 @@ let authentication = function (req, res, next) {
       if (err) {
         return next(err)
       }
-      return res.json({ success: true })
+      console.log(req.body.username)
+      return res.json({ success: true, user: user.username, role: user.role })
     })
   })(req, res, next)
 }
