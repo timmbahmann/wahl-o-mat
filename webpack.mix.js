@@ -12,20 +12,23 @@ let mix = require('laravel-mix');
  */
 
 mix.js('./frontend/js/app.js', 'public/')
-    .webpackConfig({
-        devServer: {
-            contentBase: [path.resolve(__dirname, 'public')],
+  .webpackConfig({
+    devServer: {
+      contentBase: [path.resolve(__dirname, 'public')],
 
-            // Forward all calls to /api to the node.js backend server that serves the data 
-            proxy: {
-                "/api": {
-                    target: "http://localhost:3000",
-                    changeOrigin: true
-                }
-            }
-        },
-    })
-    .setPublicPath("public");
+      // Forward all calls to /api to the node.js backend server that serves the data 
+      proxy: {
+        "/api": {
+          target: "http://localhost:3001",
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api': '/'
+          }
+        }
+      }
+    }
+  })
+  .setPublicPath("public");
 
 // Full API
 // mix.js(src, output);
