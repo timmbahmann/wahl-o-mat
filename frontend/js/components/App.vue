@@ -22,7 +22,6 @@ export default {
     })
       .then(response => response.json())
       .then(wahl => {
-        console.log(wahl);
         this.election = wahl;
       });
   },
