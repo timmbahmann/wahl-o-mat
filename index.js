@@ -80,6 +80,10 @@ app.use(require('./routes/index.route'))
  */
 app.use(express.static(path.join(__dirname, 'public')))
 
+app.use(function(err, req, res, next){
+  res.status(404).send('error 404 - not found')
+})
+
 /**
  *  start the server
  */
