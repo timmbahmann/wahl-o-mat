@@ -4,7 +4,7 @@
 
 // TODO: This function still has to be implemented and,as of now, exists only for testing purposes
 export function getResults(answeredTheses) {
-  let gremien = answeredTheses.flatMap(x => x.answers).map(x => x.name).filter((value, index, self) =>
+  let gremien = answeredTheses.flatMap(x => x.antworten).map(x => x.name).filter((value, index, self) =>
     self.indexOf(value) === index)
 
   return gremien.map(x => ({

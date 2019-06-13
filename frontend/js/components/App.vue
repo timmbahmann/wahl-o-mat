@@ -3,6 +3,8 @@ import LandingPage from "./pages/LandingPage";
 import Wahlomat from "./pages/Wahlomat";
 import ResultPage from "./pages/ResultPage";
 
+import * as PageManager from "../helpers/PageManager";
+
 export default {
   components: {
     LandingPage,
@@ -11,30 +13,27 @@ export default {
   },
   data() {
     return {
-      election: {},
-      displayedComponent: "landingPage",
-      lastElectionResult: {}
+      displayedComponent: PageManager.LANDINGPAGE,
+      activeElection: null,
+      activeElectionResult: null
     };
-  },
-  created() {
-    fetch("/api/json", {
-      headers: { "content-type": "application/json" }
-    })
-      .then(response => response.json())
-      .then(wahl => {
-        this.election = wahl;
-      });
   },
   methods: {
     switchPage(page) {
       this.displayedComponent = page;
     },
-    showResults(results) {
-      this.lastElectionResult = results;
-      this.switchPage("resultPage");
+    showLandingPage() {
+      this.activeElection = null;
+      this.activeElectionResult = null;
+      this.switchPage(PageManager.LANDINGPAGE);
     },
-    startWahlomat() {
-      this.switchPage("wahlomat");
+    startWahlomat(election) {
+      this.activeElection = election;
+      this.switchPage(PageManager.WAHLOMAT);
+    },
+    showResults(results) {
+      this.activeElectionResult = results;
+      this.switchPage(PageManager.RESULTPAGE);
     }
   }
 };
@@ -42,18 +41,13 @@ export default {
 <template>
   <div>
     <div>
-      <LandingPage v-if="displayedComponent === 'landingPage'" @wahlomatRequested="startWahlomat"></LandingPage>
+      <LandingPage v-if="displayedComponent === 'landingpage'" @wahlomatRequested="startWahlomat"></LandingPage>
       <Wahlomat
         v-else-if="displayedComponent === 'wahlomat'"
-        :election="election"
+        :election="activeElection"
         @finished="showResults"
       ></Wahlomat>
-      <ResultPage v-else-if="displayedComponent === 'resultPage'" :results="lastElectionResult"></ResultPage>
-    </div>
-    <div>
-      <button @click="switchPage('landingPage')">Startseite</button>
-      <button @click="switchPage('wahlomat')">Thesenansicht</button>
-      <button @click="switchPage('resultPage')">Ergebnisseite</button>
+      <ResultPage v-else-if="displayedComponent === 'resultpage'" :results="activeElectionResult"></ResultPage>
     </div>
   </div>
 </template>
