@@ -13,7 +13,7 @@ import ThesisCard from "../elements/ThesisCard";
 // Import helper classes
 import ThesisStack from "../../helpers/ThesisStack";
 import * as SwipeStackHelper from "../../helpers/SwipeStackHelper";
-import * as ResultCalculator from "../../helpers/ResultCalculator"
+import * as ResultCalculator from "../../helpers/ResultCalculator";
 
 export default {
   components: {
@@ -47,7 +47,7 @@ export default {
         }
       },
       currentSwipeDirection: null,
-      thesisStack: new ThesisStack(this.election.theses)
+      thesisStack: new ThesisStack(this.election.thesen)
     };
   },
   methods: {
@@ -59,12 +59,15 @@ export default {
         .toLowerCase();
     },
     answer(thesisId, answer) {
-      this.thesisStack.answer(parseInt(thesisId), answer);
+      this.thesisStack.answer(thesisId, answer);
 
       // If all cards have been answered, emit an event with the results as payload
       // so that App.vue can handle page switching to the results page
       if (this.thesisStack.Finished) {
-        this.$emit("finished", ResultCalculator.getResults(this.election.theses));
+        this.$emit(
+          "finished",
+          ResultCalculator.getResults(this.election.thesen)
+        );
       }
     },
     goBack() {
@@ -156,14 +159,14 @@ export default {
         ref="vueswing"
       >
         <ThesisCard
-          v-for="thesis in election.theses"
+          v-for="thesis in election.thesen"
           v-show="!thesisStack.AnsweredTheses.some((x) => x.thesis._id === thesis._id)"
           :key="thesis._id"
           :id="thesis._id"
           :thesis="thesis"
-          :distanceFromActiveThesis="election.theses.indexOf(thesisStack.ActiveThesis)-election.theses.indexOf(thesis)"
-          :index="election.theses.length - election.theses.indexOf(thesis)"
-          :totalThesesCount="election.theses.length"
+          :distanceFromActiveThesis="election.thesen.indexOf(thesisStack.ActiveThesis)-election.thesen.indexOf(thesis)"
+          :index="election.thesen.length - election.thesen.indexOf(thesis)"
+          :totalThesesCount="election.thesen.length"
           :currentSwipeDirection="currentSwipeDirection"
           :ref="'card' + thesis._id"
         />

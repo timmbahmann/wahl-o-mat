@@ -29,7 +29,7 @@ export default {
   <div :style="computeStyle()" class="card">
     <div class="card-content">
       <div style="font-size:30px;font-weight:bold;color:#fff">{{currentSwipeDirection}}</div>
-      <div style="font-weight:bold;">{{ thesis.thesis }}</div>
+      <div style="font-weight:bold;">{{ thesis.these }}</div>
       <div
         style="margin:10px;color:#999;position:absolute;bottom:10px;right:20px;"
       >{{this.index}} / {{this.totalThesesCount}}</div>

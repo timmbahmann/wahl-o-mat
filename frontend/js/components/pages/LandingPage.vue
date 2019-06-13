@@ -5,13 +5,20 @@ export default {
   components: { LandingPageComponent },
   data() {
     return {
-      election: {}
+      electionNames: []
     };
   },
   methods: {
-    startWahlomat() {
-      this.$emit("wahlomatRequested", this.election);
+    requestStart(election) {
+      this.$emit("wahlomatRequested", election);
     }
+  },
+  created() {
+    fetch("/api/wahl", {
+      headers: { "content-type": "application/json" }
+    })
+      .then(response => response.json())
+      .then(result => (this.electionNames = result.names.map(x => x.name)));
   }
 };
 </script>
@@ -25,8 +32,12 @@ export default {
       duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
       sanctus est Lorem ipsum dolor sit amet.
     </p>
-
-    <LandingPageComponent gremium="fakrat" name="wahl 2019" @start="startWahlomat"/>
+    <LandingPageComponent
+      v-for="electionName in electionNames"
+      :key="electionName"
+      :electionName="electionName"
+      @start="requestStart"
+    />
     <div>
       <a href="http://lmgtfy.com/?q=Wo+kann+ich+w%C3%A4hlen%3F">Wo kann ich wählen?</a>
     </div>
@@ -36,13 +47,11 @@ export default {
   </div>
 </template>
 <style scoped>
-
 .bodytext {
   margin: 10px 20px 20px 20px;
   color: #d9ceb0;
   text-align: center;
   align-content: center;
-
 }
 
 .content {
@@ -65,6 +74,5 @@ a:hover {
 a:visited {
   color: white;
 }
-
 </style>
 

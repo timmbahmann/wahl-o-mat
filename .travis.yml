@@ -23,6 +23,6 @@ notifications:
       - "Execution time: *%{duration}*"
       - "Message: %{message}"
     rooms: 
-      - wahl-o-mat:PvbcfYWht3cfBXXdkuSDdTxN#dev
+      - wahl-o-mat:PvbcfYWht3cfBXXdkuSDdTxN#builds
     on_success: change
     on_failure: always
