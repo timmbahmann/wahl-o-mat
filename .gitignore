@@ -3,5 +3,5 @@
 /docs/
 /sessions/
 firststart.lock
-# /public/
+/public/
 package-lock.json
