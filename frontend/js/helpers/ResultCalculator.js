@@ -40,7 +40,7 @@ export function getResults(answeredTheses) {
   // Calculate a percentage of the maximum possible points for all point results that can later be displayed
   let results = points.map(pointsForGremium => {
     return {
-      gremium: pointsForGremium.gremium,
+      panel: pointsForGremium.panel,
       result: ((pointsForGremium.points / maxPoints) * 100),
     }
   });

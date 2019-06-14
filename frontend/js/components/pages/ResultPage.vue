@@ -26,7 +26,7 @@ export default {
         v-for="(result, index) in sortedResults"
         :key="index"
         :percentage="result.result.toPrecision(4)"
-        :name="result.gremium"
+        :name="result.panel"
         :info="result.info"
         :isOpened="openedComponent === index"
         @open="openedComponent = index"
