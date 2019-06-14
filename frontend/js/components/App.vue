@@ -32,7 +32,14 @@ export default {
       this.switchPage(PageManager.WAHLOMAT);
     },
     showResults(results) {
-      this.activeElectionResult = results;
+      // Add the list info text to the result objects, because the result page needs it to display it
+      // TODO: replace dummy text with real info once a backend route for list infos exists
+      this.activeElectionResult = results.map(x => {
+        x.info =
+          "Morbi eleifend tellus ac leo sodales, dictum sagittis nisi tincidunt. Curabitur ut laoreet enim. Proin porta condimentum nulla ac tempor. Suspendisse vel ante diam. Fusce posuere, justo nec rutrum ultricies, enim urna fringilla dolor, id varius tellus libero semper nunc. Cras non dui elementum, suscipit quam et, vehicula justo. Pellentesque rutrum vestibulum dolor in finibus. Integer tempor scelerisque mollis. Ut eget venenatis nisl. Proin tristique ipsum eget felis condimentum feugiat.";
+        return x;
+      });
+
       this.switchPage(PageManager.RESULTPAGE);
     }
   }

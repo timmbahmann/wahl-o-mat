@@ -66,7 +66,7 @@ export default {
       if (this.thesisStack.Finished) {
         this.$emit(
           "finished",
-          ResultCalculator.getResults(this.election.thesen)
+          ResultCalculator.getResults(this.thesisStack.answeredTheses)
         );
       }
     },
