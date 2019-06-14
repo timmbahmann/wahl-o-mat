@@ -13,10 +13,9 @@ export default {
     };
   },
   created() {
-    this.sortedResults = this.results.sort((a, b) => b.percentage - a.percentage);
+    this.sortedResults = this.results.sort((a, b) => b.result - a.result);
   }
 };
-
 </script>
 
 <template>
@@ -26,8 +25,8 @@ export default {
       <ResultComponent
         v-for="(result, index) in sortedResults"
         :key="index"
-        :percentage="result.percentage"
-        :name="result.name"
+        :percentage="result.result.toPrecision(4)"
+        :name="result.gremium"
         :info="result.info"
         :isOpened="openedComponent === index"
         @open="openedComponent = index"

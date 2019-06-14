@@ -25,8 +25,6 @@ class ThesisStack {
   }
 
   answer(answeredThesisId, answer) {
-    console.log(answeredThesisId)
-    console.log(this.theses)
     // Get the full data of the thesis that has been answered by its unique id
     let answeredThesis = this.theses.filter(
       x => x._id === answeredThesisId
