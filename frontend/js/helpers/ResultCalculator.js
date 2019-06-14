@@ -11,9 +11,6 @@ export function getResults(answeredTheses) {
   let points = [];
   let maxPoints = answeredTheses.length * 2;
 
-  console.log(answeredTheses.map(x => x.result))
-  console.log(answeredTheses.map(x => x.thesis.antworten.map(y => y.antwort).join(" ")))
-
   let count = 0;
   // Calculate points for each panel and push them to the points list
   panels.forEach(panel => {
