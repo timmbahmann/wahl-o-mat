@@ -1,7 +1,9 @@
 <script>
-import LandingPage from "./LandingPage";
-import Wahlomat from "./Wahlomat";
-import ResultPage from "./ResultPage";
+import LandingPage from "./pages/LandingPage";
+import Wahlomat from "./pages/Wahlomat";
+import ResultPage from "./pages/ResultPage";
+
+import * as PageManager from "../helpers/PageManager";
 
 export default {
   components: {
@@ -11,26 +13,34 @@ export default {
   },
   data() {
     return {
-      election: {},
-      displayedComponent: "landingPage",
-      lastElectionResult: {}
+      displayedComponent: PageManager.LANDINGPAGE,
+      activeElection: null,
+      activeElectionResult: null
     };
-  },
-  created() {
-    fetch("api/json", { headers: { "content-type": "application/json" } })
-      .then(response => response.json())
-      .then(election => {
-        this.election = election;
-      });
   },
   methods: {
     switchPage(page) {
       this.displayedComponent = page;
     },
+    showLandingPage() {
+      this.activeElection = null;
+      this.activeElectionResult = null;
+      this.switchPage(PageManager.LANDINGPAGE);
+    },
+    startWahlomat(election) {
+      this.activeElection = election;
+      this.switchPage(PageManager.WAHLOMAT);
+    },
     showResults(results) {
-      this.lastElectionResult = results;
-      console.log(this.lastElectionResult);
-      this.switchPage("resultPage");
+      // Add the list info text to the result objects, because the result page needs it to display it
+      // TODO: replace dummy text with real info once a backend route for list infos exists
+      this.activeElectionResult = results.map(x => {
+        x.info =
+          "Morbi eleifend tellus ac leo sodales, dictum sagittis nisi tincidunt. Curabitur ut laoreet enim. Proin porta condimentum nulla ac tempor. Suspendisse vel ante diam. Fusce posuere, justo nec rutrum ultricies, enim urna fringilla dolor, id varius tellus libero semper nunc. Cras non dui elementum, suscipit quam et, vehicula justo. Pellentesque rutrum vestibulum dolor in finibus. Integer tempor scelerisque mollis. Ut eget venenatis nisl. Proin tristique ipsum eget felis condimentum feugiat.";
+        return x;
+      });
+
+      this.switchPage(PageManager.RESULTPAGE);
     }
   }
 };
@@ -38,18 +48,13 @@ export default {
 <template>
   <div>
     <div>
-      <LandingPage v-if="displayedComponent === 'landingPage'"></LandingPage>
+      <LandingPage v-if="displayedComponent === 'landingpage'" @wahlomatRequested="startWahlomat"></LandingPage>
       <Wahlomat
         v-else-if="displayedComponent === 'wahlomat'"
-        :election="election"
+        :election="activeElection"
         @finished="showResults"
       ></Wahlomat>
-      <ResultPage v-else-if="displayedComponent === 'resultPage'"></ResultPage>
-    </div>
-    <div>
-      <button @click="switchPage('landingPage')">Startseite</button>
-      <button @click="switchPage('wahlomat')">Thesenansicht</button>
-      <button @click="switchPage('resultPage')">Ergebnisseite</button>
+      <ResultPage v-else-if="displayedComponent === 'resultpage'" :results="activeElectionResult"></ResultPage>
     </div>
   </div>
 </template>
@@ -70,5 +75,12 @@ body {
 
 .no {
   background: linear-gradient(135deg, #a63232 0, #6b2020);
+}
+
+.page-headline {
+  text-align: center;
+  margin: 2rem;
+  font-size: 25px;
+  color: #fff;
 }
 </style>

@@ -28,7 +28,7 @@ let router = express.Router()
  * @returns {String}
  */
 
-router.get('api/json', langmiddleware, getjsonroute)
+router.get('/json', langmiddleware, getjsonroute)
 
 /**
  * Gets a wahl request, validates it inside the middleware and
@@ -136,7 +136,9 @@ router.post('/login', authorization, (req, res, next) => {
 
 router.post('/logout', (req, res, next) => {
   req.logout()
-  res.json({ success: true })
+  res.json({
+    success: true
+  })
 })
 
 module.exports = router
