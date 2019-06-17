@@ -25,9 +25,8 @@ export default {
 <template>
   <div class="box">
     <div class="content">
-      <div class="wahl">{{ election.gremium }}</div>
       <div class="wahl">{{ election.name }}</div>
-      <button class="button wahl" @click="start">Starten</button>
+      <router-link :to="`/app/${election.name}`"><button class="button wahl" @click="start">Starten</button></router-link>
       <a href="http://lmgtfy.com/?q=Wo+kann+ich+w%C3%A4hlen%3F">Informieren</a>
     </div>
   </div>
@@ -36,11 +35,11 @@ export default {
 <style scoped>
 .box {
   background-color: #fff;
-  width: 80%;
-  /* max-width: 80%; */
-  /* max-height: 80%; */
+  width: 100%;
+  padding: 5px;
+  word-wrap: break-word;
   border-radius: 10px;
-  margin: 30px;
+  margin: 10px;
 }
 
 .content {

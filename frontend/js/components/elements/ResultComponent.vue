@@ -10,11 +10,11 @@ export default {
 <template>
   <div class="container">
     <button @click="$emit('open')" class="accordion">
-      <div class="wrapperPercentage">
+      <div>
         <div
           style="display: inline-block; float: right; padding: 4px; color: #3e573a; font-family: Helvetica"
         >{{percentage+'%'}}</div>
-        <div :class="isOpened ? 'result-opened' : 'result'" v-bind:style="{width:percentage+'%'}">
+        <div :class="isOpened ? 'result-opened' : 'result'" :style="{width:percentage + '%'}">
           <div style="display: inline-block; color: #d9ceb0; font-family: Helvetica">{{name}}</div>
         </div>
       </div>
@@ -37,7 +37,7 @@ export default {
 .accordion {
   border-radius: 5px;
   padding: 2px;
-  width: 100%;
+  width: 90%;
   background-color: #d9ceb0;
   text-align: left;
   cursor: pointer;
@@ -67,7 +67,7 @@ export default {
   max-height: auto;
   background: linear-gradient(0deg, #e1d9c1 0, #d9ceb0);
   border-radius: 4px;
-  width: 100%;
+  width: 90%;
 }
 
 .result-opened {

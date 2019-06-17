@@ -1,4 +1,6 @@
-export function getResults(answeredTheses) {
+import { NEUTRAL, SKIP } from './Constants'
+
+export function getResults (answeredTheses) {
   // Get only the panel names from the theses by ...
   let panels = answeredTheses
     // ... extracting all answers from all answered theses and putting them in a single one-dimensional list
@@ -8,39 +10,39 @@ export function getResults(answeredTheses) {
     // ... filter so that only unique values remain
     .filter((value, index, self) => self.indexOf(value) === index)
 
-  let points = [];
-  let maxPoints = answeredTheses.length * 2;
+  let points = []
+  let maxPoints = answeredTheses.length * 2
 
-  let count = 0;
   // Calculate points for each panel and push them to the points list
   panels.forEach(panel => {
-    let pointsForGremium = {
+    let pointsForPanel = {
       panel: panel,
       points: 0
-    };
+    }
 
     // Increase points for every answered thesis that matches the panel's answer 
     // according to the wahlomat algorithm that can be found under
     // https://www.bpb.de/system/files/dokument_pdf/Rechenmodell%20des%20Wahl-O-Mat.pdf
     answeredTheses.forEach(answeredThesis => {
-      let gremiumAnswer = answeredThesis.thesis.antworten.filter(answer => answer.name === panel)[0].antwort;
+      let panelAnswer = answeredThesis.thesis.antworten.filter(answer => answer.name === panel)[0].antwort
 
-      if (answeredThesis.result === gremiumAnswer)
-        pointsForGremium.points += 2;
-      else if (answeredThesis.result != "skip" && (answeredThesis.result === "neutral" || gremiumAnswer === "neutral"))
-        pointsForGremium.points += 1;
+      if (answeredThesis.result.answer.toLowerCase() === panelAnswer.toLowerCase()) {
+        pointsForPanel.points += 2
+      } else if (answeredThesis.result !== SKIP && (answeredThesis.result === NEUTRAL || panelAnswer.toLowerCase() === NEUTRAL.answer.toLowerCase())) {
+        pointsForPanel.points += 1
+      }
     })
 
-    points.push(pointsForGremium)
+    points.push(pointsForPanel)
   })
 
   // Calculate a percentage of the maximum possible points for all point results that can later be displayed
-  let results = points.map(pointsForGremium => {
+  let results = points.map(pointsForPanel => {
     return {
-      panel: pointsForGremium.panel,
-      result: ((pointsForGremium.points / maxPoints) * 100),
+      panel: pointsForPanel.panel,
+      result: ((pointsForPanel.points / maxPoints) * 100)
     }
-  });
+  })
 
-  return results;
+  return results
 }

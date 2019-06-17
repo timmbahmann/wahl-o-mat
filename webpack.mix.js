@@ -28,7 +28,11 @@ mix.js('./frontend/js/app.js', 'public/')
       }
     }
   })
-  .setPublicPath("public");
+  .setPublicPath("public")
+  .options({
+    extractVueStyles: false, // Extract .vue component styling to file, rather than inline.
+    purifyCss: false, // Remove unused CSS selectors.
+  });
 
 // Full API
 // mix.js(src, output);
