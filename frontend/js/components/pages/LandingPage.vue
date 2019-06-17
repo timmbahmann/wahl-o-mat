@@ -24,13 +24,12 @@ export default {
 </script>
 <template>
   <div class="content">
-    <h1>Startseite</h1>
+    <img src="landingpage_logo.svg" id="logo">
+    <p class="bodytext">Willkommen beim Wahl-o-Mat der Technischen Universität Berlin.</p>
     <p class="bodytext">
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-      aliquyam erat, sed diam voluptua. At vero eos et accusam et justo
-      duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-      sanctus est Lorem ipsum dolor sit amet.
+      Unten kannst du alle aktuell anstehenden Wahlen sehen und
+      die Anwendung starten. Nützliche Infolinks zum Wählen an der TU im Allgemeinen,
+      wo die Wahllokale zu finden sind, etc. findest du am Ende der Seite.
     </p>
     <LandingPageComponent
       v-for="electionName in electionNames"
@@ -47,6 +46,11 @@ export default {
   </div>
 </template>
 <style scoped>
+#logo {
+  position: relative;
+  left: -41%;
+}
+
 .bodytext {
   margin: 10px 20px 20px 20px;
   color: #d9ceb0;
@@ -60,6 +64,8 @@ export default {
   align-items: center;
   color: white;
   font: Helvetica;
+  align-self: center;
+  padding: 8%;
 }
 
 a:link {

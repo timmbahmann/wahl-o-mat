@@ -6,7 +6,7 @@ export default {
     "thesis",
     "index",
     "totalThesesCount",
-    "currentSwipeDirection"
+    "currentSwipeResult"
   ],
   data() {
     return {};
@@ -28,7 +28,7 @@ export default {
 <template>
   <div :style="computeStyle()" class="card">
     <div class="card-content">
-      <div style="font-size:30px;font-weight:bold;color:#fff">{{currentSwipeDirection}}</div>
+      <div style="font-size:30px;font-weight:bold;color:#fff">{{currentSwipeResult ? currentSwipeResult.answer : ""}}</div>
       <div style="font-weight:bold;">{{ thesis.these }}</div>
       <div
         style="margin:10px;color:#999;position:absolute;bottom:10px;right:20px;"
