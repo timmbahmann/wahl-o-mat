@@ -26,17 +26,20 @@ export default {
   <div class="box">
     <div class="content">
       <div class="wahl">{{ election.name }}</div>
-      <router-link :to="`/app/${election.name}`"><button class="button wahl" @click="start">Starten</button></router-link>
-      <a href="http://lmgtfy.com/?q=Wo+kann+ich+w%C3%A4hlen%3F">Informieren</a>
+      <router-link class="button" :to="`/app/${election.name}`">
+        Starten
+        <!-- <button class="button wahl" @click="start">Starten</button> -->
+      </router-link>
+      <a class="link-button" href="http://lmgtfy.com/?q=Wo+kann+ich+w%C3%A4hlen%3F">Informieren</a>
     </div>
   </div>
 </template>
 
 <style scoped>
 .box {
-  background-color: #fff;
-  width: 100%;
-  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.16);
+  width: 90%;
+  padding: 15px;
   word-wrap: break-word;
   border-radius: 10px;
   margin: 10px;
@@ -46,31 +49,20 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px;
 }
 .wahl {
   margin-bottom: 10px;
-  color: #333;
+  color: #fff;
   font-size: 20px;
 }
 .button {
-  font-size: 16px;
-  background: linear-gradient(135deg, #eae2d2 0, #d9ceb0);
-  color: #333;
+  font-size: 20px;
+  background: linear-gradient(135deg, #b88724 0, #a87b00);
+  color: black;
   border-radius: 4px;
   cursor: pointer;
   border: none;
-  padding: 2px 5px 2px 5px;
-}
-a:link {
-  font-size: 12px;
-  color: #333;
+  padding: 10px;
   text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-a:visited {
-  color: #333;
 }
 </style> 
