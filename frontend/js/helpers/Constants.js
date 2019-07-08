@@ -1,13 +1,13 @@
 export const YES = {
   answer: 'Ja',
-  direction: 'left',
+  direction: 'right',
   xCoordinate: 90,
   yCoordinate: 0
 }
 
 export const NO = {
   answer: 'Nein',
-  direction: 'right',
+  direction: 'left',
   xCoordinate: -90,
   yCoordinate: 0
 }

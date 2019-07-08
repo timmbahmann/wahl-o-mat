@@ -26,9 +26,11 @@ export default {
 };
 </script>
 <template>
-  <div :style="computeStyle()" class="card">
+  <div :style="computeStyle()" class="thesis-card">
     <div class="card-content">
-      <div style="font-size:30px;font-weight:bold;color:#fff">{{currentSwipeResult ? currentSwipeResult.answer : ""}}</div>
+      <div
+        style="font-size:30px;font-weight:bold;color:#fff"
+      >{{currentSwipeResult ? currentSwipeResult.answer : ""}}</div>
       <div style="font-weight:bold;">{{ thesis.these }}</div>
       <div
         style="margin:10px;color:#999;position:absolute;bottom:10px;right:20px;"
@@ -37,7 +39,7 @@ export default {
   </div>
 </template>
 <style scoped>
-.card {
+.thesis-card {
   align-items: center;
   background-color: #fff;
   border-radius: 20px;
@@ -51,6 +53,14 @@ export default {
   width: 80%;
   flex-direction: column;
   text-align: center;
+  color: #333;
+}
+
+@media (min-width: calc(500px / 0.8)) {
+  .thesis-card {
+    max-width: 500px;
+    left: calc(50% - 250px);
+  }
 }
 
 .card-content {

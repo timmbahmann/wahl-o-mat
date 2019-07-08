@@ -93,10 +93,7 @@ export default {
             this.thesisStack.answeredTheses.length
         ];
 
-        SwipeStackHelper.swipeInCard(
-          previousCard,
-          previousThesis.result
-        );
+        SwipeStackHelper.swipeInCard(previousCard, previousThesis.result);
 
         swingElement.throwIn(
           poppedThesis.result.xCoordinate,
@@ -187,7 +184,7 @@ export default {
           class="neutral circleButton"
           style="width:3rem;height:3rem;"
         >
-          <NeutralIcon :width="'24px'" :height="'24px'" :viewBox="'0 0 24 24'" :fillColor="'#333'"/>
+          <NeutralIcon :width="'24px'" :height="'24px'" :viewBox="'0 0 24 24'" :fillColor="'#333'" />
         </button>
         <button @click="buttonClicked(choices.yes)" class="yes circleButton">
           <ThumbsUpIcon
@@ -198,7 +195,7 @@ export default {
           />
         </button>
       </div>
-      <a class="link-button" style="margin:15px;" @click="goBack">Frage zurück</a>
+      <a class="link-button" style="margin-top: 15px" @click="goBack">Frage zurück</a>
       <a class="link-button" @click="buttonClicked(choices.skip)">Frage überspringen</a>
     </div>
   </div>
@@ -230,13 +227,13 @@ export default {
   box-shadow: 0 0.75rem 30px 0 rgba(0, 0, 0, 0.7);
 }
 
-.link-button {
-  text-decoration: underline;
-  color: #aaa;
-  cursor: pointer;
-}
-
 .site-container {
   height: 100vh;
+}
+
+.link-button {
+  color: white;
+  text-decoration: underline;
+  margin: 0px;
 }
 </style>

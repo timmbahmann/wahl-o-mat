@@ -23,46 +23,61 @@ export default {
 </script>
 
 <template>
-  <div class="box">
-    <div class="content">
-      <div class="wahl">{{ election.name }}</div>
-      <router-link class="button" :to="`/app/${election.name}`">
-        Starten
-        <!-- <button class="button wahl" @click="start">Starten</button> -->
-      </router-link>
-      <a class="link-button" href="http://lmgtfy.com/?q=Wo+kann+ich+w%C3%A4hlen%3F">Informieren</a>
-    </div>
+  <div class="card">
+    <router-link style="text-decoration:none" :to="`/app/${election.name}`">
+      <div class="card-content">
+        <!-- <div class="wahl"> -->
+        <div class="card-headline">{{ election.name }}</div>
+        <div class="card-text">
+          <div>{{election.thesen ? election.thesen.length : ""}} Thesen</div>
+          <div>|</div>
+          <div>{{election.thesen ? election.thesen[0].antworten.length : ""}} Listen</div>
+        </div>
+        <div class="card-action-area">
+          <router-link class="button" :to="`/app/${election.name}`">Starten</router-link>
+          <router-link class="link-button" :to="`/info/wheretovote`">Informieren</router-link>
+        </div>
+      </div>
+    </router-link>
   </div>
 </template>
 
 <style scoped>
-.box {
+.card {
   background-color: rgba(255, 255, 255, 0.16);
-  width: 90%;
   padding: 15px;
   word-wrap: break-word;
   border-radius: 10px;
-  margin: 10px;
+  margin: 15px 10px;
 }
 
-.content {
-  display: flex;
+@media (min-width: 600px) {
+  .card {
+    width: 40%;
+  }
+}
+
+.card-content {
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; */
+  text-align: left;
 }
-.wahl {
-  margin-bottom: 10px;
-  color: #fff;
+.card-headline {
+  /* margin-bottom: 20px;
+  color: #fff; */
   font-size: 20px;
+  color: white;
+  opacity: 0.87;
 }
-.button {
-  font-size: 20px;
-  background: linear-gradient(135deg, #b88724 0, #a87b00);
-  color: black;
-  border-radius: 4px;
-  cursor: pointer;
-  border: none;
-  padding: 10px;
-  text-decoration: none;
+
+.card-text > div {
+  display: inline-block;
+  opacity: 0.5;
+  color: white;
+}
+
+.card-action-area {
+  margin-top: 15px;
 }
 </style> 

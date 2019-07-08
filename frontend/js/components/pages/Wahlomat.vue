@@ -4,7 +4,7 @@ import ThesisSwiper from "./ThesisSwiper";
 import ResultPage from "./ResultPage";
 
 // import necessary constants
-import { RESULTPAGE, THESISSWIPER } from "../../helpers/Constants"
+import { RESULTPAGE, THESISSWIPER } from "../../helpers/Constants";
 
 export default {
   components: {
@@ -13,7 +13,7 @@ export default {
   },
   data() {
     return {
-    displayedComponent: THESISSWIPER,
+      displayedComponent: THESISSWIPER,
       activeElection: null,
       activeElectionResult: null,
       pages: { resultPage: RESULTPAGE, thesisSwiper: THESISSWIPER }
@@ -38,6 +38,9 @@ export default {
 
       this.switchPage(this.pages.resultPage);
     }
+  },
+  created() {
+    window.scrollTo(0, 0);
   }
 };
 </script>
@@ -50,12 +53,6 @@ export default {
   <ResultPage v-else-if="displayedComponent === pages.resultPage" :results="activeElectionResult"></ResultPage>
 </template>
 <style>
-body {
-  background-color: #262626;
-  margin: 0;
-  font-family: Helvetica, sans-serif;
-}
-
 .yes {
   background: linear-gradient(135deg, #768c54 0, #4e5c37);
 }

@@ -11,17 +11,15 @@ export default {
   <div class="container">
     <button @click="$emit('open')" class="accordion">
       <div>
-        <div
-          style="display: inline-block; float: right; padding: 4px; color: #3e573a; font-family: Helvetica"
-        >{{percentage+'%'}}</div>
+        <div class="result-percentage">{{percentage+'%'}}</div>
         <div :class="isOpened ? 'result-opened' : 'result'" :style="{width:percentage + '%'}">
-          <div style="display: inline-block; color: #d9ceb0; font-family: Helvetica">{{name}}</div>
+          <div class="result-text">{{name}}</div>
         </div>
       </div>
     </button>
 
     <div :class="isOpened ? 'accordion-content-opened' : 'accordion-content'">
-      <p class="content">{{info}}</p>
+      <p class="info-content">{{info}}</p>
     </div>
   </div>
 </template>
@@ -34,17 +32,37 @@ export default {
   margin: 1px 5px 10px 5px;
 }
 
+.result-text {
+  display: inline-block;
+  color: white;
+  font-weight: bold;
+  top: 9px;
+  position: relative;
+  margin: 0px 10px;
+}
+
+.result-percentage {
+  float: right;
+  padding: 4px;
+  color: white;
+  font-weight: bold;
+  position: relative;
+  top: 6px;
+}
+
 .accordion {
   border-radius: 5px;
   padding: 2px;
   width: 90%;
-  background-color: #d9ceb0;
+  /* height: 45px; */
+  background-color: rgba(255, 255, 255, 0.16);
   text-align: left;
   cursor: pointer;
   border: none;
+  padding: 0px 5px;
 }
 
-.content {
+.info-content {
   margin: 15px 10px 10px 10px;
   font-family: Helvetica;
   color: #333;
@@ -57,9 +75,10 @@ export default {
 }
 
 .result {
-  background: linear-gradient(135deg, #90a76c 0, #768c54);
+  background: var(--primary-gradient);
+  opacity: 0.6;
   border-radius: 4px;
-  padding: 5px;
+  /* height: 32px; */
 }
 
 .accordion-content-opened {
@@ -71,9 +90,9 @@ export default {
 }
 
 .result-opened {
-  background: linear-gradient(135deg, #697c4a 0, #4e5c37);
+  background: var(--primary-gradient);
   border-radius: 4px;
-  padding: 5px;
   transition: all 0.1s linear;
+  /* height: 32px; */
 }
 </style>

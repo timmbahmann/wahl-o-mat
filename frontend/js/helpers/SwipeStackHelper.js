@@ -5,7 +5,7 @@ import {
   SKIP
 } from './Constants'
 
-function getStringFromSymbol (symbol) {
+function getStringFromSymbol(symbol) {
   return String(symbol)
     .replace('Symbol', '')
     .replace('(', '')
@@ -13,7 +13,7 @@ function getStringFromSymbol (symbol) {
     .toLowerCase()
 }
 
-export function swipeOutCard (card, direction) {
+export function swipeOutCard(card, direction) {
   if (direction === NEUTRAL || direction === SKIP) {
     for (let i = 0; i < 40; i++) {
       setTimeout(() => {
@@ -37,7 +37,7 @@ export function swipeOutCard (card, direction) {
   }
 }
 
-export function swipeInCard (card, direction) {
+export function swipeInCard(card, direction) {
   if (direction === NEUTRAL || direction === SKIP) {
     for (let i = 40; i >= 0; i--) {
       setTimeout(() => {
@@ -61,17 +61,17 @@ export function swipeInCard (card, direction) {
   }
 }
 
-export function dragging (card, direction, throwOutConfidence) {
+export function dragging(card, direction, throwOutConfidence) {
   // Let opacity decrease when the card gains throwOutConfidence but don't let it fall lower than 0.3
   card.style.opacity = Math.max(1 - throwOutConfidence, 0.7)
 
   if (throwOutConfidence > 0.1) {
-    if (direction === NO) {
+    if (direction === YES) {
       card.style.background =
         'hsl(83.6,25%,' +
         Math.min(43.9 + (1 - throwOutConfidence) * 100, 70) +
         '%)'
-    } else if (direction === YES) {
+    } else if (direction === NO) {
       card.style.background =
         'hsl(0,53.7%,' +
         Math.min(42.4 + (1 - throwOutConfidence) * 100, 70) +
@@ -90,17 +90,17 @@ export function dragging (card, direction, throwOutConfidence) {
   }
 }
 
-export function resetCardPosition (card) {
+export function resetCardPosition(card) {
   card.style.left = undefined
   card.style.top = undefined
 }
 
-export function finishedDragging (card) {
+export function finishedDragging(card) {
   card.style.opacity = 1
   card.style.background = '#fff'
 }
 
-export function getResultObjectFromValue (value) {
+export function getResultObjectFromValue(value) {
   return [YES, NO, NEUTRAL, SKIP].filter(x =>
     x.answer === value ||
     x.direction === value ||
