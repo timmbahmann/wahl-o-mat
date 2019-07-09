@@ -20,6 +20,12 @@ export default {
 :root {
   --primary: #b88724;
   --primary-gradient: linear-gradient(135deg, var(--primary) 0, #c08308);
+  --elevation-basic-bg: rgba(255, 255, 255, 0.1);
+  --elevation-basic-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+    0 6px 6px rgba(0, 0, 0, 0.23);
+  --elevation-elevated-bg: rgba(255, 255, 255, 0.16);
+  --elevation-elevated-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
 #app {
@@ -30,6 +36,7 @@ export default {
   flex-direction: column;
   color: white;
   font-family: Bahnschrift, Helvetica, sans-serif;
+  width: 100%;
 }
 
 body {
@@ -61,6 +68,9 @@ body {
 .content {
   padding: 8%;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .box {

@@ -44,11 +44,17 @@ export default {
 
 <style scoped>
 .card {
-  background-color: rgba(255, 255, 255, 0.16);
+  background-color: var(--elevation-basic-bg);
   padding: 15px;
   word-wrap: break-word;
   border-radius: 10px;
   margin: 15px 10px;
+  box-shadow: var(--elevation-basic-shadow);
+}
+
+.card:hover {
+  box-shadow: var(--elevation-elevated-shadow);
+  background-color: var(--elevation-elevated-bg);
 }
 
 @media (min-width: 600px) {
