@@ -85,8 +85,8 @@ app.use(require('./routes/index.route'))
  */
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(function(err, req, res, next){
-  res.json({error: err, success: false})
+app.use(function (err, req, res, next) {
+  res.json({ error: err, success: false })
 })
 
 /**
@@ -132,17 +132,25 @@ try {
 }
 
 if (firststart) {
-  try {
-    usercontroller.createUser('root@local.host', 'Admin').then(data => {
-      fs.writeFileSync(
-        'firststart.lock',
-        'username: root@local.host\n' + 'password: ' + data.password
+  usercontroller
+    .createUser('root@local.host', 'Admin')
+    .then(data => {
+      try {
+        fs.writeFileSync(
+          'firststart.lock',
+          'username: root@local.host\n' + 'password: ' + data.password
+        )
+      } catch (err) {
+        console.error('Fehler beim schreiben der Lockdatei')
+        process.exit(1)
+      }
+    })
+    .catch(err => {
+      console.info(
+        'Neuer Default-Nutzer konnte nicht angelegt werden. Wahrscheinlich schon vorhanden. Fehlermeldung:',
+        err.message
       )
     })
-  } catch (err) {
-    console.error('Fehler beim schreiben der Lockdatei')
-    process.exit(1)
-  }
 }
 
 process.on('SIGINT', function () {
