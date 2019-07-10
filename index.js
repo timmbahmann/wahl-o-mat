@@ -85,6 +85,10 @@ app.use(require('./routes/index.route'))
  */
 app.use(express.static(path.join(__dirname, 'public')))
 
+app.use(function(err, req, res, next){
+  res.json({error: err, success: false})
+})
+
 /**
  *  start the server
  */
