@@ -1,86 +1,102 @@
-<script>
-import LandingPage from "./pages/LandingPage";
-import Wahlomat from "./pages/Wahlomat";
-import ResultPage from "./pages/ResultPage";
-
-import * as PageManager from "../helpers/PageManager";
-
-export default {
-  components: {
-    LandingPage,
-    Wahlomat,
-    ResultPage
-  },
-  data() {
-    return {
-      displayedComponent: PageManager.LANDINGPAGE,
-      activeElection: null,
-      activeElectionResult: null
-    };
-  },
-  methods: {
-    switchPage(page) {
-      this.displayedComponent = page;
-    },
-    showLandingPage() {
-      this.activeElection = null;
-      this.activeElectionResult = null;
-      this.switchPage(PageManager.LANDINGPAGE);
-    },
-    startWahlomat(election) {
-      this.activeElection = election;
-      this.switchPage(PageManager.WAHLOMAT);
-    },
-    showResults(results) {
-      // Add the list info text to the result objects, because the result page needs it to display it
-      // TODO: replace dummy text with real info once a backend route for list infos exists
-      this.activeElectionResult = results.map(x => {
-        x.info =
-          "Morbi eleifend tellus ac leo sodales, dictum sagittis nisi tincidunt. Curabitur ut laoreet enim. Proin porta condimentum nulla ac tempor. Suspendisse vel ante diam. Fusce posuere, justo nec rutrum ultricies, enim urna fringilla dolor, id varius tellus libero semper nunc. Cras non dui elementum, suscipit quam et, vehicula justo. Pellentesque rutrum vestibulum dolor in finibus. Integer tempor scelerisque mollis. Ut eget venenatis nisl. Proin tristique ipsum eget felis condimentum feugiat.";
-        return x;
-      });
-
-      this.switchPage(PageManager.RESULTPAGE);
-    }
-  }
-};
-</script>
 <template>
-  <div>
-    <div>
-      <LandingPage v-if="displayedComponent === 'landingpage'" @wahlomatRequested="startWahlomat"></LandingPage>
-      <Wahlomat
-        v-else-if="displayedComponent === 'wahlomat'"
-        :election="activeElection"
-        @finished="showResults"
-      ></Wahlomat>
-      <ResultPage v-else-if="displayedComponent === 'resultpage'" :results="activeElectionResult"></ResultPage>
+  <div id="app">
+    <router-view></router-view>
+    <div id="impressum">
+      <div>Built with ❤ at TU Berlin</div>
+      <div>
+        <a href="https://github.com/timmbahmann/wahl-o-mat">Source</a> on GitHub
+      </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "app"
+};
+</script>
+
 <style>
-body {
-  background-color: #262626;
-  margin: 0;
-  font-family: Helvetica, sans-serif;
+:root {
+  --primary: #b88724;
+  --primary-gradient: linear-gradient(135deg, var(--primary) 0, #c08308);
+  --elevation-basic-bg: rgba(255, 255, 255, 0.1);
+  --elevation-basic-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+    0 6px 6px rgba(0, 0, 0, 0.23);
+  --elevation-elevated-bg: rgba(255, 255, 255, 0.16);
+  --elevation-elevated-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
-.yes {
-  background: linear-gradient(135deg, #768c54 0, #4e5c37);
-}
-
-.neutral {
-  background: linear-gradient(135deg, #c1c1c1 0, #9b9b9b);
-}
-
-.no {
-  background: linear-gradient(135deg, #a63232 0, #6b2020);
-}
-
-.page-headline {
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin: 2rem;
-  font-size: 25px;
-  color: #fff;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-family: Bahnschrift, Helvetica, sans-serif;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #121212;
+}
+
+#impressum {
+  margin: 10px;
+  padding: 5px;
+  color: white;
+  border-top: 1px solid #ffffff22;
+}
+
+.link-button {
+  font-size: 17px;
+  color: var(--primary);
+  margin: 5px;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  background-color: #ffffff22;
+}
+
+.content {
+  padding: 8%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box {
+  border: 1px solid #ffffff99;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.box-headline {
+  font-size: 17px;
+}
+
+.box-content {
+  opacity: 0.6;
+  margin: 15px 5px;
+  text-align: left;
+}
+
+.button {
+  font-size: 17px;
+  background: var(--primary);
+  color: black;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  padding: 8px;
+  text-decoration: none;
 }
 </style>

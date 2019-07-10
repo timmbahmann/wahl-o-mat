@@ -19,7 +19,7 @@ export default {
 </script>
 
 <template>
-  <div class="bodytext">
+  <div class="content" style="">
     <h1>{{ heading }}</h1>
     <div>
       <ResultComponent
@@ -32,31 +32,16 @@ export default {
         @open="openedComponent = index"
       />
     </div>
-    <div>
-      <p>
-        <a href="http://lmgtfy.com/?q=Wo+kann+ich+w%C3%A4hlen%3F">Wo kann ich wählen?</a>
-      </p>
-      <p>
-        <a href="http://lmgtfy.com/?q=Wann+kann+ich+w%C3%A4hlen%3F">Wann kann ich wählen?</a>
-      </p>
+    <div class="info-link-container">
+      <router-link class="link-button" :to="`/info/wheretovote`">Wo kann ich wählen?</router-link>
+      <router-link class="link-button" :to="`/info/whentovote`">Wann kann ich wählen?</router-link>
     </div>
   </div>
 </template>
 
 <style scoped>
-.bodytext {
-  font-family: Helvetica;
-  text-align: center;
-  color: white;
-}
-a:link {
-  color: white;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-a:visited {
-  color: white;
+.info-link-container {
+  display: flex;
+  flex-direction: column;
 }
 </style>

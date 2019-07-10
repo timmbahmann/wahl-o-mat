@@ -9,45 +9,74 @@ export default {
 </script>
 <template>
   <div class="container">
-    <button @click="$emit('open')" class="accordion">
-      <div class="wrapperPercentage">
-        <div
-          style="display: inline-block; float: right; padding: 4px; color: #3e573a; font-family: Helvetica"
-        >{{percentage+'%'}}</div>
-        <div :class="isOpened ? 'result-opened' : 'result'" v-bind:style="{width:percentage+'%'}">
-          <div style="display: inline-block; color: #d9ceb0; font-family: Helvetica">{{name}}</div>
-        </div>
+    <div class="parent" @click="$emit('open')">
+      <div class="child" :style="{width: `${percentage}%`}">
+        <div class="name">{{name}}</div>
+        <!-- <div class="percentage">{{percentage}}</div> -->
       </div>
-    </button>
-
+      <div class="percentage">{{percentage}}</div>
+    </div>
     <div :class="isOpened ? 'accordion-content-opened' : 'accordion-content'">
-      <p class="content">{{info}}</p>
+      <div class="info-text">{{info}}</div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.parent {
+  width: 90%;
+  background: var(--elevation-basic-bg);
+  border-radius: 5px;
+  min-height: 40px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.parent:hover {
+  background: var(--elevation-elevated-bg);
+  box-shadow: var(--elevation-elevated-shadow);
+}
+
+.child {
+  background: var(--primary);
+  border-radius: 5px;
+  text-align: left;
+  align-items: center;
+  margin: 2px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.name {
+  margin: 10px;
+}
+
+.percentage {
+  align-self: center;
+  margin-right: 10px;
+  right:13%;
+  position: absolute;
+}
+
+@media (min-width: 500px) {
+  .percentage {
+    position: relative;
+    right: 0px;
+    margin-left: 10px;
+  }
+}
+
+.info-text {
+  margin: 15px;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 1px 5px 10px 5px;
-}
-
-.accordion {
-  border-radius: 5px;
-  padding: 2px;
-  width: 100%;
-  background-color: #d9ceb0;
-  text-align: left;
-  cursor: pointer;
-  border: none;
-}
-
-.content {
-  margin: 15px 10px 10px 10px;
-  font-family: Helvetica;
-  color: #333;
+  max-width: 500px;
 }
 
 .accordion-content {
@@ -56,24 +85,12 @@ export default {
   transition: all 0.2s linear;
 }
 
-.result {
-  background: linear-gradient(135deg, #90a76c 0, #768c54);
-  border-radius: 4px;
-  padding: 5px;
-}
-
 .accordion-content-opened {
   margin: 10px 0px 15px 0px;
   max-height: auto;
-  background: linear-gradient(0deg, #e1d9c1 0, #d9ceb0);
+  background: var(--elevation-elevated-bg);
+  box-shadow: var(--elevation-elevated-shadow);
   border-radius: 4px;
-  width: 100%;
-}
-
-.result-opened {
-  background: linear-gradient(135deg, #697c4a 0, #4e5c37);
-  border-radius: 4px;
-  padding: 5px;
-  transition: all 0.1s linear;
+  width: 90%;
 }
 </style>
