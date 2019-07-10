@@ -23,55 +23,67 @@ export default {
 </script>
 
 <template>
-  <div class="box">
-    <div class="content">
-      <div class="wahl">{{ election.gremium }}</div>
-      <div class="wahl">{{ election.name }}</div>
-      <button class="button wahl" @click="start">Starten</button>
-      <a href="http://lmgtfy.com/?q=Wo+kann+ich+w%C3%A4hlen%3F">Informieren</a>
-    </div>
+  <div class="card">
+    <router-link style="text-decoration:none" :to="`/app/${election.name}`">
+      <div class="card-content">
+        <!-- <div class="wahl"> -->
+        <div class="card-headline">{{ election.name }}</div>
+        <div class="card-text">
+          <div>{{election.thesen ? election.thesen.length : ""}} Thesen</div>
+          <div>|</div>
+          <div>{{election.thesen ? election.thesen[0].antworten.length : ""}} Listen</div>
+        </div>
+        <div class="card-action-area">
+          <router-link class="button" :to="`/app/${election.name}`">Starten</router-link>
+          <router-link class="link-button" :to="`/info/wheretovote`">Informieren</router-link>
+        </div>
+      </div>
+    </router-link>
   </div>
 </template>
 
 <style scoped>
-.box {
-  background-color: #fff;
-  width: 80%;
-  /* max-width: 80%; */
-  /* max-height: 80%; */
+.card {
+  background-color: var(--elevation-basic-bg);
+  padding: 15px;
+  word-wrap: break-word;
   border-radius: 10px;
-  margin: 30px;
+  margin: 15px 10px;
+  box-shadow: var(--elevation-basic-shadow);
 }
 
-.content {
-  display: flex;
+.card:hover {
+  box-shadow: var(--elevation-elevated-shadow);
+  background-color: var(--elevation-elevated-bg);
+}
+
+@media (min-width: 600px) {
+  .card {
+    width: 40%;
+  }
+}
+
+.card-content {
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 5px;
+  align-items: center; */
+  text-align: left;
 }
-.wahl {
-  margin-bottom: 10px;
-  color: #333;
+.card-headline {
+  /* margin-bottom: 20px;
+  color: #fff; */
   font-size: 20px;
+  color: white;
+  opacity: 0.87;
 }
-.button {
-  font-size: 16px;
-  background: linear-gradient(135deg, #eae2d2 0, #d9ceb0);
-  color: #333;
-  border-radius: 4px;
-  cursor: pointer;
-  border: none;
-  padding: 2px 5px 2px 5px;
+
+.card-text > div {
+  display: inline-block;
+  opacity: 0.5;
+  color: white;
 }
-a:link {
-  font-size: 12px;
-  color: #333;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-a:visited {
-  color: #333;
+
+.card-action-area {
+  margin-top: 15px;
 }
 </style> 

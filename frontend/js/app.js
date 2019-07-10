@@ -1,8 +1,45 @@
 import Vue from 'vue'
-import App from './components/App'
+import VueRouter from 'vue-router'
 
-// eslint-disable-next-line no-unused-vars
+import App from './components/App'
+import LandingPage from './components/pages/LandingPage'
+import Wahlomat from './components/pages/Wahlomat'
+import WhereToVote from './components/pages/WhereToVote'
+import WhenToVote from './components/pages/WhenToVote'
+
+Vue.use(VueRouter)
+
+const routes = [{
+    path: '/',
+    name: 'Home',
+    component: LandingPage
+  },
+  {
+    path: '/app/:election',
+    name: 'App',
+    component: Wahlomat
+  },
+  {
+    path: '/info/wheretovote',
+    name: 'WhereToVote',
+    component: WhereToVote
+  },
+  {
+    path: '/info/whentovote',
+    name: 'WhenToVote',
+    component: WhenToVote
+  }
+]
+
+const router = new VueRouter({
+  routes
+})
+
 const app = new Vue({
   el: '#app',
-  render: x => x(App)
+  router,
+  template: '<App/>',
+  components: {
+    App
+  }
 })
