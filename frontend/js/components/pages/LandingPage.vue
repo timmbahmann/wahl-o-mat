@@ -14,7 +14,7 @@ export default {
     }
   },
   created() {
-    fetch("/api/wahl", {
+    fetch("/wahl", {
       headers: { "content-type": "application/json" }
     })
       .then(response => response.json())

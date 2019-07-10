@@ -54,7 +54,7 @@ export default {
     };
   },
   created() {
-    fetch(`/api/wahl/${encodeURIComponent(this.$route.params.election)}`, {
+    fetch(`/wahl/${encodeURIComponent(this.$route.params.election)}`, {
       headers: { "content-type": "application/json" }
     })
       .then(response => response.json())

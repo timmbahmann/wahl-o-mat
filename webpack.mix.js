@@ -17,15 +17,12 @@ mix.js('./frontend/js/app.js', 'public/')
       contentBase: [path.resolve(__dirname, 'public')],
 
       // Forward all calls to /api to the node.js backend server that serves the data 
-      proxy: {
-        "/api": {
-          target: "http://localhost:3001",
-          changeOrigin: true,
-          pathRewrite: {
-            '^/api': '/'
-          }
-        }
-      }
+      // proxy: {
+      //   "/": {
+      //     target: "http://localhost:3001",
+      //     changeOrigin: true,
+      //   }
+      // }
     }
   })
   .setPublicPath("public")

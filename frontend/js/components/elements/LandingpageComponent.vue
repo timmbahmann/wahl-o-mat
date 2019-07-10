@@ -13,7 +13,7 @@ export default {
     }
   },
   created() {
-    fetch(`/api/wahl/${encodeURIComponent(this.electionName)}`, {
+    fetch(`/wahl/${encodeURIComponent(this.electionName)}`, {
       headers: { "content-type": "application/json" }
     })
       .then(response => response.json())
