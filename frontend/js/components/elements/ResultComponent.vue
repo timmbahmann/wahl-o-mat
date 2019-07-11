@@ -55,14 +55,14 @@ export default {
 .percentage {
   align-self: center;
   margin-right: 10px;
-  right:13%;
+  right: 13%;
   position: absolute;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 600px) {
   .percentage {
-    position: relative;
-    right: 0px;
+    position: absolute;
+    right: calc(50% - 225px);
     margin-left: 10px;
   }
 }
