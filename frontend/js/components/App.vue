@@ -4,7 +4,7 @@
     <div id="impressum">
       <div>Built with ❤ at TU Berlin</div>
       <div>
-        <a href="https://github.com/timmbahmann/wahl-o-mat">Source</a> on GitHub
+        <a href="https://github.com/timmbahmann/wahl-o-mat" style="color:white">Source</a> on GitHub
       </div>
     </div>
   </div>
