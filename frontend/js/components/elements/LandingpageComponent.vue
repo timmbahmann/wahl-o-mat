@@ -35,7 +35,7 @@ export default {
         </div>
         <div class="card-action-area">
           <router-link class="button" :to="`/app/${election.name}`">Starten</router-link>
-          <router-link class="link-button" :to="`/info/wheretovote`">Informieren</router-link>
+          <router-link class="link-button" :to="`/info/${election.name}`">Informieren</router-link>
         </div>
       </div>
     </router-link>

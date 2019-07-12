@@ -2,9 +2,6 @@
 export default {
   name: "resultComponent",
   props: ["percentage", "info", "name", "isOpened"],
-  data() {
-    return {};
-  }
 };
 </script>
 <template>
@@ -12,7 +9,6 @@ export default {
     <div class="parent" @click="$emit('open')">
       <div class="child" :style="{width: `${percentage}%`}">
         <div class="name">{{name}}</div>
-        <!-- <div class="percentage">{{percentage}}</div> -->
       </div>
       <div class="percentage">{{percentage}}</div>
     </div>

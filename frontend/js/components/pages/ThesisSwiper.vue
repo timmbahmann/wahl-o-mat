@@ -93,7 +93,7 @@ export default {
             this.thesisStack.answeredTheses.length
         ];
 
-        SwipeStackHelper.swipeInCard(previousCard, previousThesis.result);
+        SwipeStackHelper.swipeInCard(previousCard, previousThesis.result, window.innerWidth <= 500);
 
         swingElement.throwIn(
           poppedThesis.result.xCoordinate,

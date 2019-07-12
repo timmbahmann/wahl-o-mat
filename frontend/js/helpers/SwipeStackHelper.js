@@ -37,7 +37,7 @@ export function swipeOutCard(card, direction) {
   }
 }
 
-export function swipeInCard(card, direction) {
+export function swipeInCard(card, direction, isMobile) {
   if (direction === NEUTRAL || direction === SKIP) {
     for (let i = 40; i >= 0; i--) {
       setTimeout(() => {
@@ -52,7 +52,8 @@ export function swipeInCard(card, direction) {
     for (let i = 40; i >= 0; i--) {
       setTimeout(() => {
         card.style.left =
-          'calc(50% - 40%' +
+          'calc(50% - ' +
+          (isMobile ? '40%' : '250px') +
           (direction === YES ? ' + ' : ' - ') +
           i * 1.5 +
           '%)'

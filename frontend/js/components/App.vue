@@ -51,6 +51,14 @@ body {
   border-top: 1px solid #ffffff22;
 }
 
+#logo {
+  max-width: 45em;
+  max-height: 8.5em;
+  min-height: 4em;
+  width: 100%;
+  padding-bottom: 1em;
+}
+
 .link-button {
   font-size: 17px;
   color: var(--primary);
@@ -77,6 +85,7 @@ body {
   border: 1px solid #ffffff99;
   border-radius: 10px;
   padding: 20px;
+  margin: 10px;
 }
 
 .box-headline {
