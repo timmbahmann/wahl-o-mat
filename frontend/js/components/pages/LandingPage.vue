@@ -24,7 +24,7 @@ export default {
 </script>
 <template>
   <div class="landing-page-container content">
-    <img src="landingpage_logo.png" style="width:100%" />
+    <img src="landingpage_logo.png" id="logo"/>
     <p class="headline">der Technischen Universität Berlin.</p>
     <p class="bodytext">
       Hier findest du alle anstehenden Wahlen. Nützliche Infolinks zum Wählen an der TU im Allgemeinen,

@@ -6,6 +6,7 @@ import LandingPage from './components/pages/LandingPage'
 import Wahlomat from './components/pages/Wahlomat'
 import WhereToVote from './components/pages/WhereToVote'
 import WhenToVote from './components/pages/WhenToVote'
+import PanelInfo from './components/pages/PanelInfo'
 
 Vue.use(VueRouter)
 
@@ -28,10 +29,16 @@ const routes = [{
     path: '/info/whentovote',
     name: 'WhenToVote',
     component: WhenToVote
+  },
+  {
+    path: '/info/:election',
+    name: 'PanelInfo',
+    component: PanelInfo
   }
 ]
 
 const router = new VueRouter({
+  mode: "history",
   routes
 })
 
