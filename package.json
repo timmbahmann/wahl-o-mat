@@ -50,7 +50,7 @@
     "vue-swing": "0.0.10"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.5",
+    "browser-sync": "^2.27.10",
     "browser-sync-webpack-plugin": "^2.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
